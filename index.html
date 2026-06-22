@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+          maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Monkey Cup">
+    <meta name="theme-color" content="#1b4332">
+    <title>Monkey Cup</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- Firebase v9 compat SDK (enables multi-phone sync) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+    /* ============================================================
+       CSS VARIABLES
+    ============================================================ */
+    :root {
+        --green-dark:  #1b4332;
+        --green-mid:   #2d6a4f;
+        --green-light: #52b788;
+        --green-pale:  #d8f3dc;
+        --blue-dark:   #1e3a8a;
+        --blue-mid:    #2563eb;
+        --blue-pale:   #dbeafe;
+        --gray-50:     #f8fafc;
+        --gray-100:    #f1f5f9;
+        --gray-200:    #e2e8f0;
+        --gray-300:    #cbd5e1;
+        --gray-400:    #94a3b8;
+        --gray-500:    #64748b;
+        --gray-700:    #334155;
+        --gray-900:    #0f172a;
+        --red:         #dc2626;
+        --red-pale:    #fee2e2;
+        --radius:      14px;
+        --shadow:      0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md:   0 4px 12px rgba(0,0,0,0.10);
+        --speed:       0.15s;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after {
+        box-sizing: border-box; margin: 0; padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+    html { height: -webkit-fill-available; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont,
+                     'SF Pro Text', 'Segoe UI', sans-serif;
+        background: var(--gray-50);
+        color: var(--gray-900);
+        max-width: 430px;
+        margin: 0 auto;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow-x: hidden;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .header {
+        background: linear-gradient(150deg,
+            var(--green-dark) 0%, var(--blue-dark) 100%);
+        padding: calc(env(safe-area-inset-top) + 14px) 20px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+    .header-left h1 {
+        color: white; font-size: 21px; font-weight: 800;
+        letter-spacing: -0.4px; line-height: 1;
+    }
+    .header-left p {
+        color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 3px;
+    }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-pill {
+        background: rgba(255,255,255,0.15);
+        color: white; font-size: 12px; font-weight: 600;
+        padding: 5px 12px; border-radius: 100px; white-space: nowrap;
+    }
+    /* Sync status badge */
+    .sync-badge {
+        font-size: 10px; font-weight: 600;
+        padding: 3px 8px; border-radius: 100px;
+        background: rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.5);
+        white-space: nowrap; display: none;
+    }
+    .sync-badge.live  { color: #86efac; }
+    .sync-badge.err   { color: #fca5a5; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    .nav {
+        position: fixed; bottom: 0; left: 50%;
+        transform: translateX(-50%);
+        width: 100%; max-width: 430px;
+        background: white;
+        border-top: 1px solid var(--gray-200);
+        display: flex;
+        padding-bottom: env(safe-area-inset-bottom);
+        z-index: 50;
+    }
+    .nav-btn {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; padding: 9px 4px 5px;
+        border: none; background: none;
+        color: var(--gray-500); font-size: 9.5px;
+        font-weight: 500; gap: 3px; cursor: pointer;
+        transition: color var(--speed);
+    }
+    .nav-btn.active { color: var(--green-mid); }
+    .nav-btn svg { width: 23px; height: 23px; flex-shrink: 0; }
+    .nav-dot {
+        width: 4px; height: 4px; background: var(--green-mid);
+        border-radius: 50%; opacity: 0; transition: opacity var(--speed);
+    }
+    .nav-btn.active .nav-dot { opacity: 1; }
+
+    /* ============================================================
+       SCREENS
+    ============================================================ */
+    .content { padding: 16px 16px 96px; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    .page-title {
+        font-size: 22px; font-weight: 800;
+        letter-spacing: -0.5px; margin-bottom: 16px;
+    }
+    .section-label {
+        font-size: 10.5px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.9px;
+        color: var(--gray-500); margin-bottom: 8px; padding: 0 2px;
+    }
+
+    /* ============================================================
+       CARDS
+    ============================================================ */
+    .card {
+        background: white; border-radius: var(--radius);
+        overflow: hidden; box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .card-pad { padding: 14px 16px; }
+
+    /* ============================================================
+       STAT TILES — 3 columns
+    ============================================================ */
+    .stat-grid {
+        display: grid; grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px; margin-bottom: 14px;
+    }
+    .stat-tile {
+        background: white; border-radius: var(--radius);
+        padding: 14px 12px 12px; box-shadow: var(--shadow);
+    }
+    .stat-val {
+        font-size: 28px; font-weight: 800;
+        color: var(--green-mid); line-height: 1;
+    }
+    .stat-lbl { font-size: 10px; font-weight: 500; color: var(--gray-500); margin-top: 5px; }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+        display: inline-flex; align-items: center;
+        justify-content: center; gap: 6px;
+        padding: 13px 20px; border-radius: 10px;
+        font-size: 15px; font-weight: 600; border: none;
+        cursor: pointer;
+        transition: filter var(--speed), transform var(--speed);
+        white-space: nowrap; text-align: center;
+    }
+    .btn:active { transform: scale(0.97); filter: brightness(0.92); }
+    .btn-full   { width: 100%; }
+    .btn-green  { background: var(--green-mid); color: white; }
+    .btn-ghost  { background: var(--gray-100);  color: var(--gray-700); }
+    .btn-outline-green {
+        background: transparent; color: var(--green-mid);
+        border: 2px solid var(--green-mid);
+    }
+    .btn-red    { background: var(--red); color: white; }
+    .btn-sm     { padding: 7px 13px; font-size: 13px; border-radius: 8px; }
+
+    /* ============================================================
+       FORMS
+    ============================================================ */
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+        display: block; font-size: 12px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.6px;
+        color: var(--gray-500); margin-bottom: 7px;
+    }
+    .form-input {
+        width: 100%; padding: 12px 14px;
+        border: 1.5px solid var(--gray-200); border-radius: 10px;
+        font-size: 16px; color: var(--gray-900); background: white;
+        transition: border-color var(--speed), box-shadow var(--speed);
+        -webkit-appearance: none; appearance: none;
+    }
+    .form-input:focus {
+        outline: none; border-color: var(--green-mid);
+        box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+    }
+
+    /* ============================================================
+       TOGGLE GROUP
+    ============================================================ */
+    .toggle-group {
+        display: flex; background: var(--gray-100);
+        border-radius: 10px; padding: 3px;
+        gap: 2px; margin-bottom: 16px;
+    }
+    .toggle-opt {
+        flex: 1; padding: 9px 8px; border: none;
+        border-radius: 8px; font-size: 13px; font-weight: 600;
+        color: var(--gray-500); background: transparent;
+        cursor: pointer; transition: all var(--speed); text-align: center;
+    }
+    .toggle-opt.active {
+        background: white; color: var(--green-mid);
+        box-shadow: var(--shadow);
+    }
+
+    /* ============================================================
+       LIST ITEMS
+    ============================================================ */
+    .list-item {
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--gray-100);
+    }
+    .list-item:last-child { border-bottom: none; }
+
+    /* ============================================================
+       AVATARS & RANK BADGES
+    ============================================================ */
+    .avatar {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: var(--green-pale); color: var(--green-dark);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .rank {
+        width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .r1  { background: #FFD700; color: #7A5600; }
+    .r2  { background: #C0C0C0; color: #444444; }
+    .r3  { background: #CD7F32; color: #5A3000; }
+    .rn  { background: var(--gray-100); color: var(--gray-500); }
+    .rdq { background: var(--red-pale); color: var(--red);
+           font-size: 9px; letter-spacing: -0.3px; }
+
+    /* ============================================================
+       BOTTOM SHEETS
+    ============================================================ */
+    .overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 100; display: none;
+        align-items: flex-end; justify-content: center;
+    }
+    .overlay.open { display: flex; }
+    .sheet {
+        background: white; border-radius: 20px 20px 0 0;
+        width: 100%; max-width: 430px;
+        max-height: 92vh; overflow-y: auto;
+        padding: 0 20px calc(24px + env(safe-area-inset-bottom));
+    }
+    .sheet-handle {
+        width: 36px; height: 4px; background: var(--gray-200);
+        border-radius: 2px; margin: 12px auto 18px;
+    }
+    .sheet-title {
+        font-size: 19px; font-weight: 800;
+        color: var(--gray-900); margin-bottom: 18px;
+    }
+
+    /* ============================================================
+       PLAYER SELECTION
+    ============================================================ */
+    .pick-item {
+        display: flex; align-items: center; gap: 12px;
+        padding: 13px 14px;
+        border: 2px solid var(--gray-200); border-radius: 10px;
+        margin-bottom: 8px; cursor: pointer; transition: all var(--speed);
+    }
+    .pick-item.on { border-color: var(--green-mid); background: var(--green-pale); }
+    .chk {
+        width: 22px; height: 22px; border-radius: 50%;
+        border: 2px solid var(--gray-300);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: all var(--speed); background: white;
+    }
+    .pick-item.on .chk { background: var(--green-mid); border-color: var(--green-mid); }
+
+    /* ============================================================
+       SCORE ENTRY
+    ============================================================ */
+    .score-row {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 0; border-bottom: 1px solid var(--gray-100);
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-input {
+        width: 68px; padding: 9px 8px;
+        border: 1.5px solid var(--gray-200); border-radius: 9px;
+        font-size: 18px; font-weight: 600; text-align: center;
+        -webkit-appearance: none; appearance: none;
+        color: var(--gray-900); flex-shrink: 0;
+    }
+    .score-input:focus { outline: none; border-color: var(--green-mid); }
+    .net-val {
+        width: 46px; text-align: right;
+        font-size: 15px; font-weight: 700;
+        color: var(--gray-300); flex-shrink: 0;
+    }
+
+    /* ============================================================
+       STEP PROGRESS
+    ============================================================ */
+    .steps { display: flex; gap: 6px; margin-bottom: 20px; }
+    .step-bar { flex: 1; height: 3px; border-radius: 2px; background: var(--gray-200); }
+    .step-bar.done   { background: var(--green-light); }
+    .step-bar.active { background: var(--green-mid); }
+
+    /* ============================================================
+       ROUND ROW
+    ============================================================ */
+    .round-row {
+        display: flex; align-items: center;
+        padding: 12px 16px; gap: 12px;
+        border-bottom: 1px solid var(--gray-100);
+    }
+    .round-row:last-child { border-bottom: none; }
+
+    /* ============================================================
+       ARCHIVE ROW
+    ============================================================ */
+    .archive-row {
+        display: flex; align-items: center;
+        padding: 14px 16px; gap: 12px;
+        border-bottom: 1px solid var(--gray-100); cursor: pointer;
+    }
+    .archive-row:last-child { border-bottom: none; }
+    .archive-icon {
+        width: 42px; height: 42px; background: var(--blue-pale);
+        border-radius: 10px; display: flex; align-items: center;
+        justify-content: center; font-size: 20px; flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SETTINGS ROW
+    ============================================================ */
+    .setting-row {
+        display: flex; align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--gray-100); cursor: pointer;
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-row:active { background: var(--gray-50); }
+    .setting-title { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+    .setting-sub   { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+    .empty {
+        text-align: center; padding: 32px 20px; color: var(--gray-500);
+    }
+    .empty-ico { font-size: 38px; margin-bottom: 10px; }
+    .empty h3  { font-size: 15px; font-weight: 700;
+                 color: var(--gray-700); margin-bottom: 4px; }
+    .empty p   { font-size: 13px; }
+
+    /* ============================================================
+       NOTICE / INFO BOX
+    ============================================================ */
+    .notice {
+        padding: 10px 14px; border-radius: 9px;
+        background: var(--blue-pale); color: var(--blue-dark);
+        font-size: 12px; line-height: 1.5; margin-bottom: 14px;
+    }
+    .notice.warn { background: #fef9c3; color: #854d0e; }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast {
+        position: fixed; bottom: 90px; left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background: rgba(15,23,42,0.9); color: white;
+        padding: 10px 18px; border-radius: 100px;
+        font-size: 13px; font-weight: 500; opacity: 0;
+        transition: all 0.25s ease; z-index: 999;
+        pointer-events: none; white-space: nowrap;
+        backdrop-filter: blur(8px);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ============================================================
+       UTILITIES
+    ============================================================ */
+    .row   { display: flex; align-items: center; gap: 10px; }
+    .col   { flex: 1; min-width: 0; }
+    .right { text-align: right; }
+    .bold  { font-weight: 700; }
+    .green { color: var(--green-mid); }
+    .red   { color: var(--red); }
+    .muted { color: var(--gray-500); font-size: 12px; }
+    .xs    { font-size: 11px; }
+    .sm    { font-size: 13px; }
+    .mt8   { margin-top: 8px; }
+    .mt12  { margin-top: 12px; }
+    .mt16  { margin-top: 16px; }
+    .gap8  { gap: 8px !important; }
+
+    @media print {
+        .header, .nav, .toast { display: none !important; }
+        body { max-width: 100%; background: white; }
+        .content { padding: 0; }
+    }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="header">
+    <div class="header-left">
+        <h1>🏌️ Monkey Cup</h1>
+        <p id="hdr-year">Loading…</p>
+    </div>
+    <div class="header-right">
+        <span class="sync-badge" id="sync-badge"></span>
+        <div class="header-pill" id="hdr-rounds">0 Rounds</div>
+    </div>
+</header>
+
+<!-- ============================================================
+     SCREENS
+============================================================ -->
+<main class="content">
+    <div class="screen active" id="s-home"></div>
+    <div class="screen"        id="s-players"></div>
+    <div class="screen"        id="s-rounds"></div>
+    <div class="screen"        id="s-standings"></div>
+    <div class="screen"        id="s-settings"></div>
+</main>
+
+<!-- ============================================================
+     BOTTOM NAV
+============================================================ -->
+<nav class="nav">
+    <button class="nav-btn active" id="n-home" onclick="go('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        Home <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="n-players" onclick="go('players')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66
+            0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66
+            5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7
+            3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97
+            .05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+        </svg>
+        Players <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="n-rounds" onclick="go('rounds')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99
+            2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3
+            18H5V8h14v11z"/>
+        </svg>
+        Rounds <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="n-standings" onclick="go('standings')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22
+            11h-5.5v10H22V11z"/>
+        </svg>
+        Standings <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="n-settings" onclick="go('settings')">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c
+            .18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03
+            -.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36
+            2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21
+            -.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23
+            .41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c
+            .05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l
+            2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12
+            15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+        Settings <div class="nav-dot"></div>
+    </button>
+</nav>
+
+<!-- ============================================================
+     MODAL: ADD / EDIT PLAYER
+============================================================ -->
+<div class="overlay" id="m-player">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title" id="m-player-title">Add Player</div>
+
+        <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="fi-name"
+                   placeholder="e.g. John Smith" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Handicap</label>
+            <input type="number" class="form-input" id="fi-hcp"
+                   placeholder="e.g. 12" min="0" max="54" inputmode="numeric">
+        </div>
+
+        <!-- Warning shown when editing a player who already has rounds -->
+        <div id="hcp-warning" class="notice warn" style="display:none">
+            ⚠️ Changing this handicap will recalculate the net scores
+            for all of this player's existing rounds.
+        </div>
+
+        <input type="hidden" id="fi-id">
+        <button class="btn btn-green btn-full" onclick="savePlayer()">
+            Save Player
+        </button>
+        <button class="btn btn-ghost btn-full mt8"
+                onclick="close$('m-player')">Cancel</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     MODAL: NEW ROUND — STEP 1
+============================================================ -->
+<div class="overlay" id="m-round1">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">New Round</div>
+        <div class="steps">
+            <div class="step-bar active"></div>
+            <div class="step-bar"></div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Round Date</label>
+            <input type="date" class="form-input" id="fi-date">
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            <label class="form-label" style="margin:0;flex:1">
+                Select Players
+            </label>
+            <button class="btn btn-ghost btn-sm" onclick="selectAll()">All</button>
+            <button class="btn btn-ghost btn-sm" onclick="selectNone()">None</button>
+        </div>
+        <div id="pick-list"></div>
+        <button class="btn btn-green btn-full mt12"
+                onclick="toStep2()">Next: Enter Scores →</button>
+        <button class="btn btn-ghost btn-full mt8"
+                onclick="close$('m-round1')">Cancel</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     MODAL: NEW ROUND — STEP 2
+============================================================ -->
+<div class="overlay" id="m-round2">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Enter Scores</div>
+        <div class="steps">
+            <div class="step-bar done"></div>
+            <div class="step-bar active"></div>
+        </div>
+        <div class="row xs muted"
+             style="margin-bottom:8px;padding:0 2px">
+            <span class="col">Player · HCP</span>
+            <span style="width:68px;text-align:center">Gross</span>
+            <span style="width:46px;text-align:right">Net</span>
+        </div>
+        <div id="score-list"></div>
+        <button class="btn btn-green btn-full mt12"
+                onclick="saveRound()">⛳ Save Round</button>
+        <button class="btn btn-ghost btn-full mt8"
+                onclick="backToStep1()">← Back</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     MODAL: VIEW SINGLE ROUND
+============================================================ -->
+<div class="overlay" id="m-round-view">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title" id="m-rv-title">Round Results</div>
+        <div id="m-rv-body"></div>
+        <button class="btn btn-ghost btn-full mt12"
+                onclick="close$('m-round-view')">Close</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     MODAL: ARCHIVE YEAR  (Standings + Rounds tabs)
+============================================================ -->
+<div class="overlay" id="m-archive">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title" id="m-arc-title">Archive</div>
+        <div id="m-arc-body"></div>
+        <button class="btn btn-ghost btn-full mt12"
+                onclick="close$('m-archive')">Close</button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<!-- Hidden file input for JSON import -->
+<input type="file" id="import-file" accept=".json"
+       style="display:none" onchange="doImport(event)">
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+'use strict';
+
+// ================================================================
+//  FIREBASE CONFIG
+//  ➜ Replace the placeholder values with your own Firebase project.
+//  ➜ If you leave them as-is the app still works, data is just
+//    saved locally on each device (no cross-phone sync).
+// ================================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyC82BSD__kot626pai7C4270xuPJikXMNM",
+  authDomain: "monkey-cup-d0179.firebaseapp.com",
+  databaseURL: "https://monkey-cup-d0179-default-rtdb.firebaseio.com",
+  projectId: "monkey-cup-d0179",
+  storageBucket: "monkey-cup-d0179.firebasestorage.app",
+  messagingSenderId: "159635060439",
+  appId: "1:159635060439:web:8e6f8a2acf2eb9f16fe292"
+};
+
+// Auto-detect whether Firebase credentials have been filled in
+const FIREBASE_ON = !firebaseConfig.databaseURL.includes('YOUR_PROJECT_ID');
+let   fbRef       = null;
+
+if (FIREBASE_ON) {
+    try {
+        firebase.initializeApp(firebaseConfig);
+        fbRef = firebase.database().ref('monkeyCup');
+    } catch(e) {
+        console.warn('Firebase init failed:', e);
+    }
+}
+
+// ================================================================
+//  DATA MODEL
+// ================================================================
+let db = {
+    year:     new Date().getFullYear(),
+    players:  [],   // { id, name, handicap }
+    rounds:   [],   // { id, date, year, scores:[{playerId,gross,hcp,net}] }
+    archives: []    // { year, players[], rounds[] }
+};
+
+// ================================================================
+//  LOCAL STORAGE
+// ================================================================
+const LS_KEY = 'monkeyCup_v3';
+
+function localSave() {
+    localStorage.setItem(LS_KEY, JSON.stringify(db));
+}
+
+function localLoad() {
+    try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (raw) db = JSON.parse(raw);
+    } catch(e) { console.warn('Load error:', e); }
+    ensureDefaults();
+}
+
+// ================================================================
+//  SAVE  (local + Firebase if configured)
+// ================================================================
+function save() {
+    localSave();
+    if (FIREBASE_ON && fbRef) {
+        setSyncStatus('saving');
+        fbRef.set(db)
+             .then(()  => setSyncStatus('live'))
+             .catch(e  => { console.warn('FB save error:', e);
+                            setSyncStatus('err'); });
+    }
+}
+
+// ================================================================
+//  DATA INTEGRITY  (handles Firebase array→object conversion)
+// ================================================================
+function ensureDefaults() {
+    if (!db.year)     db.year     = new Date().getFullYear();
+
+    // Convert objects back to arrays (Firebase quirk)
+    db.players  = toArr(db.players);
+    db.rounds   = toArr(db.rounds);
+    db.archives = toArr(db.archives);
+
+    db.rounds.forEach(r => { r.scores = toArr(r.scores); });
+
+    db.archives.forEach(a => {
+        a.players = toArr(a.players);
+        a.rounds  = toArr(a.rounds);
+        a.rounds.forEach(r => { r.scores = toArr(r.scores); });
+    });
+
+    // Keep players alphabetical on every load
+    db.players.sort((a,b) => a.name.localeCompare(b.name));
+}
+
+function toArr(val) {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    return Object.values(val).filter(Boolean);
+}
+
+// ================================================================
+//  SYNC STATUS BADGE
+// ================================================================
+function setSyncStatus(s) {
+    if (!FIREBASE_ON) return;
+    const el = $id('sync-badge');
+    el.style.display = '';
+    el.className = 'sync-badge' + (s === 'live' ? ' live' : s === 'err' ? ' err' : '');
+    el.textContent = s === 'live'    ? '● Live'
+                   : s === 'saving'  ? '↑ Saving'
+                   : '● Offline';
+}
+
+// ================================================================
+//  UTILITIES
+// ================================================================
+function uid() {
+    return Math.random().toString(36).slice(2,9) + Date.now().toString(36);
+}
+function initials(n) {
+    return (n||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
+}
+function fmtDate(str) {
+    return new Date(str+'T00:00:00').toLocaleDateString('en-US',{
+        weekday:'short', month:'short', day:'numeric', year:'numeric'
+    });
+}
+function toast(msg, ms=2800) {
+    const el=$id('toast'); el.textContent=msg; el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'), ms);
+}
+function open$(id)  { document.getElementById(id).classList.add('open');    }
+function close$(id) { document.getElementById(id).classList.remove('open'); }
+function $id(id)    { return document.getElementById(id); }
+function anyModalOpen() {
+    return document.querySelectorAll('.overlay.open').length > 0;
+}
+
+const CHEV = `<svg width="18" height="18" viewBox="0 0 24 24"
+    fill="currentColor" style="color:var(--gray-300);flex-shrink:0">
+    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>`;
+
+// ================================================================
+//  NAVIGATION
+// ================================================================
+let current = 'home';
+const SCREENS = ['home','players','rounds','standings','settings'];
+
+function go(s) {
+    SCREENS.forEach(x=>{
+        $id('s-'+x).classList.remove('active');
+        $id('n-'+x).classList.remove('active');
+    });
+    $id('s-'+s).classList.add('active');
+    $id('n-'+s).classList.add('active');
+    current = s;
+    window.scrollTo(0,0);
+    ({home:renderHome, players:renderPlayers, rounds:renderRounds,
+      standings:renderStandings, settings:renderSettings})[s]?.();
+}
+
+// ================================================================
+//  CALCULATIONS
+// ================================================================
+function calcStats(pid, rndList, plrList) {
+    const player = plrList.find(p=>p.id===pid);
+    if (!player) return null;
+
+    const myRounds  = rndList.filter(r=>r.scores.some(s=>s.playerId===pid));
+    const allScores = myRounds.map(r=>r.scores.find(s=>s.playerId===pid));
+
+    const netAll    = allScores.map(s=>s.net);
+    const grossAll  = allScores.map(s=>s.gross);
+    const netSorted = [...netAll].sort((a,b)=>a-b);
+
+    const best10   = netSorted.slice(0,10);
+    const total10  = best10.reduce((a,b)=>a+b,0);
+    const avg10    = best10.length  ? total10/best10.length : Infinity;
+    const avgGross = grossAll.length
+        ? grossAll.reduce((a,b)=>a+b,0)/grossAll.length : 0;
+
+    // Current average of ALL rounds (used to sort in-progress players)
+    const currentAvg = netAll.length
+        ? netAll.reduce((a,b)=>a+b,0)/netAll.length : Infinity;
+
+    return { player, played:myRounds.length, netSorted, grossAll,
+             best10, total10, avg10, avgGross, currentAvg,
+             qualified: myRounds.length >= 10 };
+}
+
+function buildBoard(mode='avg', rndList=null, plrList=null) {
+    const rounds  = rndList  || db.rounds;
+    const players = plrList  || db.players;
+
+    const ids = [...new Set(
+        rounds.flatMap(r=>r.scores.map(s=>s.playerId))
+    )];
+    const stats     = ids.map(id=>calcStats(id,rounds,players)).filter(Boolean);
+    const qualified = stats.filter(s=>s.qualified);
+    const waiting   = stats.filter(s=>!s.qualified);
+
+    qualified.sort((a,b) => mode==='avg'
+        ? a.avg10 - b.avg10
+        : a.total10 - b.total10);
+
+    // ── Sort in-progress players by current average, lowest first
+    waiting.sort((a,b) => {
+        if (a.currentAvg===Infinity && b.currentAvg===Infinity) return 0;
+        if (a.currentAvg===Infinity) return 1;
+        if (b.currentAvg===Infinity) return -1;
+        return a.currentAvg - b.currentAvg;
+    });
+
+    return { qualified, waiting };
+}
+
+// ================================================================
+//  HEADER
+// ================================================================
+function updateHeader() {
+    $id('hdr-year').textContent   = db.year + ' Season';
+    $id('hdr-rounds').textContent =
+        db.rounds.length + ' Round' + (db.rounds.length!==1?'s':'');
+}
+
+// ================================================================
+//  HOME SCREEN
+// ================================================================
+function renderHome() {
+    const { qualified, waiting } = buildBoard('avg');
+
+    // Number of unique players who have played at least once this season
+    const activeCnt = new Set(
+        db.rounds.flatMap(r=>r.scores.map(s=>s.playerId))
+    ).size;
+
+    // Top 3 preview
+    let topHtml = qualified.length === 0
+        ? `<div class="empty"><div class="empty-ico">🏆</div>
+           <h3>No Qualified Players Yet</h3>
+           <p>Players need 10 rounds to qualify</p></div>`
+        : qualified.slice(0,3).map((s,i)=>`
+          <div class="list-item">
+              <div class="rank ${['r1','r2','r3'][i]}">${i+1}</div>
+              <div class="col">
+                  <div class="bold">${s.player.name}</div>
+                  <div class="muted">${s.played} rounds ·
+                      HCP ${s.player.handicap}</div>
+              </div>
+              <div class="right">
+                  <div class="bold green">${s.avg10.toFixed(1)}</div>
+                  <div class="muted">avg net</div>
+              </div>
+          </div>`).join('');
+
+    // 3 recent rounds
+    const recent = [...db.rounds]
+        .sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+
+    let recentHtml = recent.length === 0
+        ? `<div class="empty"><div class="empty-ico">📅</div>
+           <h3>No Rounds Yet</h3>
+           <p>Go to Rounds to add your first round</p></div>`
+        : recent.map(r=>`
+          <div class="round-row" onclick="viewRound('${r.id}')"
+               style="cursor:pointer">
+              <div class="col">
+                  <div class="bold sm">${fmtDate(r.date)}</div>
+                  <div class="muted">${r.scores.length} player${
+                      r.scores.length!==1?'s':''}</div>
+              </div>
+              ${CHEV}
+          </div>`).join('');
+
+    $id('s-home').innerHTML = `
+        <div class="stat-grid">
+            <div class="stat-tile">
+                <div class="stat-val">${db.rounds.length}</div>
+                <div class="stat-lbl">Rounds Played</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-val">${qualified.length}</div>
+                <div class="stat-lbl">Qualified</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-val">${activeCnt}</div>
+                <div class="stat-lbl">Active Players</div>
+            </div>
+        </div>
+
+        <div class="section-label">Top Players</div>
+        <div class="card">
+            ${topHtml}
+            ${qualified.length>3?`
+            <div style="padding:12px 16px;
+                        border-top:1px solid var(--gray-100)">
+                <button class="btn btn-outline-green btn-full btn-sm"
+                        onclick="go('standings')">
+                    View Full Standings
+                </button>
+            </div>`:''}
+        </div>
+
+        <div class="section-label">Recent Rounds</div>
+        <div class="card">
+            ${recentHtml}
+            ${recent.length>0?`
+            <div style="padding:12px 16px;
+                        border-top:1px solid var(--gray-100)">
+                <button class="btn btn-outline-green btn-full btn-sm"
+                        onclick="go('rounds')">
+                    View All Rounds
+                </button>
+            </div>`:''}
+        </div>`;
+}
+
+// ================================================================
+//  PLAYERS SCREEN
+// ================================================================
+function renderPlayers() {
+    const canAdd = db.players.length < 15;
+
+    const listHtml = db.players.length === 0
+        ? `<div class="empty"><div class="empty-ico">👥</div>
+           <h3>No Players Yet</h3>
+           <p>Add up to 15 players to get started</p></div>`
+        : db.players.map(p=>`
+          <div class="list-item">
+              <div class="avatar">${initials(p.name)}</div>
+              <div class="col">
+                  <div class="bold">${p.name}</div>
+                  <div class="muted">Handicap: ${p.handicap}</div>
+              </div>
+              <div class="row gap8">
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="editPlayer('${p.id}')">Edit</button>
+                  <button class="btn btn-red btn-sm"
+                          onclick="delPlayer('${p.id}')">✕</button>
+              </div>
+          </div>`).join('');
+
+    $id('s-players').innerHTML = `
+        <div class="row" style="margin-bottom:16px">
+            <div class="page-title" style="margin:0;flex:1">Players</div>
+            ${canAdd
+              ? `<button class="btn btn-green btn-sm"
+                         onclick="openAddPlayer()">+ Add</button>`
+              : `<span class="muted sm">Max 15 reached</span>`}
+        </div>
+        <div class="card">${listHtml}</div>`;
+}
+
+function openAddPlayer() {
+    $id('m-player-title').textContent = 'Add Player';
+    $id('fi-name').value = '';
+    $id('fi-hcp').value  = '';
+    $id('fi-id').value   = '';
+    $id('hcp-warning').style.display = 'none';
+    open$('m-player');
+    setTimeout(()=>$id('fi-name').focus(), 350);
+}
+
+function editPlayer(id) {
+    const p = db.players.find(x=>x.id===id);
+    if (!p) return;
+    $id('m-player-title').textContent = 'Edit Player';
+    $id('fi-name').value = p.name;
+    $id('fi-hcp').value  = p.handicap;
+    $id('fi-id').value   = id;
+
+    // Show warning if the player already has rounds recorded
+    const hasRounds = db.rounds.some(r=>r.scores.some(s=>s.playerId===id));
+    $id('hcp-warning').style.display = hasRounds ? '' : 'none';
+    open$('m-player');
+}
+
+function savePlayer() {
+    const name = $id('fi-name').value.trim();
+    const hcp  = parseInt($id('fi-hcp').value);
+    const id   = $id('fi-id').value;
+
+    if (!name) { toast('⚠️ Enter a player name'); return; }
+    if (isNaN(hcp)||hcp<0||hcp>54) { toast('⚠️ Handicap must be 0–54'); return; }
+
+    let msg = '';
+
+    if (id) {
+        // ── UPDATE existing player ─────────────────────────────
+        const p = db.players.find(x=>x.id===id);
+        if (p) {
+            const oldHcp = p.handicap;
+            p.name     = name;
+            p.handicap = hcp;
+
+            // ── RECALCULATE existing round net scores if HCP changed ──
+            if (oldHcp !== hcp) {
+                let updated = 0;
+                db.rounds.forEach(r => {
+                    r.scores.forEach(s => {
+                        if (s.playerId === id) {
+                            s.hcp = hcp;
+                            s.net = s.gross - hcp;
+                            updated++;
+                        }
+                    });
+                });
+                msg = updated > 0
+                    ? `✅ Updated · ${updated} round score${updated!==1?'s':''} recalculated`
+                    : '✅ Player updated';
+            } else {
+                msg = '✅ Player updated';
+            }
+        }
+    } else {
+        // ── ADD new player ─────────────────────────────────────
+        if (db.players.length>=15){ toast('Maximum 15 players'); return; }
+        db.players.push({ id:uid(), name, handicap:hcp });
+        msg = '✅ Player added';
+    }
+
+    // ── Keep players in alphabetical order ────────────────────
+    db.players.sort((a,b)=>a.name.localeCompare(b.name));
+
+    save();
+    close$('m-player');
+    renderPlayers();
+    toast(msg, 3200);
+}
+
+function delPlayer(id) {
+    const p = db.players.find(x=>x.id===id);
+    if (!confirm(`Remove ${p?p.name:'this player'}?\n\n`
+               + `Their existing round scores remain in history.`)) return;
+    db.players = db.players.filter(x=>x.id!==id);
+    save();
+    renderPlayers();
+    toast('Player removed');
+}
+
+// ================================================================
+//  ROUNDS SCREEN
+// ================================================================
+function renderRounds() {
+    const sorted = [...db.rounds]
+        .sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+    const listHtml = sorted.length === 0
+        ? `<div class="empty"><div class="empty-ico">📋</div>
+           <h3>No Rounds Yet</h3>
+           <p>Tap "+ New Round" to record a round</p></div>`
+        : sorted.map(r=>`
+          <div class="round-row">
+              <div class="col">
+                  <div class="bold sm">${fmtDate(r.date)}</div>
+                  <div class="muted">${r.scores.length} player${
+                      r.scores.length!==1?'s':''}</div>
+              </div>
+              <div class="row gap8">
+                  <button class="btn btn-ghost btn-sm"
+                          onclick="viewRound('${r.id}')">View</button>
+                  <button class="btn btn-red btn-sm"
+                          onclick="delRound('${r.id}')">✕</button>
+              </div>
+          </div>`).join('');
+
+    $id('s-rounds').innerHTML = `
+        <div class="row" style="margin-bottom:6px">
+            <div class="page-title" style="margin:0;flex:1">Rounds</div>
+            ${db.players.length>0
+              ?`<button class="btn btn-green btn-sm"
+                        onclick="startRound()">+ New Round</button>`:''}
+        </div>
+        <div class="muted sm" style="margin-bottom:14px">
+            ${db.rounds.length} round${db.rounds.length!==1?'s':''} this season
+        </div>
+        <div class="card">${listHtml}</div>`;
+}
+
+function viewRound(id) {
+    const r = db.rounds.find(x=>x.id===id);
+    if (!r) return;
+    const rows = [...r.scores].sort((a,b)=>a.net-b.net).map((s,i)=>{
+        const pl = db.players.find(p=>p.id===s.playerId);
+        const rc = ['r1','r2','r3'][i]||'rn';
+        return `
+        <div class="list-item">
+            <div class="rank ${rc}">${i+1}</div>
+            <div class="col">
+                <div class="bold">${pl?pl.name:'(Removed)'}</div>
+                <div class="muted">HCP: ${s.hcp} · Gross: ${s.gross}</div>
+            </div>
+            <div class="right">
+                <div class="bold green">${s.net}</div>
+                <div class="muted">net</div>
+            </div>
+        </div>`;
+    }).join('');
+    $id('m-rv-title').textContent = fmtDate(r.date);
+    $id('m-rv-body').innerHTML    = `<div class="card">${rows}</div>`;
+    open$('m-round-view');
+}
+
+function delRound(id) {
+    if (!confirm('Delete this round?\nThis cannot be undone.')) return;
+    db.rounds = db.rounds.filter(r=>r.id!==id);
+    save(); updateHeader(); renderRounds();
+    toast('Round deleted');
+}
+
+// ================================================================
+//  NEW ROUND — 2-STEP FLOW
+// ================================================================
+let nr = { date:'', picks:[] };
+
+function startRound() {
+    if (!db.players.length){ toast('Add players first!'); return; }
+    nr = { date: new Date().toISOString().split('T')[0], picks:[] };
+    $id('fi-date').value = nr.date;
+    buildPickList();
+    open$('m-round1');
+}
+
+function buildPickList() {
+    // Players are already sorted alphabetically in db.players
+    $id('pick-list').innerHTML = db.players.map(p=>`
+        <div class="pick-item ${nr.picks.includes(p.id)?'on':''}"
+             onclick="togglePick('${p.id}')">
+            <div class="chk">
+                ${nr.picks.includes(p.id)
+                  ?`<svg width="13" height="13" viewBox="0 0 24 24"
+                         fill="white">
+                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19
+                                21 7l-1.41-1.41z"/>
+                     </svg>`:''}
+            </div>
+            <div class="col">
+                <div class="bold sm">${p.name}</div>
+                <div class="muted">Handicap: ${p.handicap}</div>
+            </div>
+        </div>`).join('');
+}
+
+function togglePick(id) {
+    nr.picks = nr.picks.includes(id)
+        ? nr.picks.filter(x=>x!==id)
+        : [...nr.picks, id];
+    buildPickList();
+}
+
+function selectAll()  { nr.picks=db.players.map(p=>p.id); buildPickList(); }
+function selectNone() { nr.picks=[]; buildPickList(); }
+
+function toStep2() {
+    nr.date = $id('fi-date').value;
+    if (!nr.date)          { toast('Please pick a date');          return; }
+    if (!nr.picks.length)  { toast('Select at least one player'); return; }
+    close$('m-round1');
+    buildScoreList();
+    open$('m-round2');
+}
+
+function buildScoreList() {
+    $id('score-list').innerHTML = nr.picks.map(id=>{
+        const p = db.players.find(x=>x.id===id);
+        return `
+        <div class="score-row">
+            <div class="col">
+                <div class="bold sm">${p.name}</div>
+                <div class="muted xs">HCP: ${p.handicap}</div>
+            </div>
+            <input type="number" class="score-input"
+                   id="gs-${id}" placeholder="--"
+                   inputmode="numeric" min="50" max="150"
+                   oninput="showNet('${id}')">
+            <div class="net-val" id="nv-${id}">—</div>
+        </div>`;
+    }).join('');
+}
+
+function showNet(id) {
+    const p     = db.players.find(x=>x.id===id);
+    const gross = parseInt($id('gs-'+id).value);
+    const el    = $id('nv-'+id);
+    if (!isNaN(gross)) {
+        el.textContent = gross - p.handicap;
+        el.style.color = 'var(--green-mid)';
+    } else {
+        el.textContent = '—';
+        el.style.color = 'var(--gray-300)';
+    }
+}
+
+function backToStep1() { close$('m-round2'); open$('m-round1'); }
+
+function saveRound() {
+    const scores = [];
+    for (const id of nr.picks) {
+        const gross = parseInt($id('gs-'+id).value);
+        const p     = db.players.find(x=>x.id===id);
+        if (isNaN(gross)||gross<50||gross>150) {
+            toast(`⚠️ Enter a valid score for ${p.name} (50–150)`); return;
+        }
+        scores.push({ playerId:id, gross, hcp:p.handicap,
+                      net: gross - p.handicap });
+    }
+    db.rounds.push({ id:uid(), date:nr.date, year:db.year, scores });
+    save();
+    close$('m-round2');
+    updateHeader();
+    renderRounds();
+    toast('⛳ Round saved!');
+}
+
+// ================================================================
+//  STANDINGS SCREEN
+// ================================================================
+let rankMode = 'avg';
+
+function renderStandings() {
+    const { qualified, waiting } = buildBoard(rankMode);
+    const lbl = rankMode==='avg' ? 'avg net (best 10)' : 'total net (best 10)';
+
+    const qHtml = qualified.length === 0
+        ? `<div class="empty"><div class="empty-ico">🏆</div>
+           <h3>No Qualified Players</h3>
+           <p>Players need 10+ rounds to qualify</p></div>`
+        : qualified.map((s,i)=>{
+            const rc  = ['r1','r2','r3'][i]||'rn';
+            const val = rankMode==='avg' ? s.avg10.toFixed(1) : s.total10;
+            return `
+            <div class="list-item">
+                <div class="rank ${rc}">${i+1}</div>
+                <div class="col">
+                    <div class="bold">${s.player.name}</div>
+                    <div class="muted">${s.played} rounds ·
+                        HCP ${s.player.handicap} ·
+                        ${s.avgGross.toFixed(1)} avg gross</div>
+                </div>
+                <div class="right">
+                    <div class="bold green">${val}</div>
+                    <div class="muted">${lbl}</div>
+                </div>
+            </div>`;
+        }).join('');
+
+    // In-progress players — sorted low→high by currentAvg
+    const wHtml = waiting.length === 0 ? '' : `
+        <div class="section-label mt12">
+            In Progress (needs 10 rounds) — sorted by current avg
+        </div>
+        <div class="card">
+            ${waiting.map(s=>`
+            <div class="list-item">
+                <div class="rank rdq">DQ</div>
+                <div class="col">
+                    <div class="bold">${s.player.name}</div>
+                    <div class="muted">${s.played}/10 rounds ·
+                        HCP ${s.player.handicap}</div>
+                </div>
+                <div class="right">
+                    <div class="bold"
+                         style="color:var(--gray-500)">
+                        ${s.played>0 ? s.currentAvg.toFixed(1) : '—'}
+                    </div>
+                    <div class="muted">current avg</div>
+                </div>
+            </div>`).join('')}
+        </div>`;
+
+    $id('s-standings').innerHTML = `
+        <div class="row" style="margin-bottom:16px">
+            <div class="page-title" style="margin:0;flex:1">Standings</div>
+            <button class="btn btn-ghost btn-sm"
+                    onclick="exportPDF()">📄 PDF</button>
+        </div>
+
+        <div class="toggle-group">
+            <button class="toggle-opt ${rankMode==='avg'  ?'active':''}"
+                    onclick="setMode('avg')">Avg of Best 10</button>
+            <button class="toggle-opt ${rankMode==='total'?'active':''}"
+                    onclick="setMode('total')">Total of Best 10</button>
+        </div>
+
+        <div class="section-label">Qualified (10+ Rounds)</div>
+        <div class="card">${qHtml}</div>
+        ${wHtml}`;
+}
+
+function setMode(m) { rankMode=m; renderStandings(); }
+
+// ================================================================
+//  SETTINGS SCREEN
+// ================================================================
+function renderSettings() {
+    const arcHtml = db.archives.length === 0
+        ? `<div class="empty"><div class="empty-ico">📦</div>
+           <h3>No Archives Yet</h3>
+           <p>Use "New Season" at year end to archive data</p></div>`
+        : [...db.archives].sort((a,b)=>b.year-a.year).map(a=>{
+            const { qualified } = buildBoard('avg', a.rounds, a.players);
+            return `
+            <div class="archive-row" onclick="viewArchive(${a.year})">
+                <div class="archive-icon">📅</div>
+                <div class="col">
+                    <div class="bold">${a.year} Season</div>
+                    <div class="muted">${a.rounds.length} rounds ·
+                        ${qualified.length} qualified</div>
+                </div>
+                ${CHEV}
+            </div>`;
+        }).join('');
+
+    const syncCard = FIREBASE_ON
+        ? `<div class="section-label">Sync</div>
+           <div class="card" style="margin-bottom:14px">
+               <div class="card-pad">
+                   <div class="bold sm">🔄 Multi-Device Sync Active</div>
+                   <div class="muted mt8">All changes sync instantly to
+                   every device that opens this app URL.</div>
+               </div>
+           </div>`
+        : `<div class="section-label">Sync</div>
+           <div class="card" style="margin-bottom:14px">
+               <div class="card-pad">
+                   <div class="bold sm">📱 Local Only Mode</div>
+                   <div class="muted mt8">Firebase is not configured.
+                   Data saves on this device only. See setup instructions
+                   to enable multi-device sync.</div>
+               </div>
+           </div>`;
+
+    $id('s-settings').innerHTML = `
+        <div class="page-title">Settings</div>
+        ${syncCard}
+
+        <div class="section-label">Season</div>
+        <div class="card" style="margin-bottom:14px">
+            <div class="setting-row" onclick="newSeason()">
+                <div>
+                    <div class="setting-title">🗓 New Season</div>
+                    <div class="setting-sub">Archive ${db.year} and
+                        start ${db.year+1}</div>
+                </div>${CHEV}
+            </div>
+            <div class="setting-row" onclick="exportPDF()">
+                <div>
+                    <div class="setting-title">📄 Export Standings PDF</div>
+                    <div class="setting-sub">Full report with all rounds</div>
+                </div>${CHEV}
+            </div>
+        </div>
+
+        <div class="section-label">Archive</div>
+        <div class="card" style="margin-bottom:14px">${arcHtml}</div>
+
+        <div class="section-label">Data Backup</div>
+        <div class="card" style="margin-bottom:14px">
+            <div class="setting-row" onclick="doExport()">
+                <div>
+                    <div class="setting-title">💾 Export Backup</div>
+                    <div class="setting-sub">
+                        Save all data as a .json file</div>
+                </div>${CHEV}
+            </div>
+            <div class="setting-row"
+                 onclick="$id('import-file').click()">
+                <div>
+                    <div class="setting-title">📂 Import Backup</div>
+                    <div class="setting-sub">
+                        Restore data from a backup file</div>
+                </div>${CHEV}
+            </div>
+        </div>
+
+        <div class="section-label" style="color:var(--red)">
+            Danger Zone
+        </div>
+        <div class="card" style="margin-bottom:24px">
+            <div class="setting-row" onclick="clearSeason()">
+                <div>
+                    <div class="setting-title red">
+                        🗑 Clear Current Season</div>
+                    <div class="setting-sub">
+                        Delete all ${db.year} rounds. Archives kept.</div>
+                </div>${CHEV}
+            </div>
+        </div>
+
+        <div class="muted xs" style="text-align:center;padding-bottom:8px">
+            Monkey Cup v2.0 · 🏌️
+        </div>`;
+}
+
+// ================================================================
+//  SEASON MANAGEMENT
+// ================================================================
+function newSeason() {
+    if (!confirm(
+        `Archive the ${db.year} season and start ${db.year+1}?\n\n`
+      + `Player names and handicaps carry over.\n`
+      + `All ${db.year} rounds will be archived.`)) return;
+
+    const snap = {
+        year:    db.year,
+        players: JSON.parse(JSON.stringify(db.players)),
+        rounds:  JSON.parse(JSON.stringify(db.rounds))
+    };
+    const idx = db.archives.findIndex(a=>a.year===db.year);
+    if (idx>=0) { db.archives[idx]=snap; } else { db.archives.push(snap); }
+
+    db.year++;
+    db.rounds = [];
+    save(); updateHeader(); renderSettings();
+    toast(`🎉 Welcome to ${db.year}!`);
+}
+
+function clearSeason() {
+    if (!confirm(
+        `Delete ALL rounds for ${db.year}?\n\n`
+      + `Players and archives will NOT be affected.\n`
+      + `This cannot be undone.`)) return;
+    db.rounds = [];
+    save(); updateHeader(); renderSettings();
+    toast('Season data cleared');
+}
+
+// ================================================================
+//  ARCHIVE VIEW — Standings + Rounds tabs
+//
+//  What the archive shows:
+//  ● Summary bar: rounds played, qualified count, total players
+//  ● STANDINGS tab: final ranked standings with gold/silver/bronze
+//    badges; also shows who didn't qualify (< 10 rounds)
+//  ● ROUNDS tab: every round from that season in reverse date order;
+//    tap any round to see the full score card for that day
+// ================================================================
+let arcYear = null;
+let arcTab  = 'standings';
+
+function viewArchive(year) {
+    arcYear = year;
+    arcTab  = 'standings';
+    renderArcModal();
+    open$('m-archive');
+}
+
+function setArcTab(tab) { arcTab=tab; renderArcModal(); }
+
+function renderArcModal() {
+    const a = db.archives.find(x=>x.year===arcYear);
+    if (!a) return;
+
+    const { qualified, waiting } = buildBoard('avg', a.rounds, a.players);
+    let body = '';
+
+    if (arcTab === 'standings') {
+        // ── Qualified ──────────────────────────────────────────
+        const qRows = qualified.map((s,i)=>{
+            const rc=['r1','r2','r3'][i]||'rn';
+            return `
+            <div class="list-item">
+                <div class="rank ${rc}">${i+1}</div>
+                <div class="col">
+                    <div class="bold">${s.player.name}</div>
+                    <div class="muted">${s.played} rounds ·
+                        HCP ${s.player.handicap}</div>
+                </div>
+                <div class="right">
+                    <div class="bold green">${s.avg10.toFixed(1)}</div>
+                    <div class="muted">avg net (best 10)</div>
+                </div>
+            </div>`;
+        }).join('');
+
+        body = `<div class="card">
+            ${qRows||'<div class="empty"><p>No players qualified</p></div>'}
+        </div>`;
+
+        // ── Did Not Qualify ────────────────────────────────────
+        if (waiting.length) {
+            body += `<div class="section-label mt12">Did Not Qualify</div>
+            <div class="card">
+                ${waiting.map(s=>`
+                <div class="list-item">
+                    <div class="rank rdq">DQ</div>
+                    <div class="col">
+                        <div class="bold">${s.player.name}</div>
+                        <div class="muted">${s.played}/10 rounds ·
+                            HCP ${s.player.handicap}</div>
+                    </div>
+                    <div class="right">
+                        <div class="bold"
+                             style="color:var(--gray-400)">
+                            ${s.played>0?s.currentAvg.toFixed(1):'—'}
+                        </div>
+                        <div class="muted">avg net</div>
+                    </div>
+                </div>`).join('')}
+            </div>`;
+        }
+
+    } else {
+        // ── Rounds tab ─────────────────────────────────────────
+        const sorted = [...a.rounds]
+            .sort((x,y)=>new Date(y.date)-new Date(x.date));
+
+        body = sorted.length === 0
+            ? `<div class="empty"><div class="empty-ico">📋</div>
+               <h3>No Rounds</h3></div>`
+            : `<div class="card">` +
+              sorted.map(r=>{
+                  const winner = [...r.scores].sort((x,y)=>x.net-y.net)[0];
+                  const wp     = winner
+                      ? a.players.find(p=>p.id===winner.playerId)
+                      : null;
+                  return `
+                  <div class="round-row" style="cursor:pointer"
+                       onclick="viewArcRound('${r.id}',${arcYear})">
+                      <div class="col">
+                          <div class="bold sm">${fmtDate(r.date)}</div>
+                          <div class="muted">${r.scores.length} players ·
+                              Best: ${wp?wp.name:'?'}
+                              (net ${winner?winner.net:'?'})</div>
+                      </div>
+                      ${CHEV}
+                  </div>`;
+              }).join('') + `</div>`;
+    }
+
+    $id('m-arc-title').textContent = `${arcYear} Season`;
+    $id('m-arc-body').innerHTML = `
+        <div class="muted sm" style="margin-bottom:12px">
+            ${a.rounds.length} rounds ·
+            ${qualified.length} qualified ·
+            ${a.players.length} players
+        </div>
+        <div class="toggle-group" style="margin-bottom:16px">
+            <button class="toggle-opt ${arcTab==='standings'?'active':''}"
+                    onclick="setArcTab('standings')">
+                🏆 Standings
+            </button>
+            <button class="toggle-opt ${arcTab==='rounds'?'active':''}"
+                    onclick="setArcTab('rounds')">
+                📋 Rounds (${a.rounds.length})
+            </button>
+        </div>
+        ${body}`;
+}
+
+// Open a specific archived round's scorecard
+function viewArcRound(rid, year) {
+    const a = db.archives.find(x=>x.year===year);
+    if (!a) return;
+    const r = a.rounds.find(x=>x.id===rid);
+    if (!r) return;
+
+    const rows = [...r.scores].sort((a,b)=>a.net-b.net).map((s,i)=>{
+        const pl = a.players.find(p=>p.id===s.playerId);
+        const rc = ['r1','r2','r3'][i]||'rn';
+        return `
+        <div class="list-item">
+            <div class="rank ${rc}">${i+1}</div>
+            <div class="col">
+                <div class="bold">${pl?pl.name:'(Removed)'}</div>
+                <div class="muted">HCP: ${s.hcp} · Gross: ${s.gross}</div>
+            </div>
+            <div class="right">
+                <div class="bold green">${s.net}</div>
+                <div class="muted">net</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    $id('m-rv-title').textContent = `${fmtDate(r.date)} (${year})`;
+    $id('m-rv-body').innerHTML    = `<div class="card">${rows}</div>`;
+    open$('m-round-view');
+}
+
+// ================================================================
+//  BACKUP EXPORT / IMPORT
+// ================================================================
+function doExport() {
+    const blob = new Blob([JSON.stringify(db,null,2)],
+                          {type:'application/json'});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href=url; a.download=`monkey-cup-backup-${db.year}.json`; a.click();
+    URL.revokeObjectURL(url);
+    toast('💾 Backup exported!');
+}
+
+function doImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        try {
+            const imp = JSON.parse(ev.target.result);
+            if (!Array.isArray(imp.players)||!Array.isArray(imp.rounds)){
+                toast('❌ Invalid backup file'); return;
+            }
+            if (!confirm('Replace ALL current data with this backup?\n'
+                       + 'This cannot be undone.')) return;
+            db = imp;
+            ensureDefaults();
+            save(); updateHeader(); go('home');
+            toast('✅ Backup restored!');
+        } catch { toast('❌ Could not read backup file'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+}
+
+// ================================================================
+//  PDF EXPORT
+//  Sections: Main standings · Top 10 rounds per player · Full history
+// ================================================================
+function exportPDF(yearOvr, roundsOvr, playersOvr) {
+    const year    = yearOvr    || db.year;
+    const rounds  = roundsOvr  || db.rounds;
+    const players = playersOvr || db.players;
+
+    const { qualified, waiting } = buildBoard(rankMode, rounds, players);
+
+    const today = new Date().toLocaleDateString('en-US',
+        {month:'long',day:'numeric',year:'numeric'});
+    const rlabel = rankMode==='avg'
+        ? 'Average of Best 10 Net Scores'
+        : 'Total of Best 10 Net Scores';
+
+    // ── Main standings rows ────────────────────────────────────
+    const qRows = qualified.map((s,i)=>{
+        const medal = ['🥇','🥈','🥉'][i] ?? (i+1);
+        const val   = rankMode==='avg' ? s.avg10.toFixed(1) : s.total10;
+        return `<tr>
+            <td align="center">${medal}</td>
+            <td>${s.player.name}</td>
+            <td align="center">${s.player.handicap}</td>
+            <td align="center">${s.played}</td>
+            <td align="center" class="score">${val}</td>
+            <td align="center">${s.avgGross.toFixed(1)}</td>
+        </tr>`;
+    }).join('');
+
+    const dqRows = waiting.map(s=>`
+        <tr class="dq">
+            <td align="center">—</td>
+            <td>${s.player.name}</td>
+            <td align="center">${s.player.handicap}</td>
+            <td align="center">${s.played}/10</td>
+            <td align="center">${s.played>0?s.currentAvg.toFixed(1):'—'}</td>
+            <td align="center">${s.played>0?s.avgGross.toFixed(1):'—'}</td>
+        </tr>`).join('');
+
+    // ── Individual top-10 breakdowns ──────────────────────────
+    const breakdowns = qualified.map((s,qi)=>{
+        const myRounds = rounds
+            .filter(r=>r.scores.some(sc=>sc.playerId===s.player.id))
+            .map(r=>{
+                const sc = r.scores.find(x=>x.playerId===s.player.id);
+                return { date:r.date, gross:sc.gross, net:sc.net, hcp:sc.hcp };
+            })
+            .sort((a,b)=>a.net-b.net);
+
+        const top10 = myRounds.slice(0,10);
+        const tRows = top10.map((rd,idx)=>`
+            <tr>
+                <td align="center">${idx+1}</td>
+                <td>${fmtDate(rd.date)}</td>
+                <td align="center">${rd.gross}</td>
+                <td align="center">${rd.hcp}</td>
+                <td align="center" class="score">${rd.net}</td>
+            </tr>`).join('');
+
+        const val = rankMode==='avg' ? s.avg10.toFixed(1)+' avg' : s.total10+' total';
+        return `
+        <div style="margin-top:28px">
+            <div class="sec">${s.player.name}
+                <span style="font-weight:400;color:#94a3b8">
+                    — Rank #${qi+1} · ${val} net · HCP ${s.player.handicap}
+                </span>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Date</th>
+                    <th>Gross</th><th>HCP</th><th>Net</th></tr>
+                </thead>
+                <tbody>${tRows}</tbody>
+            </table>
+        </div>`;
+    }).join('');
+
+    // ── Full round history ─────────────────────────────────────
+    const histHtml = [...rounds]
+        .sort((a,b)=>new Date(b.date)-new Date(a.date))
+        .map(r=>{
+            const sRows = [...r.scores].sort((a,b)=>a.net-b.net).map(s=>{
+                const pl = players.find(p=>p.id===s.playerId);
+                return `<tr>
+                    <td>${pl?pl.name:'Unknown'}</td>
+                    <td align="center">${s.gross}</td>
+                    <td align="center">${s.hcp}</td>
+                    <td align="center" class="score">${s.net}</td>
+                </tr>`;
+            }).join('');
+            return `
+            <div style="margin-top:22px">
+                <div class="sec">${fmtDate(r.date)}
+                    <span style="font-weight:400;color:#94a3b8">
+                        — ${r.scores.length} players
+                    </span>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>Player</th><th>Gross</th>
+                        <th>HCP</th><th>Net</th></tr>
+                    </thead>
+                    <tbody>${sRows}</tbody>
+                </table>
+            </div>`;
+        }).join('');
+
+    // ── Open print window ──────────────────────────────────────
+    const w = window.open('','_blank');
+    if (!w) { toast('⚠️ Allow pop-ups to export PDF'); return; }
+
+    w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Monkey Cup ${year} — Full Report</title>
+<style>
+*     { box-sizing:border-box; }
+body  { font-family:Arial,sans-serif; padding:32px; color:#1e293b;
+        max-width:800px; margin:0 auto; }
+.actions { display:flex; gap:10px; margin-bottom:28px; }
+.btn-p { background:#1b4332; color:white; border:none; padding:11px 22px;
+         border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; }
+.btn-c { background:#f1f5f9; color:#334155; border:none; padding:11px 22px;
+         border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; }
+.btn-p:hover { background:#2d6a4f; }
+.btn-c:hover { background:#e2e8f0; }
+h1    { color:#1b4332; font-size:28px; margin:0 0 4px; }
+h2    { color:#1b4332; font-size:20px; margin:32px 0 4px;
+        border-bottom:2px solid #d8f3dc; padding-bottom:8px; }
+.sub  { color:#64748b; font-size:14px; margin-bottom:10px; }
+.pill { display:inline-block; background:#d8f3dc; color:#1b4332;
+        padding:4px 14px; border-radius:100px; font-size:12px;
+        font-weight:700; margin-bottom:24px; }
+.sec  { font-size:12px; font-weight:700; color:#64748b;
+        text-transform:uppercase; letter-spacing:0.8px;
+        margin:20px 0 6px; }
+table { width:100%; border-collapse:collapse; margin-bottom:4px; }
+th    { background:#1b4332; color:white; padding:9px 12px;
+        font-size:12px; text-align:left; }
+td    { padding:8px 12px; border-bottom:1px solid #f1f5f9;
+        font-size:13px; }
+tr:nth-child(even) td { background:#f8fafc; }
+.score { font-weight:700; color:#2d6a4f; }
+.dq td { color:#94a3b8; }
+.foot  { margin-top:32px; font-size:11px; color:#94a3b8;
+         text-align:right; border-top:1px solid #f1f5f9;
+         padding-top:12px; }
+.pb   { page-break-before:always; }
+@media print { .actions { display:none !important; } }
+</style>
+</head>
+<body>
+
+<div class="actions">
+    <button class="btn-p" onclick="window.print()">
+        🖨️ Print / Save as PDF
+    </button>
+    <button class="btn-c" onclick="window.close()">✕ Close</button>
+</div>
+
+<h1>🏌️ Monkey Cup</h1>
+<div class="sub">${year} Season Report · Generated ${today}</div>
+<div class="pill">Ranked by: ${rlabel}</div>
+
+<h2>Final Standings</h2>
+${qRows
+  ? `<table><thead><tr>
+         <th>Rank</th><th>Player</th><th>HCP</th><th>Rounds</th>
+         <th>${rankMode==='avg'?'Avg Net':'Total Net'} (Best 10)</th>
+         <th>Avg Gross</th>
+     </tr></thead><tbody>${qRows}</tbody></table>`
+  : '<p style="color:#94a3b8">No qualified players yet.</p>'}
+
+${dqRows ? `
+<div style="margin-top:16px">
+<div class="sec">Not Yet Qualified (&lt;10 Rounds)</div>
+<table><thead><tr>
+    <th></th><th>Player</th><th>HCP</th><th>Rounds</th>
+    <th>Current Avg Net</th><th>Avg Gross</th>
+</tr></thead><tbody>${dqRows}</tbody></table>
+</div>` : ''}
+
+${breakdowns ? `
+<div class="pb"></div>
+<h2>Individual Top 10 Rounds</h2>
+${breakdowns}` : ''}
+
+${histHtml ? `
+<div class="pb"></div>
+<h2>Complete Round History (${rounds.length} Rounds)</h2>
+${histHtml}` : ''}
+
+<div class="foot">
+    Monkey Cup App · ${new Date().toLocaleString()}
+</div>
+<script>setTimeout(()=>window.print(), 600);<\/script>
+</body></html>`);
+    w.document.close();
+}
+
+// ================================================================
+//  CLOSE SHEETS ON BACKDROP TAP
+// ================================================================
+document.querySelectorAll('.overlay').forEach(el=>{
+    el.addEventListener('click', e=>{
+        if (e.target===el) close$(el.id);
+    });
+});
+
+// ================================================================
+//  FIREBASE REAL-TIME SYNC
+// ================================================================
+let fbReady = false;
+
+function setupFirebase() {
+    if (!FIREBASE_ON || !fbRef) return;
+
+    fbRef.on('value', snap=>{
+        const data = snap.val();
+        if (data) {
+            db = data;
+            ensureDefaults();
+            localSave();           // keep localStorage in sync
+            setSyncStatus('live');
+        } else if (!fbReady) {
+            fbRef.set(db);         // first run — push local data up
+        }
+
+        if (!fbReady) {
+            fbReady = true;
+            updateHeader();
+            go(current);
+        } else if (!anyModalOpen()) {
+            updateHeader();
+            go(current);           // live refresh on other devices
+        }
+    }, err=>{
+        console.warn('Firebase listener error:', err);
+        setSyncStatus('err');
+        if (!fbReady) { fbReady=true; localLoad(); updateHeader(); go(current); }
+    });
+
+    // Fallback if Firebase is slow (>6 s)
+    setTimeout(()=>{
+        if (!fbReady) {
+            fbReady=true;
+            localLoad(); updateHeader(); go(current);
+            toast('⚠️ Could not reach server — working offline');
+        }
+    }, 6000);
+}
+
+// ================================================================
+//  INIT
+// ================================================================
+function init() {
+    localLoad();        // render immediately from local cache
+    updateHeader();
+    renderHome();
+
+    if (FIREBASE_ON) {
+        setSyncStatus('saving');
+        setupFirebase();
+    }
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(()=>{});
+    }
+}
+
+init();
+</script>
+</body>
+</html>
