@@ -1,2141 +1,2290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Labor Day 2025</title>
-
-    <!-- ═══ PWA META TAGS ════════════════════════════════════ -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#264582">
-    <meta name="description" content="Labor Day 2025 Family Reunion — RSVP, Photos & Info">
-    <!-- iOS Specific -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Labor Day 2025">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
-    <!-- Android Specific -->
-    <meta name="mobile-web-app-capable" content="yes">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #264582;
-            --secondary-color: #2b346e;
-            --accent-color: #a50b2c;
-            --text-dark: #0a1551;
-            --text-light: #343a67;
-            --bg-light: #ffffff;
-            --border-color: #d3dcef;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
-
-        /* ─── TOP NAVIGATION ─────────────────────────────── */
-        #topNav {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        #topNav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 15px;
-        }
-
-        #topNav li {
-            margin: 5px 15px;
-        }
-
-        #topNav a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 25px;
-            transition: all 0.3s;
-        }
-
-        #topNav a:hover, #topNav a.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        section {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0);    }
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .card h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 2em;
-        }
-
-        .card h3 {
-            color: var(--text-light);
-            margin: 20px 0 10px 0;
-        }
-
-        /* ─── SLIDESHOW ──────────────────────────────────── */
-        .slideshow {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-            margin: 30px auto;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            background: #f0f0f0;
-        }
-
-        .slideshow img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            opacity: 0;
-            transition: opacity 1s;
-        }
-
-        .slideshow img.active { opacity: 1; }
-
-        .slideshow-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .slideshow-controls button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid white;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .slideshow-controls button.active {
-            background: white;
-            transform: scale(1.2);
-        }
-
-        .slideshow-controls button:hover { background: white; }
-
-        /* ─── FORMS ──────────────────────────────────────── */
-        .form-group { margin-bottom: 20px; }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            font-family: inherit;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* ─── BUTTONS ────────────────────────────────────── */
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            padding: 14px 32px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-accent { background: var(--accent-color); }
-        .btn-accent:hover { background: #8a0924; }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        /* ─── PHOTO GALLERY ──────────────────────────────── */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .photo-item {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .photo-item:hover { transform: scale(1.05); }
-
-        .photo-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .photo-item .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(165,11,44,0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            display: none;
-            line-height: 1;
-        }
-
-        .photo-item:hover .delete-btn { display: block; }
-
-        /* ─── UPLOAD AREA ────────────────────────────────── */
-        .upload-area {
-            border: 3px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #f8f9fa;
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary-color);
-            background: #e9ecef;
-        }
-
-        .upload-area.dragover {
-            border-color: var(--primary-color);
-            background: #e3f2fd;
-        }
-
-        /* ─── TABLES ─────────────────────────────────────── */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .data-table th {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .data-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .data-table tr:hover { background: #f8f9fa; }
-        .data-table tbody tr:last-child td { border-bottom: none; }
-
-        /* ─── CONTACT ────────────────────────────────────── */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .contact-btn {
-            background: var(--primary-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: block;
-        }
-
-        .contact-btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .contact-btn::before {
-            content: "📞 ";
-            font-size: 1.5em;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* ─── INFO BOX ───────────────────────────────────── */
-        .info-box {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 5px solid var(--primary-color);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-
-        .info-box h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        /* ─── MESSAGES ───────────────────────────────────── */
-        .message {
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .message.show {
-            display: block;
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-20px); opacity: 0; }
-            to   { transform: translateY(0);     opacity: 1; }
-        }
-
-        /* ─── MISC ───────────────────────────────────────── */
-        .year-selector { text-align: center; margin: 20px 0; }
-
-        .year-selector select {
-            padding: 10px 20px;
-            font-size: 18px;
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-        }
-
-        .venmo-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .venmo-qr {
-            max-width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .map-container {
-            width: 100%;
-            height: 400px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin: 20px 0;
-        }
-
-        .recap-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .recap-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .recap-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .supply-list { columns: 2; column-gap: 30px; }
-        .supply-list p { margin: 5px 0; break-inside: avoid; }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lightbox.show { display: flex; }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 8px;
-        }
-
-        .lightbox .close {
-            position: absolute;
-            top: 20px; right: 40px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-box {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-box .number {
-            font-size: 2.5em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .stat-box .label { font-size: 0.9em; opacity: 0.9; }
-
-        /* ═══ NEW: OFFLINE BANNER ════════════════════════ */
-        #offlineBanner {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: #721c24;
-            color: white;
-            text-align: center;
-            padding: 10px 20px;
-            z-index: 9999;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        /* ═══ NEW: COUNTDOWN TIMER ═══════════════════════ */
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 25px 0;
-        }
-
-        .countdown-unit {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            min-width: 80px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        .countdown-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            line-height: 1;
-            display: block;
-        }
-
-        .countdown-label {
-            font-size: 0.8em;
-            opacity: 0.9;
-            margin-top: 5px;
-            display: block;
-        }
-
-        /* ═══ NEW: UPLOAD PROGRESS BAR ═══════════════════ */
-        #uploadProgress {
-            display: none;
-            margin: 15px 0;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .progress-track {
-            background: var(--border-color);
-            border-radius: 999px;
-            height: 8px;
-            overflow: hidden;
-        }
-
-        #uploadProgressBar {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            height: 100%;
-            width: 0%;
-            border-radius: 999px;
-            transition: width 0.3s ease;
-        }
-
-        /* ═══ NEW: SKELETON LOADING ══════════════════════ */
-        .skeleton {
-            background: linear-gradient(
-                90deg,
-                #f0f0f0 25%,
-                #e0e0e0 50%,
-                #f0f0f0 75%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 4px;
-        }
-
-        @keyframes shimmer {
-            0%   { background-position: -200% 0; }
-            100% { background-position:  200% 0; }
-        }
-
-        .skeleton-cell {
-            height: 16px;
-            border-radius: 4px;
-        }
-
-        .photo-skeleton {
-            height: 250px;
-            border-radius: 12px;
-        }
-
-        /* ═══ NEW: BOTTOM NAVIGATION ═════════════════════ */
-        #bottomNav {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            border-top: 2px solid var(--border-color);
-            z-index: 200;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-
-        #bottomNav ul {
-            list-style: none;
-            display: flex;
-            justify-content: space-around;
-            padding: 0;
-            margin: 0;
-        }
-
-        #bottomNav li { flex: 1; }
-
-        .bottom-nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 8px 4px;
-            color: var(--text-light);
-            font-size: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            font-family: inherit;
-            text-align: center;
-        }
-
-        .bottom-nav-link .nav-icon {
-            font-size: 20px;
-            margin-bottom: 2px;
-            display: block;
-        }
-
-        .bottom-nav-link.active {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        /* ═══ MEDIA QUERIES ══════════════════════════════ */
-        @media (max-width: 768px) {
-            header h1 { font-size: 2em; }
-
-            #topNav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .slideshow { height: 300px; }
-
-            .btn-group { flex-direction: column; }
-            .btn { width: 100%; }
-
-            .venmo-section  { grid-template-columns: 1fr; }
-            .recap-card     { grid-template-columns: 1fr; }
-            .supply-list    { columns: 1; }
-
-            .data-table { font-size: 14px; }
-            .data-table th,
-            .data-table td { padding: 8px; }
-
-            /* Show bottom nav, push content above it */
-            #bottomNav { display: block; }
-            .container { padding-bottom: 80px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labor Day</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#264582">
+  <meta name="description" content="Labor Day Family Reunion — RSVP, Photos & Info">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Labor Day">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <style>
+  /* ── RESET & VARIABLES ──────────────────────────────────── */
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --primary:   #264582;
+    --secondary: #2b346e;
+    --accent:    #a50b2c;
+    --dark:      #0a1551;
+    --mid:       #343a67;
+    --border:    #d3dcef;
+    --white:     #ffffff;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── FIXED BACKGROUND IMAGE ─────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url('images/background.jpg') center/cover no-repeat;
+    opacity: 0.12;
+    z-index: -1;
+  }
+  /* Fallback color when image not loaded */
+  body { background-color: #f0f3f9; }
+
+  /* ── LAYOUT ─────────────────────────────────────────────── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #fff; padding: 40px 20px; text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,.15);
+    position: relative; z-index: 1;
+  }
+  header h1 { font-size: 2.8em; text-shadow: 2px 2px 4px rgba(0,0,0,.3); }
+  header p  { font-size: 1.1em; opacity: .95; margin-top: 6px; }
+
+  /* ── ADMIN MODE BANNER ──────────────────────────────────── */
+  #adminBanner {
+    display: none;
+    background: #0a1551; color: #fff;
+    text-align: center; padding: 8px 16px;
+    font-size: 13px; font-weight: 600;
+    position: relative; z-index: 101;
+  }
+  #adminBanner button {
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255,255,255,.5);
+    padding: 2px 10px; border-radius: 4px;
+    cursor: pointer; margin-left: 10px;
+    font-size: 12px;
+  }
+
+  /* ── TOP NAV ────────────────────────────────────────────── */
+  #topNav {
+    background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    position: sticky; top: 0; z-index: 100;
+  }
+  #topNav ul { list-style:none; display:flex; justify-content:center; flex-wrap:wrap; padding:15px; }
+  #topNav li { margin: 5px 10px; }
+  #topNav a  { color:var(--dark); text-decoration:none; font-weight:600;
+               padding:8px 16px; border-radius:25px; transition:all .3s; cursor:pointer; }
+  #topNav a:hover, #topNav a.active { background:var(--primary); color:#fff; }
+
+  /* ── SECTIONS ───────────────────────────────────────────── */
+  section { display:none; animation: fadeIn .4s; }
+  section.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+  /* ── CARDS ──────────────────────────────────────────────── */
+  .card {
+    background: rgba(255,255,255,.97); border-radius:12px;
+    padding: 28px; margin: 18px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,.09);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,.13); }
+  .card h2 { color:var(--primary); margin-bottom:14px; font-size:1.8em; }
+  .card h3 { color:var(--mid); margin:16px 0 8px; }
+
+  /* ── HOME — 2-COLUMN GRID ───────────────────────────────── */
+  .home-two-col {
+    display: grid; grid-template-columns:1fr 1fr;
+    gap: 16px; margin: 16px 0;
+  }
+  .home-cards-row {
+    display: grid; grid-template-columns:1fr 1fr; gap: 18px;
+  }
+  .home-cards-row .card { margin:0; }
+
+  /* ── INFO BOX ───────────────────────────────────────────── */
+  .info-box {
+    background: linear-gradient(135deg,#f8f9fa,#e9ecef);
+    border-left: 5px solid var(--primary);
+    padding: 16px; border-radius:8px;
+  }
+  .info-box h3 { color:var(--primary); margin-bottom:8px; margin-top:0; }
+
+  /* ── SLIDESHOW ──────────────────────────────────────────── */
+  .slideshow {
+    position:relative; max-width:800px; height:420px;
+    margin:24px auto; border-radius:12px; overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.18); background:#e0e0e0;
+  }
+  .slideshow img {
+    width:100%; height:100%; object-fit:cover;
+    position:absolute; opacity:0; transition:opacity 1s;
+  }
+  .slideshow img.active { opacity:1; }
+  .slideshow-controls {
+    position:absolute; bottom:16px; left:50%; transform:translateX(-50%);
+    display:flex; gap:8px; z-index:10;
+  }
+  .slideshow-controls button {
+    width:10px; height:10px; border-radius:50%;
+    border:2px solid #fff; background:rgba(255,255,255,.4); cursor:pointer;
+  }
+  .slideshow-controls button.active { background:#fff; }
+
+  /* ── FORMS ──────────────────────────────────────────────── */
+  .form-group { margin-bottom:18px; }
+  label { display:block; margin-bottom:6px; font-weight:600; color:var(--dark); }
+  input[type="text"], input[type="email"], input[type="tel"],
+  input[type="number"], input[type="password"], select, textarea {
+    width:100%; padding:11px; border:2px solid var(--border);
+    border-radius:8px; font-size:15px; font-family:inherit;
+    transition:border-color .2s; background:#fff;
+  }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:var(--primary); }
+  textarea { resize:vertical; min-height:90px; }
+
+  /* ── BUTTONS ────────────────────────────────────────────── */
+  .btn {
+    background:var(--primary); color:#fff; padding:12px 28px;
+    border:none; border-radius:8px; font-size:15px; font-weight:600;
+    cursor:pointer; transition:all .25s; display:inline-block;
+    text-decoration:none; text-align:center;
+  }
+  .btn:hover { background:var(--secondary); transform:translateY(-2px); box-shadow:0 4px 8px rgba(0,0,0,.18); }
+  .btn:disabled { background:#bbb; cursor:not-allowed; transform:none; }
+  .btn-accent  { background:var(--accent); }
+  .btn-accent:hover { background:#8a0924; }
+  .btn-sm      { padding:6px 14px; font-size:13px; }
+  .btn-group   { display:flex; gap:12px; flex-wrap:wrap; margin:16px 0; }
+  .btn-edit    { background:#ffc107; color:#333; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:600; }
+  .btn-delete  { background:var(--accent); color:#fff; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:600; margin-left:4px; display:none; }
+  .admin-active .btn-delete { display:inline-block; }
+
+  /* ── ACCORDION ──────────────────────────────────────────── */
+  .accordion-item {
+    border:1px solid var(--border); border-radius:10px;
+    margin:10px 0; overflow:hidden;
+  }
+  .accordion-header {
+    width:100%; background:#f8f9fa; border:none;
+    padding:16px 20px; display:flex; justify-content:space-between;
+    align-items:center; cursor:pointer; font-size:1.05em;
+    font-weight:700; color:var(--dark); text-align:left;
+    transition:background .2s;
+  }
+  .accordion-header:hover { background:#e9ecef; }
+  .accordion-header.open {
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+  }
+  .accordion-arrow { font-size:.9em; transition:transform .2s; }
+  .accordion-body  { padding:22px; border-top:1px solid var(--border); background:#fff; }
+
+  /* ── SUPPLY CHECKLIST ───────────────────────────────────── */
+  .sci-item {
+    display:grid; grid-template-columns:36px 1fr auto;
+    gap:12px; align-items:center; padding:12px 14px;
+    border:1px solid var(--border); border-radius:8px; margin:6px 0;
+    transition:background .2s;
+  }
+  .sci-item:hover { background:#f8f9fa; }
+  .sci-item.fully-claimed { opacity:.6; background:#f8f9fa; }
+  .sci-item input[type="checkbox"] { width:20px; height:20px; cursor:pointer; accent-color:var(--primary); }
+  .sci-name   { font-weight:600; color:var(--dark); }
+  .sci-status { font-size:.82em; color:var(--mid); margin-top:2px; }
+  .sci-status.covered { color:#155724; font-weight:700; }
+  .sci-qty-wrap { display:none; align-items:center; gap:6px; font-size:.9em; white-space:nowrap; }
+  .sci-qty-wrap.visible { display:flex; }
+  .sci-qty-input { width:60px; padding:5px 8px; border:1px solid var(--border); border-radius:5px; text-align:center; }
+  .sci-custom { border:2px dashed var(--border); border-radius:8px; padding:14px; margin-top:12px; }
+
+  /* ── TABLES ─────────────────────────────────────────────── */
+  .data-table { width:100%; border-collapse:collapse; margin:14px 0; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,.08); }
+  .data-table th { background:var(--primary); color:#fff; padding:13px; text-align:left; font-weight:600; }
+  .data-table td { padding:11px 13px; border-bottom:1px solid var(--border); }
+  .data-table tr:hover { background:#f8f9fa; }
+  .data-table tbody tr:last-child td { border-bottom:none; }
+
+  /* ── SKELETON LOADING ───────────────────────────────────── */
+  .skeleton {
+    background:linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);
+    background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:4px;
+  }
+  @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+  .sk-cell { height:14px; border-radius:3px; }
+  .sk-photo { height:250px; border-radius:12px; }
+
+  /* ── MESSAGES ───────────────────────────────────────────── */
+  .msg { padding:13px; border-radius:8px; margin:14px 0; display:none; }
+  .msg.success { background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
+  .msg.error   { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
+  .msg.info    { background:#d1ecf1; color:#0c5460; border:1px solid #bee5eb; }
+  .msg.show    { display:block; animation:slideIn .3s; }
+  @keyframes slideIn { from{transform:translateY(-12px);opacity:0} to{transform:none;opacity:1} }
+
+  /* ── CONTACT ────────────────────────────────────────────── */
+  .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin:20px 0; }
+  .contact-btn {
+    background:var(--primary); color:#fff; padding:18px; text-align:center;
+    border-radius:8px; text-decoration:none; font-weight:600; transition:all .3s; display:block;
+  }
+  .contact-btn:hover { background:var(--secondary); transform:translateY(-2px); }
+  .contact-btn::before { content:"📞 "; font-size:1.4em; display:block; margin-bottom:4px; }
+
+  /* ── PHOTOS ─────────────────────────────────────────────── */
+  .photo-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; margin:24px 0; }
+  .photo-item { position:relative; border-radius:10px; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.1); cursor:pointer; transition:transform .25s; }
+  .photo-item:hover { transform:scale(1.04); }
+  .photo-item img { width:100%; height:240px; object-fit:cover; display:block; }
+  .photo-item .photo-del { position:absolute; top:8px; right:8px; background:rgba(165,11,44,.9); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:16px; display:none; line-height:1; }
+  .photo-item:hover .photo-del.show { display:block; }
+
+  .upload-area { border:3px dashed var(--border); border-radius:12px; padding:36px; text-align:center; cursor:pointer; transition:all .25s; background:#f8f9fa; }
+  .upload-area:hover, .upload-area.dragover { border-color:var(--primary); background:#ebf0fb; }
+  .year-selector { text-align:center; margin:16px 0; }
+  .year-selector select { padding:9px 18px; font-size:17px; border:2px solid var(--primary); border-radius:8px; background:#fff; cursor:pointer; }
+
+  /* ── UPLOAD PROGRESS ────────────────────────────────────── */
+  #uploadProgress { display:none; margin:14px 0; }
+  .prog-hdr { display:flex; justify-content:space-between; margin-bottom:5px; font-size:.85em; }
+  .prog-track { background:var(--border); border-radius:999px; height:8px; overflow:hidden; }
+  #uploadBar  { background:linear-gradient(90deg,var(--primary),var(--secondary)); height:100%; width:0; border-radius:999px; transition:width .3s; }
+
+  /* ── RECAP CARDS ────────────────────────────────────────── */
+  .recap-card { display:grid; grid-template-columns:240px 1fr; gap:20px; align-items:center; background:#fff; border-radius:12px; padding:18px; margin:16px 0; box-shadow:0 4px 8px rgba(0,0,0,.08); }
+  .recap-img  { width:100%; height:190px; object-fit:cover; border-radius:8px; display:block; }
+  .recap-placeholder { width:100%; height:190px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+  .recap-info h3 { color:var(--primary); margin-bottom:10px; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:12px; margin:12px 0; }
+  .stat-box { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; padding:16px; border-radius:8px; text-align:center; }
+  .stat-box .number { font-size:2em; font-weight:bold; display:block; }
+  .stat-box .label  { font-size:.85em; opacity:.9; }
+
+  /* ── SUPPLY LIST ────────────────────────────────────────── */
+  .supply-list { columns:2; column-gap:28px; }
+  .supply-list p { margin:4px 0; break-inside:avoid; }
+
+  /* ── MAP ────────────────────────────────────────────────── */
+  .map-container { width:100%; height:380px; border-radius:12px; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.1); margin:16px 0; }
+
+  /* ── LIGHTBOX ───────────────────────────────────────────── */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; justify-content:center; align-items:center; }
+  .lightbox.show { display:flex; }
+  .lightbox img  { max-width:92%; max-height:92%; border-radius:8px; }
+  .lightbox .lbx-close { position:absolute; top:18px; right:32px; color:#fff; font-size:38px; cursor:pointer; background:rgba(0,0,0,.4); width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  /* ── EDIT MODAL ─────────────────────────────────────────── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:800; display:flex; justify-content:center; align-items:flex-start; padding:30px 16px; overflow-y:auto; }
+  .modal-box { background:#fff; border-radius:12px; width:100%; max-width:580px; box-shadow:0 8px 32px rgba(0,0,0,.28); }
+  .modal-hdr { background:var(--primary); color:#fff; padding:18px 22px; border-radius:12px 12px 0 0; display:flex; justify-content:space-between; align-items:center; }
+  .modal-hdr h3 { font-size:1.2em; }
+  .modal-hdr button { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.4); padding:4px 10px; border-radius:5px; cursor:pointer; }
+  .modal-body { padding:22px; }
+  .modal-ftr  { padding:16px 22px; border-top:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* ── ADMIN PANEL ────────────────────────────────────────── */
+  #adminPanelOverlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.88); z-index:1100; overflow-y:auto;
+  }
+  #adminPanelBox {
+    max-width:960px; margin:20px auto 60px;
+    background:#fff; border-radius:14px; min-height:80vh;
+  }
+  #adminPinScreen { padding:48px 32px; text-align:center; }
+  #adminPinScreen h2 { color:var(--primary); margin-bottom:24px; }
+  #adminPinInput { width:220px; text-align:center; font-size:1.4em; letter-spacing:.2em; margin-bottom:16px; border-radius:8px; border:2px solid var(--border); padding:10px; }
+  .admin-panel-hdr { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; padding:16px 22px; border-radius:14px 14px 0 0; display:flex; justify-content:space-between; align-items:center; }
+  .admin-panel-hdr button { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.3); padding:6px 14px; border-radius:6px; cursor:pointer; }
+  .admin-tabs { display:flex; flex-wrap:wrap; gap:4px; padding:10px 12px; background:#f0f2f5; border-bottom:1px solid var(--border); }
+  .a-tab { padding:7px 14px; border:1px solid var(--border); background:#fff; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; transition:all .2s; white-space:nowrap; }
+  .a-tab:hover { background:#e9ecef; }
+  .a-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+  #adminContent { padding:22px; min-height:400px; }
+  .admin-section-title { color:var(--primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+  .admin-row-actions { display:flex; gap:6px; white-space:nowrap; }
+  .a-btn-approve { background:#28a745; color:#fff; border:none; padding:5px 12px; border-radius:5px; cursor:pointer; font-size:12px; }
+  .a-btn-reject  { background:var(--accent); color:#fff; border:none; padding:5px 12px; border-radius:5px; cursor:pointer; font-size:12px; }
+  .a-btn-edit    { background:#ffc107; color:#333; border:none; padding:5px 12px; border-radius:5px; cursor:pointer; font-size:12px; }
+  .a-btn-del     { background:#dc3545; color:#fff; border:none; padding:5px 12px; border-radius:5px; cursor:pointer; font-size:12px; }
+  .inv-item      { display:flex; gap:8px; margin-bottom:8px; align-items:center; }
+  .inv-item input { flex:1; }
+  .inv-remove    { background:var(--accent); color:#fff; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:16px; flex-shrink:0; }
+  .photo-pending-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+  .photo-pending-card { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .photo-pending-card img { width:100%; height:180px; object-fit:cover; display:block; }
+  .photo-pending-info { padding:10px 12px; font-size:13px; }
+  .photo-pending-actions { padding:8px 12px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .year-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  /* ── ADMIN FLOATING BUTTON ──────────────────────────────── */
+  #adminFab {
+    position:fixed; bottom:78px; right:14px;
+    background:var(--secondary); color:#fff;
+    border:none; border-radius:50%; width:46px; height:46px;
+    font-size:18px; cursor:pointer; z-index:500;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s;
+  }
+  #adminFab:hover { transform:scale(1.1); }
+
+  /* ── OFFLINE BANNER ─────────────────────────────────────── */
+  #offlineBanner { display:none; position:fixed; top:0; left:0; right:0; background:#721c24; color:#fff; text-align:center; padding:9px; z-index:9999; font-weight:600; font-size:.9em; }
+
+  /* ── BOTTOM NAV ─────────────────────────────────────────── */
+  #bottomNav { display:none; position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--border); z-index:200; box-shadow:0 -2px 10px rgba(0,0,0,.1); }
+  #bottomNav ul { list-style:none; display:flex; justify-content:space-around; margin:0; padding:0; }
+  #bottomNav li { flex:1; }
+  .bnav-btn { display:flex; flex-direction:column; align-items:center; width:100%; padding:8px 4px; color:var(--mid); font-size:10px; font-weight:500; cursor:pointer; background:none; border:none; font-family:inherit; transition:color .2s; }
+  .bnav-btn .ni { font-size:20px; margin-bottom:2px; display:block; }
+  .bnav-btn.active { color:var(--primary); font-weight:700; }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    header h1  { font-size:1.8em; }
+    #topNav ul { flex-direction:column; align-items:center; }
+    .slideshow { height:260px; }
+    .btn-group { flex-direction:column; }
+    .btn       { width:100%; }
+    .home-two-col, .home-cards-row { grid-template-columns:1fr; }
+    .supply-list { columns:1; }
+    .data-table  { font-size:13px; }
+    .data-table th, .data-table td { padding:8px; }
+    #bottomNav   { display:block; }
+    .container   { padding-bottom:80px; }
+    .recap-card  { grid-template-columns:1fr; }
+    .recap-placeholder { height:120px; }
+    .year-form-grid { grid-template-columns:1fr; }
+    #adminFab    { bottom:74px; }
+  }
+  </style>
 </head>
 <body>
 
-    <!-- ═══ OFFLINE BANNER ═══════════════════════════════════ -->
-    <div id="offlineBanner">
-        📡 You're offline — some features may not be available
+  <div id="offlineBanner">📡 You're offline — some features may not be available</div>
+  <div id="adminBanner">🔑 Admin Mode Active <button onclick="logoutAdmin()">Logout</button></div>
+
+  <header>
+    <h1>🎉 Labor Day <span id="yearDisplay"></span> 🎉</h1>
+    <p>Gather, Celebrate, Create Memories!</p>
+  </header>
+
+  <nav id="topNav">
+    <ul>
+      <li><a class="nav-link active" onclick="showSection('home')">Home</a></li>
+      <li><a class="nav-link"        onclick="showSection('rsvp')">RSVP</a></li>
+      <li><a class="nav-link"        onclick="showSection('photos')">Photos</a></li>
+      <li><a class="nav-link"        onclick="showSection('info')">Info & Lists</a></li>
+      <li><a class="nav-link"        onclick="showSection('recaps')">Past Years</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+
+    <!-- ══════════════════════════════════════════════════
+         HOME
+    ══════════════════════════════════════════════════ -->
+    <section id="home" class="active">
+      <div class="card">
+        <h2 style="text-align:center;">Welcome!</h2>
+
+        <div class="slideshow" id="slideshow">
+          <div class="slideshow-controls" id="slideshowCtrl"></div>
+        </div>
+
+        <div style="text-align:center;margin:24px 0;">
+          <h3 style="color:var(--mid);">Labor Day Weekend is the perfect time to reconnect, reminisce, and make new memories with the ones who matter most — family.</h3>
+          <p style="font-size:1.15em;margin:16px 0;">Join us for a fun-filled weekend full of laughter, love, and memories!</p>
+        </div>
+
+        <!-- 2-column: schedule + location -->
+        <div class="home-two-col">
+          <div class="info-box">
+            <h3>📅 Event Schedule</h3>
+            <p><strong>When:</strong> Friday night through Monday afternoon</p>
+            <p><strong>Saturday:</strong> Potluck Dinner — Eat around 5 PM</p>
+            <p><strong>Sunday:</strong> Lobsters & Clams — Eat around 3 PM</p>
+          </div>
+          <div class="info-box">
+            <h3>📍 Location</h3>
+            <p><strong>Hosted by:</strong> Chad & Courtney Merithew</p>
+            <p><strong>Address:</strong> 5 Gillian Dr, Lakeville, MA 02347</p>
+          </div>
+        </div>
+
+        <div class="btn-group" style="justify-content:center;margin-top:20px;">
+          <button class="btn btn-accent" onclick="showSection('rsvp')">🎊 RSVP Now</button>
+          <button class="btn"            onclick="showSection('photos')">📸 Upload Photos</button>
+          <button class="btn" id="shareBtn" onclick="shareApp()" style="display:none;">📤 Share App</button>
+        </div>
+      </div>
+
+      <!-- 2-column: venmo + contact -->
+      <div class="home-cards-row">
+        <div class="card">
+          <h2>💰 Help Us Keep the Tradition Alive!</h2>
+          <h3>There's nothing quite like gathering together as a family. These moments are what we cherish most. To make this year's reunion as special as past ones, we need your help.</h3>
+          <p style="margin:10px 0;">We'd love for you to join us in making this happen! A great way to contribute is by signing up for supply donations in the RSVP section. If you'd prefer to support us financially, donations help cover the essentials like restrooms, electricity, and the upkeep of our tents, chairs, and gathering spaces.</p>
+          <p><strong>Send your generous donations via Venmo:</strong></p>
+          <p style="font-size:1.5em;color:var(--accent);font-weight:bold;margin:12px 0;">@Lisa-Merithew</p>
+          <a href="https://venmo.com/code?user_id=3119271387332608362" target="_blank" class="btn" style="display:inline-block;">Open Venmo</a>
+          <p style="margin-top:14px;font-style:italic;">Thank you for helping us keep this family tradition strong. Your support means everything to us.</p>
+        </div>
+        <div class="card">
+          <h2>📞 Contact Info</h2>
+          <p style="margin-bottom:14px;">Questions? Give us a call!</p>
+          <div class="contact-grid">
+            <a href="tel:774-994-7291" class="contact-btn">Call Courtney<br>774-994-7291</a>
+            <a href="tel:508-294-1239" class="contact-btn">Call Chad<br>508-294-1239</a>
+            <a href="tel:508-726-8222" class="contact-btn">Call Lisa<br>508-726-8222</a>
+          </div>
+          <p style="text-align:center;font-style:italic;color:var(--mid);margin-top:14px;font-size:.9em;">For tech support, call Lisa after 6 PM on weekdays.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         RSVP
+    ══════════════════════════════════════════════════ -->
+    <section id="rsvp">
+      <div class="card">
+        <h2>🎊 RSVP to Labor Day <span class="year-display"></span></h2>
+
+        <!-- NOTE AT TOP -->
+        <div class="info-box" style="margin-bottom:20px;">
+          <p>🏕️ <strong>Note:</strong> All tents are welcome! We have limited space for campers — please call Courtney or Chad ahead of time to reserve a spot. Down payments to reserve your spot are welcome 😊</p>
+        </div>
+
+        <!-- ACCORDION 1: RSVP (open by default) -->
+        <div class="accordion-item">
+          <button class="accordion-header open" id="ah-rsvp-form" onclick="toggleAccordion('rsvp-form')">
+            <span>🎊 RSVP Form</span>
+            <span class="accordion-arrow" id="aa-rsvp-form">▼</span>
+          </button>
+          <div class="accordion-body" id="ab-rsvp-form">
+            <div id="rsvpMsg" class="msg"></div>
+            <form id="rsvpForm" onsubmit="handleRSVP(event)">
+              <div class="form-group"><label>Your Name(s) *</label><input type="text" id="rsvpName" required placeholder="e.g., John & Jane Smith"></div>
+              <div class="form-group"><label>Email *</label><input type="email" id="rsvpEmail" required placeholder="your@email.com"></div>
+              <div class="form-group"><label>Phone Number *</label><input type="tel" id="rsvpPhone" required placeholder="508-555-1234"></div>
+              <div class="form-group"><label>Number of Adults *</label><input type="number" id="rsvpAdults" required min="0" value="0"></div>
+              <div class="form-group"><label>Number of Kids *</label><input type="number" id="rsvpKids" required min="0" value="0"></div>
+              <div class="form-group">
+                <label>Arriving *</label>
+                <select id="rsvpArrival" required>
+                  <option value="">Select...</option>
+                  <option>Friday Evening</option><option>Saturday Morning</option>
+                  <option>Saturday Afternoon</option><option>Sunday</option><option>Monday</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Departing *</label>
+                <select id="rsvpDeparting" required>
+                  <option value="">Select...</option>
+                  <option>Saturday</option><option>Sunday</option>
+                  <option>Monday Morning</option><option>Monday Afternoon</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Accommodation *</label>
+                <select id="rsvpAccommodation" required>
+                  <option value="">Select...</option>
+                  <option value="Tent">Tent</option>
+                  <option value="Camper (Reserved)">Camper (Please call to reserve)</option>
+                  <option value="Not Staying Overnight">Not Staying Overnight</option>
+                </select>
+              </div>
+              <div class="form-group"><label>What are you bringing for Saturday's Potluck?</label><textarea id="rsvpPotluck" placeholder="e.g., Pasta salad, chips & dip..."></textarea></div>
+              <div class="form-group"><label>Special Notes or Dietary Restrictions</label><textarea id="rsvpNotes" placeholder="Anything we should know?"></textarea></div>
+              <button type="submit" class="btn" id="rsvpSubmitBtn">Submit RSVP</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ACCORDION 2: Lobster -->
+        <div class="accordion-item">
+          <button class="accordion-header" id="ah-lobster" onclick="toggleAccordion('lobster')">
+            <span>🦞 Lobster, Clams & Corn Order</span>
+            <span class="accordion-arrow" id="aa-lobster">▶</span>
+          </button>
+          <div class="accordion-body" id="ab-lobster" style="display:none;">
+            <p style="margin-bottom:16px;">Order your Sunday lobster dinner!</p>
+            <div id="lobsterMsg" class="msg"></div>
+            <form id="lobsterForm" onsubmit="handleLobster(event)">
+              <div class="form-group"><label>Your Name *</label><input type="text" id="lobsterName" required></div>
+              <div class="form-group"><label>Number of Lobsters *</label><input type="number" id="lobsterCount" required min="0" value="0"></div>
+              <div class="form-group"><label>Number of Clams (dozen) *</label><input type="number" id="clamCount" required min="0" value="0"></div>
+              <div class="form-group"><label>Number of Corn *</label><input type="number" id="cornCount" required min="0" value="0"></div>
+              <button type="submit" class="btn" id="lobsterSubmitBtn">Submit Order</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ACCORDION 3: Supply Checklist -->
+        <div class="accordion-item">
+          <button class="accordion-header" id="ah-supply" onclick="toggleAccordion('supply');loadSupplyChecklist();">
+            <span>📦 Supply Contributions</span>
+            <span class="accordion-arrow" id="aa-supply">▶</span>
+          </button>
+          <div class="accordion-body" id="ab-supply" style="display:none;">
+            <p style="margin-bottom:16px;">Select items you can bring! Quantities update in real time.</p>
+            <div id="supplyClaimMsg" class="msg"></div>
+            <div class="form-group"><label>Your Name *</label><input type="text" id="supplyClaimName" placeholder="Your name"></div>
+            <div id="supplyChecklistItems">
+              <p style="color:var(--mid);text-align:center;padding:20px;">Click the Supply Contributions tab above to load items.</p>
+            </div>
+            <!-- Custom item -->
+            <div class="sci-custom">
+              <label style="font-weight:600;display:block;margin-bottom:8px;">🖊️ Bringing something not on the list?</label>
+              <input type="text" id="supplyCustomItem" placeholder="Describe what else you'll bring (optional)">
+            </div>
+            <button class="btn" id="supplySubmitBtn" onclick="submitSupplyClaims()" style="margin-top:16px;">Submit Contributions</button>
+          </div>
+        </div>
+
+        <!-- ACCORDION 4: Activity -->
+        <div class="accordion-item">
+          <button class="accordion-header" id="ah-activity" onclick="toggleAccordion('activity')">
+            <span>🎯 Host an Activity</span>
+            <span class="accordion-arrow" id="aa-activity">▶</span>
+          </button>
+          <div class="accordion-body" id="ab-activity" style="display:none;">
+            <p style="margin-bottom:16px;">Want to organize a game or activity? Sign up here!</p>
+            <div id="activityMsg" class="msg"></div>
+            <form id="activityForm" onsubmit="handleActivity(event)">
+              <div class="form-group"><label>Your Name *</label><input type="text" id="activityName" required></div>
+              <div class="form-group"><label>Activity Name *</label><input type="text" id="activityTitle" required placeholder="e.g., Volleyball Tournament"></div>
+              <div class="form-group"><label>When? *</label><input type="text" id="activityTime" required placeholder="e.g., Saturday 2 PM"></div>
+              <div class="form-group"><label>Description</label><textarea id="activityDescription" placeholder="Tell us about the activity..."></textarea></div>
+              <button type="submit" class="btn" id="activitySubmitBtn">Submit Activity</button>
+            </form>
+          </div>
+        </div>
+
+      </div><!-- /.card -->
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         PHOTOS
+    ══════════════════════════════════════════════════ -->
+    <section id="photos">
+      <div class="card">
+        <div class="year-selector">
+          <label for="photoYear"><strong>Select Year:</strong></label>
+          <select id="photoYear" onchange="loadPhotos()"></select>
+        </div>
+
+        <h2>📸 Share Your Photos</h2>
+        <p style="text-align:center;margin-bottom:20px;">Photos are reviewed before appearing in the gallery. We'll let you know when yours is live!</p>
+
+        <!-- UPLOADER INFO — required before showing upload area -->
+        <div id="uploaderInfoForm" class="info-box" style="margin-bottom:16px;">
+          <h3 style="margin-top:0;">Who's uploading?</h3>
+          <div class="form-group"><label>Your Name *</label><input type="text" id="uploaderName" placeholder="Your name"></div>
+          <div class="form-group"><label>Your Email *</label><input type="email" id="uploaderEmail" placeholder="your@email.com"></div>
+          <button class="btn" onclick="enableUpload()">Continue to Upload ▶</button>
+        </div>
+
+        <!-- UPLOAD AREA (hidden until info filled) -->
+        <div id="uploadSection" style="display:none;">
+          <div class="upload-area" id="uploadArea">
+            <p style="font-size:2.5em;">📤</p>
+            <p style="font-size:1.1em;margin:10px 0;"><strong>Click or Drag Photos Here</strong></p>
+            <p style="color:var(--mid);font-size:.9em;">Auto-compressed for fast uploads • JPG, PNG, GIF</p>
+          </div>
+          <input type="file" id="photoInput" multiple accept="image/*" style="display:none;">
+          <div id="uploadProgress">
+            <div class="prog-hdr">
+              <span id="uploadLabel" style="color:var(--mid);">Uploading...</span>
+              <span id="uploadPct" style="color:var(--primary);font-weight:bold;">0%</span>
+            </div>
+            <div class="prog-track"><div id="uploadBar"></div></div>
+          </div>
+        </div>
+
+        <div id="uploadMsg" class="msg"></div>
+
+        <h2 style="margin-top:36px;">Photo Gallery <span id="photoCount" style="font-size:.7em;color:var(--mid);"></span></h2>
+        <div class="photo-gallery" id="photoGallery">
+          <p style="text-align:center;padding:40px;grid-column:1/-1;color:var(--mid);">Select a year above to load photos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         INFO & LISTS
+    ══════════════════════════════════════════════════ -->
+    <section id="info">
+
+      <div class="card">
+        <h2>📋 Who's Coming — RSVP List</h2>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Adults</th><th>Kids</th><th>Arriving</th><th>Departing</th><th>Accommodation</th><th>Potluck Item</th><th>Edit</th></tr></thead>
+            <tbody id="rsvpTableBody"><tr><td colspan="8" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🦞 Lobster Orders</h2>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Lobsters</th><th>Clams (doz)</th><th>Corn</th><th>Edit</th></tr></thead>
+            <tbody id="lobsterTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div id="lobsterTotals" class="stats-grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>📦 Supply Checklist Status</h2>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Item</th><th>Needed</th><th>Claimed</th><th>Remaining</th><th>Claimed By</th></tr></thead>
+            <tbody id="supplyChecklistTable"><tr><td colspan="5" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📝 Other Supply Contributions</h2>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Items</th><th>Edit</th></tr></thead>
+            <tbody id="supplyTableBody"><tr><td colspan="3" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Scheduled Activities</h2>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead><tr><th>Activity</th><th>Host</th><th>Time</th><th>Description</th><th>Edit</th></tr></thead>
+            <tbody id="activityTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🏠 What We Have at the House</h2>
+        <div id="whatWeHaveList"><p style="color:var(--mid);">Loading...</p></div>
+      </div>
+
+      <div class="card">
+        <h2>🗺️ Location Map</h2>
+        <p style="text-align:center;margin-bottom:16px;"><strong>5 Gillian Dr, Lakeville, MA 02347</strong></p>
+        <div class="map-container">
+          <iframe width="100%" height="100%" frameborder="0" scrolling="no"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-70.99329710006715%2C41.82485920000001%2C-70.96329289674759%2C41.84485920000001&layer=mapnik&marker=41.8348592%2C-70.9782937"
+            style="border:0;" title="Event Location Map"></iframe>
+        </div>
+        <p style="text-align:center;margin-top:12px;">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=5+Gillian+Dr,+Lakeville,+MA+02347" target="_blank" class="btn" style="display:inline-block;">Get Directions</a>
+        </p>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         RECAPS
+    ══════════════════════════════════════════════════ -->
+    <section id="recaps">
+      <div class="card">
+        <h2 style="text-align:center;">🎉 Past Labor Day Reunions</h2>
+        <p style="text-align:center;margin-bottom:24px;">A look back at our amazing celebrations!</p>
+        <div id="recapsContainer">
+          <p style="text-align:center;padding:40px;color:var(--mid);">Loading past years...</p>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /.container -->
+
+  <!-- BOTTOM NAV -->
+  <nav id="bottomNav">
+    <ul>
+      <li><button class="bnav-btn active" data-sec="home"    onclick="showSection('home')"><span class="ni">🏠</span>Home</button></li>
+      <li><button class="bnav-btn"        data-sec="rsvp"    onclick="showSection('rsvp')"><span class="ni">🎊</span>RSVP</button></li>
+      <li><button class="bnav-btn"        data-sec="photos"  onclick="showSection('photos')"><span class="ni">📸</span>Photos</button></li>
+      <li><button class="bnav-btn"        data-sec="info"    onclick="showSection('info')"><span class="ni">📋</span>Info</button></li>
+      <li><button class="bnav-btn"        data-sec="recaps"  onclick="showSection('recaps')"><span class="ni">🎉</span>History</button></li>
+    </ul>
+  </nav>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lbx-close" onclick="closeLightbox()">✕</span>
+    <img id="lightboxImg" src="" alt="Full size photo">
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div id="editModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <h3 id="editModalTitle">Edit Submission</h3>
+        <button onclick="closeEditModal()">✕</button>
+      </div>
+      <div class="modal-body" id="editModalBody"></div>
+      <div class="modal-ftr">
+        <button class="btn" id="editSubmitBtn" onclick="submitEdit()">Save Changes</button>
+        <button class="btn" style="background:#999;" onclick="closeEditModal()">Cancel</button>
+      </div>
     </div>
+  </div>
 
-    <!-- ═══ HEADER ═══════════════════════════════════════════ -->
-    <header>
-        <h1>🎉 Labor Day 2025 🎉</h1>
-        <p>Gather, Celebrate, Create Memories!</p>
-    </header>
+  <!-- ADMIN FLOATING BUTTON -->
+  <button id="adminFab" onclick="openAdminPanel()" title="Admin Panel">🔐</button>
 
-    <!-- ═══ TOP NAVIGATION ═══════════════════════════════════ -->
-    <nav id="topNav">
-        <ul>
-            <li><a href="#home"   class="nav-link active" onclick="showSection('home')">Home</a></li>
-            <li><a href="#rsvp"   class="nav-link"        onclick="showSection('rsvp')">RSVP</a></li>
-            <li><a href="#photos" class="nav-link"        onclick="showSection('photos')">Photos</a></li>
-            <li><a href="#info"   class="nav-link"        onclick="showSection('info')">Info & Lists</a></li>
-            <li><a href="#recaps" class="nav-link"        onclick="showSection('recaps')">Past Years</a></li>
-        </ul>
-    </nav>
+  <!-- ADMIN PANEL -->
+  <div id="adminPanelOverlay">
+    <div id="adminPanelBox">
 
-    <div class="container">
+      <!-- PIN SCREEN -->
+      <div id="adminPinScreen">
+        <h2>🔐 Admin Access</h2>
+        <p style="color:var(--mid);margin-bottom:24px;">Enter your admin PIN to continue</p>
+        <div>
+          <input type="password" id="adminPinInput" placeholder="••••••"
+            onkeydown="if(event.key==='Enter')loginAdmin()">
+        </div>
+        <button class="btn" onclick="loginAdmin()" style="margin:12px 0;">Login</button>
+        <div id="pinErrMsg" class="msg error" style="max-width:300px;margin:0 auto;"></div>
+        <br>
+        <button style="background:none;border:none;color:var(--mid);cursor:pointer;font-size:.9em;" onclick="closeAdminPanel()">✕ Cancel</button>
+      </div>
 
-        <!-- ═══════════════════════════════════════════════════
-             HOME SECTION
-        ════════════════════════════════════════════════════ -->
-        <section id="home" class="active">
-            <div class="card">
-                <h2 style="text-align: center;">Welcome!</h2>
+      <!-- DASHBOARD (hidden until logged in) -->
+      <div id="adminDashboard" style="display:none;">
+        <div class="admin-panel-hdr">
+          <h2 style="font-size:1.2em;">🔑 Admin Panel — Labor Day <span class="year-display"></span></h2>
+          <button onclick="logoutAdmin()">Logout ✕</button>
+        </div>
+        <div class="admin-tabs">
+          <button class="a-tab active" onclick="showAdminTab('rsvps')">👥 RSVPs</button>
+          <button class="a-tab" onclick="showAdminTab('lobsters')">🦞 Lobster</button>
+          <button class="a-tab" onclick="showAdminTab('supply')">📦 Supply List</button>
+          <button class="a-tab" onclick="showAdminTab('photos')">📸 Photos</button>
+          <button class="a-tab" onclick="showAdminTab('years')">🏖️ Past Years</button>
+          <button class="a-tab" onclick="showAdminTab('inventory')">🏠 Inventory</button>
+          <button class="a-tab" onclick="showAdminTab('settings')">⚙️ Settings</button>
+        </div>
+        <div id="adminContent">
+          <p style="color:var(--mid);text-align:center;padding:40px;">Select a tab above</p>
+        </div>
+      </div>
 
-                <!-- Slideshow -->
-                <div class="slideshow" id="slideshow">
-                    <div class="slideshow-controls" id="slideshow-controls"></div>
-                </div>
-
-                <!-- ── NEW: Countdown Timer ─────────────────── -->
-                <div style="text-align: center; margin: 30px 0;">
-                    <h3 style="color: var(--text-light); margin-bottom: 15px;">
-                        ⏰ Time Until Labor Day Weekend
-                    </h3>
-                    <div class="countdown-container" id="countdown"></div>
-                </div>
-
-                <div style="text-align: center; margin: 30px 0;">
-                    <h3>Labor Day Weekend is the perfect time to reconnect, reminisce, and make new memories with the ones who matter most—family.</h3>
-                    <p style="font-size: 1.2em; margin: 20px 0;">Join us for a fun-filled weekend full of laughter, love, and memories!</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>📅 Event Schedule</h3>
-                    <p><strong>When:</strong> Friday night through Monday afternoon</p>
-                    <p><strong>Saturday:</strong> Potluck Dinner — Eat around 5 PM</p>
-                    <p><strong>Sunday:</strong> Lobsters & Clams — Eat around 3 PM</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>📍 Location</h3>
-                    <p><strong>Hosted by:</strong> Chad & Courtney Merithew</p>
-                    <p><strong>Address:</strong> 5 Gillian Dr, Lakeville, MA 02347</p>
-                </div>
-
-                <div class="btn-group" style="justify-content: center;">
-                    <button class="btn btn-accent" onclick="showSection('rsvp')">🎊 RSVP Now</button>
-                    <button class="btn"            onclick="showSection('photos')">📸 Upload Photos</button>
-                    <!-- ── NEW: Share button (shown only if Web Share API available) -->
-                    <button class="btn" id="shareBtn" onclick="shareApp()" style="display:none;">
-                        📤 Share This App
-                    </button>
-                </div>
-            </div>
-
-            <!-- Venmo Card -->
-            <div class="card">
-                <h2>💰 Help Us Upgrade the Restrooms!</h2>
-                <div class="venmo-section">
-                    <div>
-                        <h3>Do you want nicer restrooms this year?</h3>
-                        <p>If you said "of course, who doesn't like to poop in style!" Well, we agree! We have upgraded our accommodations, now we need your help to offset the cost.</p>
-                        <p><strong>Send your generous donations via Venmo:</strong></p>
-                        <p style="font-size: 1.5em; color: var(--accent-color); font-weight: bold; margin: 15px 0;">@Lisa-Merithew</p>
-                        <a href="https://venmo.com/code?user_id=3119271387332608362" target="_blank" class="btn" style="display: inline-block; margin-top: 10px;">Open Venmo</a>
-                        <p style="margin-top: 15px;"><em>Your tushy will thank you! 🚽✨</em></p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 5em;">📱</p>
-                        <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-light);">Scan QR code in Venmo app<br>or click button to donate</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Card -->
-            <div class="card">
-                <h2>📞 Contact Info</h2>
-                <p style="text-align: center; margin-bottom: 20px;">Questions? Give us a call!</p>
-                <div class="contact-grid">
-                    <a href="tel:774-994-7291" class="contact-btn">Call Courtney<br>774-994-7291</a>
-                    <a href="tel:508-294-1239" class="contact-btn">Call Chad<br>508-294-1239</a>
-                    <a href="tel:508-726-8222" class="contact-btn">Call Lisa<br>508-726-8222</a>
-                </div>
-                <p style="text-align: center; font-style: italic; color: var(--text-light); margin-top: 20px;">
-                    For tech support or app problems, call Lisa after 6 PM on weekdays.
-                </p>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════
-             RSVP SECTION
-        ════════════════════════════════════════════════════ -->
-        <section id="rsvp">
-            <!-- RSVP Form -->
-            <div class="card">
-                <h2>🎊 RSVP to Labor Day 2025</h2>
-                <p style="margin-bottom: 20px;">Let us know you're coming! Fill out this form to RSVP and tell us about your potluck contribution.</p>
-                <div id="rsvpMessage" class="message"></div>
-                <form id="rsvpForm">
-                    <div class="form-group">
-                        <label for="rsvpName">Your Name(s) *</label>
-                        <input type="text" id="rsvpName" required placeholder="e.g., John & Jane Smith">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpEmail">Email *</label>
-                        <input type="email" id="rsvpEmail" required placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpPhone">Phone Number *</label>
-                        <input type="tel" id="rsvpPhone" required placeholder="508-555-1234">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpAdults">Number of Adults *</label>
-                        <input type="number" id="rsvpAdults" required min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpKids">Number of Kids *</label>
-                        <input type="number" id="rsvpKids" required min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpArrival">Arriving *</label>
-                        <select id="rsvpArrival" required>
-                            <option value="">Select...</option>
-                            <option value="Friday Evening">Friday Evening</option>
-                            <option value="Saturday Morning">Saturday Morning</option>
-                            <option value="Saturday Afternoon">Saturday Afternoon</option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpDeparting">Departing *</label>
-                        <select id="rsvpDeparting" required>
-                            <option value="">Select...</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday Morning">Monday Morning</option>
-                            <option value="Monday Afternoon">Monday Afternoon</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpAccommodation">Accommodation *</label>
-                        <select id="rsvpAccommodation" required>
-                            <option value="">Select...</option>
-                            <option value="Tent">Tent</option>
-                            <option value="Camper (Reserved)">Camper (Please call to reserve)</option>
-                            <option value="Not Staying Overnight">Not Staying Overnight</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpPotluck">What are you bringing for Saturday's Potluck?</label>
-                        <textarea id="rsvpPotluck" placeholder="e.g., Pasta salad, chips & dip..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvpNotes">Special Notes or Dietary Restrictions</label>
-                        <textarea id="rsvpNotes" placeholder="Anything we should know?"></textarea>
-                    </div>
-                    <button type="submit" class="btn">Submit RSVP</button>
-                </form>
-            </div>
-
-            <!-- Lobster Form -->
-            <div class="card">
-                <h2>🦞 Lobster, Clams & Corn Order</h2>
-                <p style="margin-bottom: 20px;">Order your lobster dinner for Sunday!</p>
-                <div id="lobsterMessage" class="message"></div>
-                <form id="lobsterForm">
-                    <div class="form-group">
-                        <label for="lobsterName">Your Name *</label>
-                        <input type="text" id="lobsterName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lobsterCount">Number of Lobsters *</label>
-                        <input type="number" id="lobsterCount" required min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="clamCount">Number of Clams (dozen) *</label>
-                        <input type="number" id="clamCount" required min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="cornCount">Number of Corn *</label>
-                        <input type="number" id="cornCount" required min="0" value="0">
-                    </div>
-                    <button type="submit" class="btn">Submit Order</button>
-                </form>
-            </div>
-
-            <!-- Supply Form -->
-            <div class="card">
-                <h2>📦 Supply Contributions</h2>
-                <p style="margin-bottom: 20px;">Help us stock up! Let us know what supplies you can bring.</p>
-                <div id="supplyMessage" class="message"></div>
-                <form id="supplyForm">
-                    <div class="form-group">
-                        <label for="supplyName">Your Name *</label>
-                        <input type="text" id="supplyName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="supplyItems">What supplies are you bringing? *</label>
-                        <textarea id="supplyItems" required placeholder="e.g., Paper plates, napkins, cups..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Submit Supplies</button>
-                </form>
-            </div>
-
-            <!-- Activity Form -->
-            <div class="card">
-                <h2>🎯 Host an Activity</h2>
-                <p style="margin-bottom: 20px;">Want to organize a game or activity? Sign up here!</p>
-                <div id="activityMessage" class="message"></div>
-                <form id="activityForm">
-                    <div class="form-group">
-                        <label for="activityName">Your Name *</label>
-                        <input type="text" id="activityName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="activityTitle">Activity Name *</label>
-                        <input type="text" id="activityTitle" required placeholder="e.g., Volleyball Tournament">
-                    </div>
-                    <div class="form-group">
-                        <label for="activityTime">When? *</label>
-                        <input type="text" id="activityTime" required placeholder="e.g., Saturday 2 PM">
-                    </div>
-                    <div class="form-group">
-                        <label for="activityDescription">Description</label>
-                        <textarea id="activityDescription" placeholder="Tell us about the activity..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Submit Activity</button>
-                </form>
-            </div>
-
-            <div class="info-box">
-                <p><strong>Note:</strong> All tents are welcome! We have limited space for campers, so please call Courtney or Chad ahead of time to reserve a spot. Down payments to reserve your spot are welcome 😊</p>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════
-             PHOTOS SECTION
-        ════════════════════════════════════════════════════ -->
-        <section id="photos">
-            <div class="card">
-                <div class="year-selector">
-                    <label for="photoYear"><strong>Select Year:</strong></label>
-                    <select id="photoYear" onchange="loadPhotos()">
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                    </select>
-                </div>
-
-                <h2>📸 Upload Photos</h2>
-                <p style="text-align: center; margin-bottom: 20px;">Share your favorite moments from Labor Day! Your photos will appear in the gallery immediately.</p>
-
-                <div class="upload-area" id="uploadArea">
-                    <p style="font-size: 3em;">📤</p>
-                    <p style="font-size: 1.2em; margin: 10px 0;"><strong>Click to Upload Photos</strong></p>
-                    <p style="color: var(--text-light);">or drag and drop photos here</p>
-                    <p style="color: var(--text-light); font-size: 0.9em; margin-top: 10px;">
-                        Accepted: JPG, PNG, GIF — Auto-compressed for faster uploads
-                    </p>
-                </div>
-                <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
-
-                <div id="uploadMessage" class="message"></div>
-
-                <!-- ── NEW: Upload Progress Bar (replaces spinner) ── -->
-                <div id="uploadProgress">
-                    <div class="progress-header">
-                        <span id="uploadProgressLabel"
-                              style="font-size: 0.9em; color: var(--text-light);">Uploading...</span>
-                        <span id="uploadProgressPercent"
-                              style="font-size: 0.9em; font-weight: bold; color: var(--primary-color);">0%</span>
-                    </div>
-                    <div class="progress-track">
-                        <div id="uploadProgressBar"></div>
-                    </div>
-                </div>
-
-                <h2 style="margin-top: 40px;">Photo Gallery <span id="photoCount"></span></h2>
-                <div class="photo-gallery" id="photoGallery">
-                    <p style="text-align: center; padding: 40px; grid-column: 1/-1; color: var(--text-light);">
-                        Loading photos...
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════
-             INFO & LISTS SECTION
-        ════════════════════════════════════════════════════ -->
-        <section id="info">
-            <!-- RSVP Table (skeleton rows replace old spinner) -->
-            <div class="card">
-                <h2>📋 Who's Coming — RSVP List</h2>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Adults</th>
-                                <th>Kids</th>
-                                <th>Arriving</th>
-                                <th>Departing</th>
-                                <th>Accommodation</th>
-                                <th>Potluck Item</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rsvpTableBody">
-                            <tr><td colspan="7" style="text-align:center;padding:40px;">Loading RSVPs...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Lobster Table -->
-            <div class="card">
-                <h2>🦞 Lobster Orders</h2>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Lobsters</th>
-                                <th>Clams (dozen)</th>
-                                <th>Corn</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lobsterTableBody">
-                            <tr><td colspan="4" style="text-align:center;padding:40px;">Loading orders...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="lobsterTotals" class="stats-grid"></div>
-            </div>
-
-            <!-- Supply Table -->
-            <div class="card">
-                <h2>📦 Supply Contributions</h2>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Items</th>
-                            </tr>
-                        </thead>
-                        <tbody id="supplyTableBody">
-                            <tr><td colspan="2" style="text-align:center;padding:40px;">Loading supplies...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Activity Table -->
-            <div class="card">
-                <h2>🎯 Scheduled Activities</h2>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Activity</th>
-                                <th>Host</th>
-                                <th>Time</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody id="activityTableBody">
-                            <tr><td colspan="4" style="text-align:center;padding:40px;">Loading activities...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Supply List -->
-            <div class="card">
-                <h2>🏠 What We Have at the House</h2>
-                <div class="supply-list">
-                    <p>✓ 100 shot glasses</p>
-                    <p>✓ 75 Coffee filters</p>
-                    <p>✓ 300 sq ft aluminum foil</p>
-                    <p>✓ 4 lobster bibs</p>
-                    <p>✓ 10 sponges w/ scrub</p>
-                    <p>✓ 6 rolls paper towels</p>
-                    <p>✓ 550 light duty napkins</p>
-                    <p>✓ 1,000 coffee cups & lids</p>
-                    <p>✓ 60 solo cups</p>
-                    <p>✓ 24 toilet paper</p>
-                    <p>✓ 30 stir straws</p>
-                    <p>✓ 10 pot holders</p>
-                    <p>✓ 4 sauce pans</p>
-                    <p>✓ 7+ spatulas</p>
-                    <p>✓ 7+ tongs</p>
-                    <p>✓ 7+ ladles</p>
-                    <p>✓ 10+ serving spoons</p>
-                    <p>✓ 14 lobster plates</p>
-                    <p>✓ 150 knives</p>
-                    <p>✓ 150 forks</p>
-                    <p>✓ 150 spoons</p>
-                    <p>✓ 75 paper plates</p>
-                    <p>✓ 20 bowls</p>
-                    <p>✓ 25 gallon zip lock bags</p>
-                    <p>✓ 13 quart zip lock bags</p>
-                    <p>✓ 29 large aluminum pans</p>
-                    <p>✓ 14 half size aluminum pans</p>
-                    <p>✓ 16 sterno stands</p>
-                    <p>✓ 13 sterno burners</p>
-                    <p>✓ 7 salt & pepper shakers</p>
-                    <p>✓ 150 trash bags</p>
-                    <p>✓ 5 packs sanitizer wipes</p>
-                    <p>✓ 12 new tablecloths</p>
-                    <p>✓ 9 old tablecloths</p>
-                    <p>✓ 10 marshmallow sticks</p>
-                </div>
-            </div>
-
-            <!-- Map -->
-            <div class="card">
-                <h2>🗺️ Location Map</h2>
-                <p style="text-align: center; margin-bottom: 20px;"><strong>5 Gillian Dr, Lakeville, MA 02347</strong></p>
-                <div class="map-container">
-                    <iframe
-                        width="100%" height="100%"
-                        frameborder="0" scrolling="no"
-                        marginheight="0" marginwidth="0"
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=-70.99329710006715%2C41.82485920000001%2C-70.96329289674759%2C41.84485920000001&layer=mapnik&marker=41.8348592%2C-70.9782937"
-                        style="border: 0;"
-                        title="Event Location Map">
-                    </iframe>
-                </div>
-                <p style="text-align: center; margin-top: 10px;">
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=5+Gillian+Dr,+Lakeville,+MA+02347"
-                       target="_blank" class="btn" style="display: inline-block;">Get Directions</a>
-                </p>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════
-             RECAPS SECTION
-        ════════════════════════════════════════════════════ -->
-        <section id="recaps">
-            <div class="card">
-                <h2 style="text-align: center;">🎉 Past Labor Day Reunions</h2>
-                <p style="text-align: center; margin-bottom: 30px;">A look back at our amazing celebrations!</p>
-
-                <div class="recap-card">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='200'%3E%3Crect width='250' height='200' fill='%23264582'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='30' font-weight='bold'%3E2024%3C/text%3E%3C/svg%3E" alt="Labor Day 2024">
-                    <div class="recap-info">
-                        <h3>Labor Day 2024</h3>
-                        <div class="stats-grid">
-                            <div class="stat-box"><span class="number">~90</span><span class="label">People</span></div>
-                            <div class="stat-box"><span class="number">64</span><span class="label">Lobsters</span></div>
-                            <div class="stat-box"><span class="number">39</span><span class="label">Clams</span></div>
-                            <div class="stat-box"><span class="number">71</span><span class="label">Corn</span></div>
-                        </div>
-                        <p style="margin-top: 15px;">Another fantastic year with record attendance! Great weather, amazing food, and unforgettable memories.</p>
-                    </div>
-                </div>
-
-                <div class="recap-card">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='200'%3E%3Crect width='250' height='200' fill='%232b346e'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='30' font-weight='bold'%3E2023%3C/text%3E%3C/svg%3E" alt="Labor Day 2023">
-                    <div class="recap-info">
-                        <h3>Labor Day 2023</h3>
-                        <div class="stats-grid">
-                            <div class="stat-box"><span class="number">65-70</span><span class="label">People</span></div>
-                            <div class="stat-box"><span class="number">43</span><span class="label">Lobsters</span></div>
-                            <div class="stat-box"><span class="number">35</span><span class="label">Clams</span></div>
-                            <div class="stat-box"><span class="number">62</span><span class="label">Corn</span></div>
-                        </div>
-                        <p style="margin-top: 15px;">A wonderful gathering with perfect summer weather. The new activities were a huge hit!</p>
-                    </div>
-                </div>
-
-                <div class="recap-card">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='200'%3E%3Crect width='250' height='200' fill='%230a1551'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='30' font-weight='bold'%3E2022%3C/text%3E%3C/svg%3E" alt="Labor Day 2022">
-                    <div class="recap-info">
-                        <h3>Labor Day 2022</h3>
-                        <div class="stats-grid">
-                            <div class="stat-box"><span class="number">~87</span><span class="label">People</span></div>
-                            <div class="stat-box"><span class="number">45</span><span class="label">Lobsters</span></div>
-                            <div class="stat-box"><span class="number">40</span><span class="label">Clams</span></div>
-                            <div class="stat-box"><span class="number">45</span><span class="label">Corn</span></div>
-                        </div>
-                        <p style="margin-top: 15px;">An amazing turnout! So many new faces and reconnections. The potluck was incredible.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </div><!-- /.container -->
-
-    <!-- ═══ BOTTOM NAVIGATION — Mobile Only ═════════════════ -->
-    <nav id="bottomNav" aria-label="Bottom navigation">
-        <ul>
-            <li>
-                <button class="bottom-nav-link active" data-section="home" onclick="showSection('home')">
-                    <span class="nav-icon">🏠</span>Home
-                </button>
-            </li>
-            <li>
-                <button class="bottom-nav-link" data-section="rsvp" onclick="showSection('rsvp')">
-                    <span class="nav-icon">🎊</span>RSVP
-                </button>
-            </li>
-            <li>
-                <button class="bottom-nav-link" data-section="photos" onclick="showSection('photos')">
-                    <span class="nav-icon">📸</span>Photos
-                </button>
-            </li>
-            <li>
-                <button class="bottom-nav-link" data-section="info" onclick="showSection('info')">
-                    <span class="nav-icon">📋</span>Info
-                </button>
-            </li>
-            <li>
-                <button class="bottom-nav-link" data-section="recaps" onclick="showSection('recaps')">
-                    <span class="nav-icon">🎉</span>History
-                </button>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- ═══ LIGHTBOX ════════════════════════════════════════ -->
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="close" onclick="closeLightbox()">&times;</span>
-        <img id="lightboxImg" src="" alt="Full size photo">
     </div>
+  </div>
 
-    <script>
-    // =========================================================
-    // CONFIGURATION — ⚠️ Replace placeholder values with yours
-    // =========================================================
-    const CONFIG = {
-        rsvpScriptURL:     'YOUR_RSVP_SCRIPT_URL_HERE',
-        lobsterScriptURL:  'YOUR_LOBSTER_SCRIPT_URL_HERE',
-        supplyScriptURL:   'YOUR_SUPPLY_SCRIPT_URL_HERE',
-        activityScriptURL: 'YOUR_ACTIVITY_SCRIPT_URL_HERE',
-        photosScriptURL:   'YOUR_PHOTOS_SCRIPT_URL_HERE',
+<script>
+// ═══════════════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxu75dE9DFELS47b1FL6kmEc1I8qVSpK0wle8Lmm6c6LHUg-ZR7l6l1AGgr5Zyh8Pyj/exec';
 
-        photoFolders: {
-            '2025': 'YOUR_2025_FOLDER_ID',
-            '2024': 'YOUR_2024_FOLDER_ID',
-            '2023': 'YOUR_2023_FOLDER_ID',
-            '2022': 'YOUR_2022_FOLDER_ID'
-        },
+const SLIDESHOW_IMAGES = [
+  'https://via.placeholder.com/800x420/264582/ffffff?text=Labor+Day+Memory+1',
+  'https://via.placeholder.com/800x420/2b346e/ffffff?text=Labor+Day+Memory+2',
+  'https://via.placeholder.com/800x420/0a1551/ffffff?text=Labor+Day+Memory+3'
+  // Replace with real photo URLs
+];
 
-        // Replace with real photo URLs once you have them
-        slideshowImages: [
-            'https://via.placeholder.com/800x500/264582/ffffff?text=Labor+Day+Photo+1',
-            'https://via.placeholder.com/800x500/2b346e/ffffff?text=Labor+Day+Photo+2',
-            'https://via.placeholder.com/800x500/0a1551/ffffff?text=Labor+Day+Photo+3'
-        ]
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let adminPin  = null;
+let isAdmin   = false;
+const YEAR    = new Date().getFullYear();
+let editState = {};   // Holds data for the current edit modal
+let supplyChecklistData = []; // Cache of loaded supply items
+
+// ═══════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════
+function sanitize(s) {
+  if (s == null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+function getSkeletonRows(cols, n = 3) {
+  return Array(n).fill(null).map(() =>
+    `<tr>${Array(cols).fill(null).map(() =>
+      `<td style="padding:12px 13px;"><div class="skeleton sk-cell" style="width:${55+Math.random()*35|0}%"></div></td>`
+    ).join('')}</tr>`
+  ).join('');
+}
+
+function getPhotoSkeletons(n = 6) {
+  return Array(n).fill(null).map(() => `<div class="skeleton sk-photo"></div>`).join('');
+}
+
+function showMsg(el, type, text) {
+  if (typeof el === 'string') el = document.getElementById(el);
+  if (!el) return;
+  el.className = `msg ${type} show`;
+  el.textContent = text;
+  if (type !== 'info') setTimeout(() => el.classList.remove('show'), 6000);
+}
+
+async function apiGet(params) {
+  const url = SCRIPT_URL + '?' + new URLSearchParams(params);
+  const res = await fetch(url);
+  return res.json();
+}
+
+async function apiPost(body) {
+  await fetch(SCRIPT_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+}
+
+async function adminPost(body, refreshFn, delay = 1500) {
+  await apiPost({ ...body, pin: adminPin });
+  if (refreshFn) setTimeout(refreshFn, delay);
+}
+
+function downloadCSV(tableId, filename) {
+  const t   = document.getElementById(tableId);
+  if (!t) return;
+  const csv = Array.from(t.querySelectorAll('tr')).map(row =>
+    Array.from(row.querySelectorAll('th,td'))
+      .map(c => '"' + c.textContent.replace(/"/g, '""') + '"').join(',')
+  ).join('\n');
+  const a = Object.assign(document.createElement('a'), {
+    href: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv),
+    download: filename
+  });
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  const links = document.querySelectorAll('.nav-link');
+  const idx   = ['home','rsvp','photos','info','recaps'].indexOf(id);
+  if (idx >= 0 && links[idx]) links[idx].classList.add('active');
+
+  document.querySelectorAll('.bnav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.sec === id);
+  });
+
+  if (id === 'info')    loadAllData();
+  if (id === 'photos')  { buildYearSelector(); loadPhotos(); }
+  if (id === 'home')    initSlideshow();
+  if (id === 'recaps')  loadPastYears();
+  if (id === 'rsvp')    {} // Supply checklist loads on accordion open
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════════════════
+// YEAR DISPLAY
+// ═══════════════════════════════════════════════════════════
+function initYearDisplays() {
+  document.querySelectorAll('.year-display, #yearDisplay').forEach(el => {
+    el.textContent = YEAR;
+  });
+  document.title = 'Labor Day ' + YEAR;
+}
+
+function buildYearSelector() {
+  const sel = document.getElementById('photoYear');
+  if (!sel || sel.options.length > 1) return;
+  sel.innerHTML = '';
+  for (let y = YEAR; y >= 2022; y--) {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    sel.appendChild(opt);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SLIDESHOW
+// ═══════════════════════════════════════════════════════════
+let slideIdx = 0, slideTimer = null;
+
+function initSlideshow() {
+  const ss = document.getElementById('slideshow');
+  const ct = document.getElementById('slideshowCtrl');
+  if (!ss) return;
+  ss.querySelectorAll('img').forEach(i => i.remove());
+  ct.innerHTML = '';
+  slideIdx = 0;
+
+  SLIDESHOW_IMAGES.forEach((url, i) => {
+    const img = Object.assign(document.createElement('img'), {
+      src: url, alt: 'Labor Day ' + (YEAR - i)
+    });
+    if (i === 0) img.classList.add('active');
+    ss.insertBefore(img, ct);
+
+    const btn = document.createElement('button');
+    btn.setAttribute('aria-label', 'Slide ' + (i + 1));
+    if (i === 0) btn.classList.add('active');
+    btn.onclick = () => goSlide(i);
+    ct.appendChild(btn);
+  });
+
+  clearInterval(slideTimer);
+  slideTimer = setInterval(nextSlide, 4500);
+}
+
+function nextSlide() {
+  const imgs = document.querySelectorAll('#slideshow img');
+  const btns = document.querySelectorAll('#slideshowCtrl button');
+  if (!imgs.length) return;
+  imgs[slideIdx].classList.remove('active');
+  btns[slideIdx].classList.remove('active');
+  slideIdx = (slideIdx + 1) % imgs.length;
+  imgs[slideIdx].classList.add('active');
+  btns[slideIdx].classList.add('active');
+}
+
+function goSlide(i) {
+  const imgs = document.querySelectorAll('#slideshow img');
+  const btns = document.querySelectorAll('#slideshowCtrl button');
+  imgs[slideIdx].classList.remove('active'); btns[slideIdx].classList.remove('active');
+  slideIdx = i;
+  imgs[slideIdx].classList.add('active'); btns[slideIdx].classList.add('active');
+  clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 4500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ACCORDION
+// ═══════════════════════════════════════════════════════════
+function toggleAccordion(id) {
+  const body  = document.getElementById('ab-' + id);
+  const hdr   = document.getElementById('ah-' + id);
+  const arrow = document.getElementById('aa-' + id);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display  = isOpen ? 'none' : 'block';
+  arrow.textContent   = isOpen ? '▶' : '▼';
+  hdr.classList.toggle('open', !isOpen);
+}
+
+// ═══════════════════════════════════════════════════════════
+// FORM SUBMISSIONS
+// ═══════════════════════════════════════════════════════════
+async function handleRSVP(e) {
+  e.preventDefault();
+  const btn = document.getElementById('rsvpSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    await apiPost({
+      action:'submit', type:'rsvp',
+      name:  document.getElementById('rsvpName').value,
+      email: document.getElementById('rsvpEmail').value,
+      phone: document.getElementById('rsvpPhone').value,
+      adults:document.getElementById('rsvpAdults').value,
+      kids:  document.getElementById('rsvpKids').value,
+      arrival:       document.getElementById('rsvpArrival').value,
+      departing:     document.getElementById('rsvpDeparting').value,
+      accommodation: document.getElementById('rsvpAccommodation').value,
+      potluck:       document.getElementById('rsvpPotluck').value,
+      notes:         document.getElementById('rsvpNotes').value
+    });
+    showMsg('rsvpMsg', 'success', '✅ RSVP submitted! See you there! 🎉');
+    document.getElementById('rsvpForm').reset();
+    localStorage.removeItem('laborday_rsvpForm');
+  } catch(err) {
+    showMsg('rsvpMsg', 'error', '❌ Something went wrong. Please try again or call Lisa.');
+  }
+  btn.disabled = false; btn.textContent = 'Submit RSVP';
+}
+
+async function handleLobster(e) {
+  e.preventDefault();
+  const btn = document.getElementById('lobsterSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    await apiPost({
+      action:'submit', type:'lobster',
+      name:    document.getElementById('lobsterName').value,
+      lobsters:document.getElementById('lobsterCount').value,
+      clams:   document.getElementById('clamCount').value,
+      corn:    document.getElementById('cornCount').value
+    });
+    showMsg('lobsterMsg', 'success', '✅ Order submitted! See you at Sunday dinner! 🦞');
+    document.getElementById('lobsterForm').reset();
+    localStorage.removeItem('laborday_lobsterForm');
+  } catch(err) {
+    showMsg('lobsterMsg', 'error', '❌ Something went wrong. Please try again.');
+  }
+  btn.disabled = false; btn.textContent = 'Submit Order';
+}
+
+async function handleActivity(e) {
+  e.preventDefault();
+  const btn = document.getElementById('activitySubmitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    await apiPost({
+      action:'submit', type:'activity',
+      name:       document.getElementById('activityName').value,
+      title:      document.getElementById('activityTitle').value,
+      time:       document.getElementById('activityTime').value,
+      description:document.getElementById('activityDescription').value
+    });
+    showMsg('activityMsg', 'success', '✅ Activity submitted! People will look forward to it! 🎯');
+    document.getElementById('activityForm').reset();
+    localStorage.removeItem('laborday_activityForm');
+  } catch(err) {
+    showMsg('activityMsg', 'error', '❌ Something went wrong. Please try again.');
+  }
+  btn.disabled = false; btn.textContent = 'Submit Activity';
+}
+
+// ═══════════════════════════════════════════════════════════
+// SUPPLY CHECKLIST
+// ═══════════════════════════════════════════════════════════
+async function loadSupplyChecklist() {
+  const container = document.getElementById('supplyChecklistItems');
+  if (!container) return;
+  container.innerHTML = '<p style="color:var(--mid);text-align:center;padding:16px;">Loading items...</p>';
+
+  try {
+    const data = await apiGet({ action: 'read', type: 'supplyChecklist', year: YEAR });
+    supplyChecklistData = data.items || [];
+    renderSupplyChecklist();
+  } catch(e) {
+    container.innerHTML = '<p style="color:#721c24;text-align:center;">Error loading items. Please refresh.</p>';
+  }
+}
+
+function renderSupplyChecklist() {
+  const container = document.getElementById('supplyChecklistItems');
+  if (!container || !supplyChecklistData.length) {
+    if (container) container.innerHTML = '<p style="color:var(--mid);text-align:center;padding:16px;">No items listed yet — check back later!</p>';
+    return;
+  }
+
+  container.innerHTML = supplyChecklistData.map(item => {
+    const full    = item.remaining === 0;
+    const claimedByNames = (item.claims || []).map(c => c.name + ' (' + c.qty + ')').join(', ');
+    return `
+      <div class="sci-item${full ? ' fully-claimed' : ''}" id="sci-${item.id}" data-id="${item.id}" data-remaining="${item.remaining}">
+        <div>
+          <input type="checkbox" id="sciCb-${item.id}"
+            ${full ? 'disabled' : ''}
+            onchange="toggleSciQty('${item.id}', this.checked)">
+        </div>
+        <div>
+          <div class="sci-name">${sanitize(item.item)}</div>
+          <div class="sci-status${full ? ' covered' : ''}">
+            ${full
+              ? '✅ Fully Covered — thank you!'
+              : item.remaining + ' of ' + item.needed + ' still needed'
+                + (claimedByNames ? ' · ' + claimedByNames : '')}
+          </div>
+        </div>
+        <div class="sci-qty-wrap" id="sciQty-${item.id}">
+          <label for="sciNum-${item.id}" style="white-space:nowrap;">Qty:</label>
+          <input type="number" id="sciNum-${item.id}" class="sci-qty-input"
+            min="1" max="${item.remaining}" value="1"
+            ${full ? 'disabled' : ''}>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleSciQty(id, checked) {
+  const wrap = document.getElementById('sciQty-' + id);
+  if (wrap) wrap.classList.toggle('visible', checked);
+}
+
+async function submitSupplyClaims() {
+  const name = (document.getElementById('supplyClaimName').value || '').trim();
+  if (!name) { alert('Please enter your name before submitting.'); return; }
+
+  const customItem = (document.getElementById('supplyCustomItem').value || '').trim();
+  const selections = [];
+
+  supplyChecklistData.forEach(item => {
+    const cb  = document.getElementById('sciCb-' + item.id);
+    const num = document.getElementById('sciNum-' + item.id);
+    if (cb && cb.checked && !cb.disabled && num) {
+      const qty = parseInt(num.value) || 1;
+      if (qty > 0) selections.push({ id: item.id, qty, name: item.item });
+    }
+  });
+
+  if (!selections.length && !customItem) {
+    alert('Please select at least one item or enter a custom contribution.');
+    return;
+  }
+
+  const btn = document.getElementById('supplySubmitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  let allOk = true;
+  const errors = [];
+
+  for (const sel of selections) {
+    try {
+      const res = await apiGet({
+        action: 'claimSupply',
+        id:     sel.id,
+        name:   name,
+        qty:    sel.qty
+      });
+      if (!res.success) {
+        allOk = false;
+        errors.push(sel.name + ': ' + (res.error || 'failed'));
+      }
+    } catch(e) {
+      allOk = false; errors.push(sel.name + ': network error');
+    }
+  }
+
+  if (customItem) {
+    try {
+      await apiPost({ action: 'submit', type: 'supply', name, items: customItem });
+    } catch(e) { allOk = false; }
+  }
+
+  btn.disabled = false; btn.textContent = 'Submit Contributions';
+
+  if (allOk) {
+    showMsg('supplyClaimMsg', 'success', '✅ Thank you! Your contributions have been recorded!');
+    document.getElementById('supplyClaimName').value   = '';
+    document.getElementById('supplyCustomItem').value  = '';
+    await loadSupplyChecklist(); // Refresh
+  } else {
+    showMsg('supplyClaimMsg', 'error', '⚠️ Some items could not be claimed: ' + errors.join('; '));
+    await loadSupplyChecklist();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// DATA LOADING (INFO SECTION)
+// ═══════════════════════════════════════════════════════════
+function loadAllData() {
+  loadRSVPs();
+  loadLobsterOrders();
+  loadSupplyChecklistStatus();
+  loadSupplyContributions();
+  loadActivities();
+  loadWhatWeHave();
+}
+
+async function loadRSVPs() {
+  const tbody = document.getElementById('rsvpTableBody');
+  tbody.innerHTML = getSkeletonRows(8);
+  try {
+    const params = { action: 'read', type: 'rsvp' };
+    if (isAdmin) params.pin = adminPin;
+    const data = await apiGet(params);
+    tbody.innerHTML = '';
+
+    if (data.data?.length) {
+      data.data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowid = row.RowID;
+        tr.innerHTML = `
+          <td>${sanitize(row.Name)}</td>
+          <td>${sanitize(row.Adults)||0}</td>
+          <td>${sanitize(row.Kids)||0}</td>
+          <td>${sanitize(row.Arrival)}</td>
+          <td>${sanitize(row.Departing)}</td>
+          <td>${sanitize(row.Accommodation)}</td>
+          <td>${sanitize(row.Potluck)}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn-edit" onclick="openEditModal('rsvp','${row.RowID}',${JSON.stringify({
+              Name:row.Name, Adults:row.Adults, Kids:row.Kids,
+              Arrival:row.Arrival, Departing:row.Departing,
+              Accommodation:row.Accommodation, Potluck:row.Potluck, Notes:row.Notes
+            }).replace(/"/g,'&quot;')})">✏️ Edit</button>
+            ${isAdmin ? `<button class="btn-delete" style="display:inline-block;" onclick="confirmAdminDelete('rsvp','${row.RowID}')">🗑️</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;">No RSVPs yet — be the first!</td></tr>';
+    }
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:#721c24;">⚠️ Error loading. Please refresh.</td></tr>';
+  }
+}
+
+async function loadLobsterOrders() {
+  const tbody = document.getElementById('lobsterTableBody');
+  const totDiv= document.getElementById('lobsterTotals');
+  tbody.innerHTML = getSkeletonRows(5);
+  try {
+    const data = await apiGet({ action:'read', type:'lobster', ...(isAdmin?{pin:adminPin}:{}) });
+    tbody.innerHTML = '';
+    const totals = { lobsters:0, clams:0, corn:0 };
+
+    if (data.data?.length) {
+      data.data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowid = row.RowID;
+        tr.innerHTML = `
+          <td>${sanitize(row.Name)}</td>
+          <td>${sanitize(row.Lobsters)||0}</td>
+          <td>${sanitize(row.Clams)||0}</td>
+          <td>${sanitize(row.Corn)||0}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn-edit" onclick="openEditModal('lobster','${row.RowID}',${JSON.stringify({Name:row.Name,Lobsters:row.Lobsters,Clams:row.Clams,Corn:row.Corn}).replace(/"/g,'&quot;')})">✏️ Edit</button>
+            ${isAdmin ? `<button class="btn-delete" style="display:inline-block;" onclick="confirmAdminDelete('lobster','${row.RowID}')">🗑️</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+        totals.lobsters += parseInt(row.Lobsters)||0;
+        totals.clams    += parseInt(row.Clams)||0;
+        totals.corn     += parseInt(row.Corn)||0;
+      });
+      totDiv.innerHTML = `
+        <div class="stat-box"><span class="number">${totals.lobsters}</span><span class="label">Total Lobsters</span></div>
+        <div class="stat-box"><span class="number">${totals.clams}</span><span class="label">Total Clams (doz)</span></div>
+        <div class="stat-box"><span class="number">${totals.corn}</span><span class="label">Total Corn</span></div>
+      `;
+    } else {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;">No orders yet.</td></tr>';
+      totDiv.innerHTML = '';
+    }
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#721c24;">⚠️ Error loading.</td></tr>';
+  }
+}
+
+async function loadSupplyChecklistStatus() {
+  const tbody = document.getElementById('supplyChecklistTable');
+  tbody.innerHTML = getSkeletonRows(5);
+  try {
+    const data = await apiGet({ action:'read', type:'supplyChecklist', year:YEAR });
+    tbody.innerHTML = '';
+    const items = data.items || [];
+    if (items.length) {
+      items.forEach(item => {
+        const claimedNames = (item.claims||[]).map(c=>c.name+' ('+c.qty+')').join(', ') || '—';
+        const tr = document.createElement('tr');
+        tr.style.background = item.remaining === 0 ? '#f8fff8' : '';
+        tr.innerHTML = `
+          <td>${sanitize(item.item)}</td>
+          <td>${item.needed}</td>
+          <td>${item.claimed}</td>
+          <td style="font-weight:${item.remaining===0?'bold':'normal'};color:${item.remaining===0?'#155724':''}">
+            ${item.remaining === 0 ? '✅ Covered' : item.remaining}
+          </td>
+          <td style="font-size:.85em;">${sanitize(claimedNames)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;">No supply items listed yet.</td></tr>';
+    }
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#721c24;">⚠️ Error loading.</td></tr>';
+  }
+}
+
+async function loadSupplyContributions() {
+  const tbody = document.getElementById('supplyTableBody');
+  tbody.innerHTML = getSkeletonRows(3);
+  try {
+    const data = await apiGet({ action:'read', type:'supply', ...(isAdmin?{pin:adminPin}:{}) });
+    tbody.innerHTML = '';
+    if (data.data?.length) {
+      data.data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowid = row.RowID;
+        tr.innerHTML = `
+          <td>${sanitize(row.Name)}</td>
+          <td>${sanitize(row.Items)}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn-edit" onclick="openEditModal('supply','${row.RowID}',${JSON.stringify({Name:row.Name,Items:row.Items}).replace(/"/g,'&quot;')})">✏️ Edit</button>
+            ${isAdmin ? `<button class="btn-delete" style="display:inline-block;" onclick="confirmAdminDelete('supply','${row.RowID}')">🗑️</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:32px;">No custom contributions yet.</td></tr>';
+    }
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:#721c24;">⚠️ Error loading.</td></tr>';
+  }
+}
+
+async function loadActivities() {
+  const tbody = document.getElementById('activityTableBody');
+  tbody.innerHTML = getSkeletonRows(5);
+  try {
+    const data = await apiGet({ action:'read', type:'activity', ...(isAdmin?{pin:adminPin}:{}) });
+    tbody.innerHTML = '';
+    if (data.data?.length) {
+      data.data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowid = row.RowID;
+        tr.innerHTML = `
+          <td><strong>${sanitize(row.Title)}</strong></td>
+          <td>${sanitize(row.Name)}</td>
+          <td>${sanitize(row.Time)}</td>
+          <td>${sanitize(row.Description)}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn-edit" onclick="openEditModal('activity','${row.RowID}',${JSON.stringify({Name:row.Name,Title:row.Title,Time:row.Time,Description:row.Description}).replace(/"/g,'&quot;')})">✏️ Edit</button>
+            ${isAdmin ? `<button class="btn-delete" style="display:inline-block;" onclick="confirmAdminDelete('activity','${row.RowID}')">🗑️</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;">No activities yet — be the first to host one!</td></tr>';
+    }
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#721c24;">⚠️ Error loading.</td></tr>';
+  }
+}
+
+async function loadWhatWeHave() {
+  const container = document.getElementById('whatWeHaveList');
+  if (!container) return;
+  container.innerHTML = '<p style="color:var(--mid);">Loading...</p>';
+  try {
+    const data = await apiGet({ action:'read', type:'whatWeHave' });
+    const items = data.items || [];
+    if (items.length) {
+      container.innerHTML = '<div class="supply-list">' +
+        items.map(i => `<p>✓ ${sanitize(i.item)}</p>`).join('') +
+        '</div>';
+    } else {
+      container.innerHTML = '<p style="color:var(--mid);">List not yet configured.</p>';
+    }
+  } catch(e) {
+    container.innerHTML = '<p style="color:#721c24;">⚠️ Error loading list.</p>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EDIT MODAL (public)
+// ═══════════════════════════════════════════════════════════
+function openEditModal(type, rowId, rowData) {
+  if (typeof rowData === 'string') {
+    try { rowData = JSON.parse(rowData.replace(/&quot;/g, '"')); } catch(e) { rowData = {}; }
+  }
+  editState = { type, rowId, rowData };
+
+  const fields = {
+    rsvp: [
+      { id:'editName',          label:'Your Name (for verification) *', type:'text',   key:'Name',          note:'Must match your original submission', editable:false },
+      { id:'editAdults',        label:'Number of Adults',                type:'number', key:'Adults'         },
+      { id:'editKids',          label:'Number of Kids',                  type:'number', key:'Kids'           },
+      { id:'editArrival',       label:'Arriving',                        type:'select', key:'Arrival',
+        options:['','Friday Evening','Saturday Morning','Saturday Afternoon','Sunday','Monday'] },
+      { id:'editDeparting',     label:'Departing',                       type:'select', key:'Departing',
+        options:['','Saturday','Sunday','Monday Morning','Monday Afternoon'] },
+      { id:'editAccommodation', label:'Accommodation',                   type:'select', key:'Accommodation',
+        options:['','Tent','Camper (Reserved)','Not Staying Overnight'] },
+      { id:'editPotluck',       label:'Potluck Item',                    type:'text',   key:'Potluck'        },
+      { id:'editNotes',         label:'Notes',                           type:'textarea',key:'Notes'         }
+    ],
+    lobster: [
+      { id:'editName',     label:'Your Name (for verification) *', type:'text',   key:'Name', editable:false },
+      { id:'editLobsters', label:'Number of Lobsters',              type:'number', key:'Lobsters' },
+      { id:'editClams',    label:'Number of Clams (dozen)',          type:'number', key:'Clams'    },
+      { id:'editCorn',     label:'Number of Corn',                   type:'number', key:'Corn'     }
+    ],
+    supply: [
+      { id:'editName',  label:'Your Name (for verification) *', type:'text',     key:'Name',  editable:false },
+      { id:'editItems', label:'Items',                           type:'textarea', key:'Items' }
+    ],
+    activity: [
+      { id:'editName',        label:'Your Name (for verification) *', type:'text',     key:'Name',        editable:false },
+      { id:'editTitle',       label:'Activity Name',                   type:'text',     key:'Title'        },
+      { id:'editTime',        label:'When?',                           type:'text',     key:'Time'         },
+      { id:'editDescription', label:'Description',                     type:'textarea', key:'Description'  }
+    ]
+  };
+
+  const typeFields = fields[type] || [];
+  const title      = { rsvp:'Edit RSVP', lobster:'Edit Lobster Order', supply:'Edit Supply Contribution', activity:'Edit Activity' };
+  document.getElementById('editModalTitle').textContent = title[type] || 'Edit';
+
+  document.getElementById('editModalBody').innerHTML = `
+    <div class="info-box" style="margin-bottom:16px;background:#fff8e1;border-left-color:#ffc107;">
+      ⚠️ <strong>Note:</strong> Enter your name exactly as you submitted it to verify your identity. Your edit will be tracked.
+    </div>
+    ${typeFields.map(f => `
+      <div class="form-group">
+        <label>${sanitize(f.label)}</label>
+        ${f.type === 'select'
+          ? `<select id="${f.id}">${(f.options||[]).map(o => `<option value="${o}"${rowData[f.key]===o?' selected':''}>${o||'Select...'}</option>`).join('')}</select>`
+          : f.type === 'textarea'
+          ? `<textarea id="${f.id}">${sanitize(rowData[f.key]||'')}</textarea>`
+          : `<input type="${f.type}" id="${f.id}" value="${sanitize(rowData[f.key]||'')}">`
+        }
+        ${f.note ? `<small style="color:var(--mid);">${f.note}</small>` : ''}
+      </div>
+    `).join('')}
+  `;
+
+  document.getElementById('editModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').style.display = 'none';
+  document.body.style.overflow = '';
+  editState = {};
+}
+
+async function submitEdit() {
+  const { type, rowId } = editState;
+  if (!type || !rowId) return;
+
+  const editorName = (document.getElementById('editName')?.value || '').trim();
+  if (!editorName) { alert('Please enter your name to verify your identity.'); return; }
+
+  if (!confirm('⚠️ You are about to save changes. Your name (' + editorName + ') will be recorded with this edit. Continue?')) return;
+
+  const btn = document.getElementById('editSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Verifying...';
+
+  try {
+    // Step 1: verify owner
+    const vRes = await apiGet({ action:'verifyOwner', type, rowId, name: editorName });
+    if (!vRes.verified) {
+      alert('❌ Your name does not match the original submission. If you think this is an error, please contact the admin.');
+      btn.disabled = false; btn.textContent = 'Save Changes';
+      return;
+    }
+
+    // Step 2: collect changes
+    btn.textContent = 'Saving...';
+    const params = { action:'editRow', type, rowId, editorName };
+    const fieldMap = {
+      rsvp:     { adults:'editAdults',kids:'editKids',arrival:'editArrival',departing:'editDeparting',accommodation:'editAccommodation',potluck:'editPotluck',notes:'editNotes' },
+      lobster:  { lobsters:'editLobsters',clams:'editClams',corn:'editCorn' },
+      supply:   { items:'editItems' },
+      activity: { title:'editTitle',time:'editTime',description:'editDescription' }
     };
-
-    // =========================================================
-    // UTILITIES
-    // =========================================================
-
-    // Sanitize strings before inserting into DOM — prevents XSS
-    function sanitize(str) {
-        if (str === null || str === undefined) return '';
-        const div = document.createElement('div');
-        div.textContent = String(str);
-        return div.innerHTML;
-    }
-
-    // Skeleton loading rows for tables
-    function getSkeletonRows(cols, count = 3) {
-        return Array(count).fill(null).map(() => `
-            <tr>
-                ${Array(cols).fill(null).map(() => `
-                    <td style="padding:12px 15px;">
-                        <div class="skeleton skeleton-cell"
-                             style="width:${60 + Math.floor(Math.random() * 35)}%;">
-                        </div>
-                    </td>
-                `).join('')}
-            </tr>
-        `).join('');
-    }
-
-    // Skeleton placeholder cards for photo gallery
-    function getPhotoSkeletons(count = 6) {
-        return Array(count).fill(null)
-            .map(() => `<div class="skeleton photo-skeleton"></div>`)
-            .join('');
-    }
-
-    // =========================================================
-    // NAVIGATION
-    // =========================================================
-    function showSection(sectionId) {
-        // Hide all sections
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-
-        // Show target
-        const target = document.getElementById(sectionId);
-        if (target) target.classList.add('active');
-
-        // Sync top nav highlight
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${sectionId}`);
-        });
-
-        // Sync bottom nav highlight
-        document.querySelectorAll('.bottom-nav-link').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.section === sectionId);
-        });
-
-        // Load section-specific data
-        if (sectionId === 'info')   loadAllData();
-        if (sectionId === 'photos') loadPhotos();
-        if (sectionId === 'home')   initSlideshow();
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // =========================================================
-    // SLIDESHOW
-    // =========================================================
-    let currentSlide  = 0;
-    let slideInterval = null;
-
-    function initSlideshow() {
-        const slideshow = document.getElementById('slideshow');
-        const controls  = document.getElementById('slideshow-controls');
-        if (!slideshow || !CONFIG.slideshowImages.length) return;
-
-        // Clear existing content
-        slideshow.querySelectorAll('img').forEach(img => img.remove());
-        controls.innerHTML = '';
-        currentSlide = 0;
-
-        CONFIG.slideshowImages.forEach((url, i) => {
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = `Labor Day memory ${i + 1}`;
-            if (i === 0) img.classList.add('active');
-            slideshow.insertBefore(img, controls);
-
-            const btn = document.createElement('button');
-            btn.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            if (i === 0) btn.classList.add('active');
-            btn.onclick = () => goToSlide(i);
-            controls.appendChild(btn);
-        });
-
-        if (slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 4000);
-    }
-
-    function nextSlide() {
-        const slides  = document.querySelectorAll('#slideshow img');
-        const buttons = document.querySelectorAll('.slideshow-controls button');
-        if (!slides.length) return;
-        slides[currentSlide].classList.remove('active');
-        buttons[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-        buttons[currentSlide].classList.add('active');
-    }
-
-    function goToSlide(index) {
-        const slides  = document.querySelectorAll('#slideshow img');
-        const buttons = document.querySelectorAll('.slideshow-controls button');
-        if (!slides.length) return;
-        slides[currentSlide].classList.remove('active');
-        buttons[currentSlide].classList.remove('active');
-        currentSlide = index;
-        slides[currentSlide].classList.add('active');
-        buttons[currentSlide].classList.add('active');
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 4000);
-    }
-
-    // =========================================================
-    // COUNTDOWN TIMER
-    // =========================================================
-    function initCountdown() {
-        // ⚠️ Update this date if your arrival time changes
-        const eventDate   = new Date('2025-08-29T17:00:00');
-        const countdownEl = document.getElementById('countdown');
-        if (!countdownEl) return;
-
-        function tick() {
-            const diff = eventDate - new Date();
-
-            if (diff <= 0) {
-                countdownEl.innerHTML = `
-                    <p style="font-size:1.5em;color:var(--accent-color);font-weight:bold;">
-                        🎉 It's Labor Day Weekend! See you there!
-                    </p>`;
-                return;
-            }
-
-            const parts = [
-                { v: Math.floor(diff / 86400000),             l: 'Days'    },
-                { v: Math.floor((diff % 86400000) / 3600000), l: 'Hours'   },
-                { v: Math.floor((diff % 3600000) / 60000),    l: 'Minutes' },
-                { v: Math.floor((diff % 60000) / 1000),       l: 'Seconds' }
-            ];
-
-            countdownEl.innerHTML = parts.map(p => `
-                <div class="countdown-unit">
-                    <span class="countdown-number">${String(p.v).padStart(2, '0')}</span>
-                    <span class="countdown-label">${p.l}</span>
-                </div>
-            `).join('');
-        }
-
-        tick();
-        setInterval(tick, 1000);
-    }
-
-    // =========================================================
-    // FORM SUBMISSIONS
-    // =========================================================
-
-    document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await submitForm('rsvpScriptURL', {
-            name: document.getElementById('rsvpName').value,
-            email: document.getElementById('rsvpEmail').value,
-            phone: document.getElementById('rsvpPhone').value,
-            adults: document.getElementById('rsvpAdults').value,
-            kids: document.getElementById('rsvpKids').value,
-            arrival: document.getElementById('rsvpArrival').value,
-            departing: document.getElementById('rsvpDeparting').value,
-            accommodation: document.getElementById('rsvpAccommodation').value,
-            potluck: document.getElementById('rsvpPotluck').value,
-            notes: document.getElementById('rsvpNotes').value,
-            timestamp: new Date().toLocaleString()
-        }, 'rsvpMessage', 'rsvpForm');
+    Object.entries(fieldMap[type]||{}).forEach(([key, elId]) => {
+      const el = document.getElementById(elId);
+      if (el) params[key] = el.value;
     });
 
-    document.getElementById('lobsterForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await submitForm('lobsterScriptURL', {
-            name: document.getElementById('lobsterName').value,
-            lobsters: document.getElementById('lobsterCount').value,
-            clams: document.getElementById('clamCount').value,
-            corn: document.getElementById('cornCount').value,
-            timestamp: new Date().toLocaleString()
-        }, 'lobsterMessage', 'lobsterForm');
-    });
-
-    document.getElementById('supplyForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await submitForm('supplyScriptURL', {
-            name: document.getElementById('supplyName').value,
-            items: document.getElementById('supplyItems').value,
-            timestamp: new Date().toLocaleString()
-        }, 'supplyMessage', 'supplyForm');
-    });
-
-    document.getElementById('activityForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await submitForm('activityScriptURL', {
-            name: document.getElementById('activityName').value,
-            title: document.getElementById('activityTitle').value,
-            time: document.getElementById('activityTime').value,
-            description: document.getElementById('activityDescription').value,
-            timestamp: new Date().toLocaleString()
-        }, 'activityMessage', 'activityForm');
-    });
-
-    async function submitForm(scriptKey, formData, messageId, formId) {
-        const msgEl    = document.getElementById(messageId);
-        const btn      = document.querySelector(`#${formId} button[type="submit"]`);
-        const origText = btn.textContent;
-
-        btn.disabled    = true;
-        btn.textContent = 'Submitting...';
-
-        try {
-            await fetch(CONFIG[scriptKey], {
-                method:  'POST',
-                mode:    'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify(formData)
-            });
-
-            showMessage(msgEl, 'success', '✅ Submitted successfully! Thank you! 🎉');
-            document.getElementById(formId).reset();
-            localStorage.removeItem(`laborday_${formId}`); // Clear auto-saved draft
-
-            if (document.getElementById('info').classList.contains('active')) {
-                setTimeout(loadAllData, 1500);
-            }
-        } catch (err) {
-            console.error('Form error:', err);
-            showMessage(msgEl, 'error', '❌ Something went wrong. Please try again or call Lisa.');
-        } finally {
-            btn.disabled    = false;
-            btn.textContent = origText; // Restore original button text
-        }
+    const res = await apiGet(params);
+    if (res.success) {
+      showMsg('', 'success', '✅ Changes saved!');
+      closeEditModal();
+      setTimeout(loadAllData, 800);
+    } else {
+      alert('❌ ' + (res.error || 'Could not save changes. Please try again.'));
     }
+  } catch(e) {
+    alert('❌ Network error. Please try again.');
+  }
 
-    function showMessage(el, type, text) {
-        el.className   = `message ${type} show`;
-        el.textContent = text;
-        setTimeout(() => el.classList.remove('show'), 5000);
+  btn.disabled = false; btn.textContent = 'Save Changes';
+}
+
+// ═══════════════════════════════════════════════════════════
+// PHOTOS
+// ═══════════════════════════════════════════════════════════
+function enableUpload() {
+  const name  = (document.getElementById('uploaderName').value || '').trim();
+  const email = (document.getElementById('uploaderEmail').value || '').trim();
+  if (!name || !email) { alert('Please enter your name and email first.'); return; }
+  document.getElementById('uploaderInfoForm').style.display = 'none';
+  document.getElementById('uploadSection').style.display = 'block';
+}
+
+const uploadArea  = document.getElementById('uploadArea');
+const photoInput  = document.getElementById('photoInput');
+const uploadMsg   = document.getElementById('uploadMsg');
+
+if (uploadArea) {
+  uploadArea.addEventListener('click', () => photoInput && photoInput.click());
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+  uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.classList.remove('dragover'); handlePhotoUpload(e.dataTransfer.files); });
+}
+if (photoInput) photoInput.addEventListener('change', e => handlePhotoUpload(e.target.files));
+
+function compressImage(file, maxW = 1200, quality = 0.8) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = e => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width:w, height:h } = img;
+        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+    };
+  });
+}
+
+function updateProgress(cur, tot) {
+  const wrap  = document.getElementById('uploadProgress');
+  const bar   = document.getElementById('uploadBar');
+  const pct   = document.getElementById('uploadPct');
+  const label = document.getElementById('uploadLabel');
+  const p     = tot > 0 ? Math.round((cur/tot)*100) : 0;
+  wrap.style.display = 'block';
+  bar.style.width    = p + '%';
+  pct.textContent    = p + '%';
+  label.textContent  = cur < tot ? `Uploading photo ${cur+1} of ${tot}...` : '✅ Done!';
+  if (cur >= tot) setTimeout(() => { wrap.style.display = 'none'; bar.style.width = '0%'; }, 2500);
+}
+
+async function handlePhotoUpload(files) {
+  if (!files?.length) return;
+  const name  = (document.getElementById('uploaderName')?.value || '').trim();
+  const email = (document.getElementById('uploaderEmail')?.value || '').trim();
+  const year  = document.getElementById('photoYear')?.value || YEAR;
+  const valid = Array.from(files).filter(f => f.type.startsWith('image/'));
+  if (!valid.length) { showMsg(uploadMsg, 'error', 'Please select image files only.'); return; }
+  uploadMsg.classList.remove('show');
+  updateProgress(0, valid.length);
+  try {
+    for (let i = 0; i < valid.length; i++) {
+      const compressed = await compressImage(valid[i]);
+      await apiPost({
+        action:'uploadPhoto', year, filename:valid[i].name,
+        data:compressed.split(',')[1], mimeType:'image/jpeg',
+        uploaderName:name, uploaderEmail:email
+      });
+      updateProgress(i+1, valid.length);
     }
-
-    // =========================================================
-    // DATA LOADING
-    // =========================================================
-
-    function loadAllData() {
-        loadRSVPs();
-        loadLobsterOrders();
-        loadSupplies();
-        loadActivities();
-    }
-
-    async function loadRSVPs() {
-        const tbody = document.getElementById('rsvpTableBody');
-        tbody.innerHTML = getSkeletonRows(7); // Show skeleton while loading
-
-        if (CONFIG.rsvpScriptURL === 'YOUR_RSVP_SCRIPT_URL_HERE') {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-light);">⚙️ Backend not yet configured.</td></tr>';
-            return;
-        }
-
-        try {
-            const res  = await fetch(`${CONFIG.rsvpScriptURL}?action=read`);
-            const data = await res.json();
-            tbody.innerHTML = '';
-
-            if (data.data?.length) {
-                data.data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${sanitize(row.name)}</td>
-                        <td>${sanitize(row.adults) || 0}</td>
-                        <td>${sanitize(row.kids) || 0}</td>
-                        <td>${sanitize(row.arrival)}</td>
-                        <td>${sanitize(row.departing)}</td>
-                        <td>${sanitize(row.accommodation)}</td>
-                        <td>${sanitize(row.potluck)}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } else {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">No RSVPs yet — be the first!</td></tr>';
-            }
-        } catch (err) {
-            console.error('RSVP load error:', err);
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:#721c24;">⚠️ Error loading data. Please refresh.</td></tr>';
-        }
-    }
-
-    async function loadLobsterOrders() {
-        const tbody     = document.getElementById('lobsterTableBody');
-        const totalsDiv = document.getElementById('lobsterTotals');
-        tbody.innerHTML = getSkeletonRows(4);
-
-        if (CONFIG.lobsterScriptURL === 'YOUR_LOBSTER_SCRIPT_URL_HERE') {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--text-light);">⚙️ Backend not yet configured.</td></tr>';
-            return;
-        }
-
-        try {
-            const res  = await fetch(`${CONFIG.lobsterScriptURL}?action=read`);
-            const data = await res.json();
-            tbody.innerHTML = '';
-            const totals = { lobsters: 0, clams: 0, corn: 0 };
-
-            if (data.data?.length) {
-                data.data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${sanitize(row.name)}</td>
-                        <td>${sanitize(row.lobsters) || 0}</td>
-                        <td>${sanitize(row.clams) || 0}</td>
-                        <td>${sanitize(row.corn) || 0}</td>
-                    `;
-                    tbody.appendChild(tr);
-                    totals.lobsters += parseInt(row.lobsters) || 0;
-                    totals.clams    += parseInt(row.clams)    || 0;
-                    totals.corn     += parseInt(row.corn)     || 0;
-                });
-
-                totalsDiv.innerHTML = `
-                    <div class="stat-box"><span class="number">${totals.lobsters}</span><span class="label">Total Lobsters</span></div>
-                    <div class="stat-box"><span class="number">${totals.clams}</span><span class="label">Total Clams (doz)</span></div>
-                    <div class="stat-box"><span class="number">${totals.corn}</span><span class="label">Total Corn</span></div>
-                `;
-            } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;">No orders yet.</td></tr>';
-            }
-        } catch (err) {
-            console.error('Lobster load error:', err);
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#721c24;">⚠️ Error loading data. Please refresh.</td></tr>';
-        }
-    }
-
-    async function loadSupplies() {
-        const tbody = document.getElementById('supplyTableBody');
-        tbody.innerHTML = getSkeletonRows(2);
-
-        if (CONFIG.supplyScriptURL === 'YOUR_SUPPLY_SCRIPT_URL_HERE') {
-            tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:30px;color:var(--text-light);">⚙️ Backend not yet configured.</td></tr>';
-            return;
-        }
-
-        try {
-            const res  = await fetch(`${CONFIG.supplyScriptURL}?action=read`);
-            const data = await res.json();
-            tbody.innerHTML = '';
-
-            if (data.data?.length) {
-                data.data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${sanitize(row.name)}</td>
-                        <td>${sanitize(row.items)}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } else {
-                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:40px;">No supply contributions yet.</td></tr>';
-            }
-        } catch (err) {
-            console.error('Supply load error:', err);
-            tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:30px;color:#721c24;">⚠️ Error loading data. Please refresh.</td></tr>';
-        }
-    }
-
-    async function loadActivities() {
-        const tbody = document.getElementById('activityTableBody');
-        tbody.innerHTML = getSkeletonRows(4);
-
-        if (CONFIG.activityScriptURL === 'YOUR_ACTIVITY_SCRIPT_URL_HERE') {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--text-light);">⚙️ Backend not yet configured.</td></tr>';
-            return;
-        }
-
-        try {
-            const res  = await fetch(`${CONFIG.activityScriptURL}?action=read`);
-            const data = await res.json();
-            tbody.innerHTML = '';
-
-            if (data.data?.length) {
-                data.data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>${sanitize(row.title)}</strong></td>
-                        <td>${sanitize(row.name)}</td>
-                        <td>${sanitize(row.time)}</td>
-                        <td>${sanitize(row.description)}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;">No activities yet. Be the first to host one!</td></tr>';
-            }
-        } catch (err) {
-            console.error('Activity load error:', err);
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#721c24;">⚠️ Error loading data. Please refresh.</td></tr>';
-        }
-    }
-
-    // =========================================================
-    // PHOTO UPLOAD & GALLERY
-    // =========================================================
-
-    const uploadArea    = document.getElementById('uploadArea');
-    const photoInput    = document.getElementById('photoInput');
-    const uploadMessage = document.getElementById('uploadMessage');
-
-    uploadArea.addEventListener('click', () => photoInput.click());
-
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        handlePhotoUpload(e.dataTransfer.files);
-    });
-
-    photoInput.addEventListener('change', (e) => {
-        handlePhotoUpload(e.target.files);
-    });
-
-    // Compress image before upload — reduces file size ~80%
-    function compressImage(file, maxWidth = 1200, quality = 0.8) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let { width, height } = img;
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width  = maxWidth;
-                    }
-                    canvas.width  = width;
-                    canvas.height = height;
-                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                    const compressed = canvas.toDataURL('image/jpeg', quality);
-                    const origKB = Math.round(file.size / 1024);
-                    const compKB = Math.round((compressed.length * 0.75) / 1024);
-                    console.log(`📸 ${file.name}: ${origKB}KB → ${compKB}KB`);
-                    resolve(compressed);
-                };
-            };
-        });
-    }
-
-    // Update the progress bar during uploads
-    function updateProgress(current, total) {
-        const wrapper = document.getElementById('uploadProgress');
-        const bar     = document.getElementById('uploadProgressBar');
-        const pct     = document.getElementById('uploadProgressPercent');
-        const label   = document.getElementById('uploadProgressLabel');
-        const percent = total > 0 ? Math.round((current / total) * 100) : 0;
-
-        wrapper.style.display = 'block';
-        bar.style.width       = `${percent}%`;
-        pct.textContent       = `${percent}%`;
-        label.textContent     = current < total
-            ? `Uploading photo ${current + 1} of ${total}...`
-            : '✅ Upload complete!';
-
-        if (current >= total) {
-            setTimeout(() => {
-                wrapper.style.display = 'none';
-                bar.style.width = '0%';
-            }, 2000);
-        }
-    }
-
-    async function handlePhotoUpload(files) {
-        if (!files || !files.length) return;
-
-        if (!navigator.onLine) {
-            showMessage(uploadMessage, 'error', '📡 You\'re offline. Connect to upload photos.');
-            return;
-        }
-
-        if (CONFIG.photosScriptURL === 'YOUR_PHOTOS_SCRIPT_URL_HERE') {
-            showMessage(uploadMessage, 'error', '⚙️ Photo upload not yet configured. Set up the backend first.');
-            return;
-        }
-
-        const year       = document.getElementById('photoYear').value;
-        const validFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
-
-        if (!validFiles.length) {
-            showMessage(uploadMessage, 'error', 'Please select image files only (JPG, PNG, GIF).');
-            return;
-        }
-
-        uploadMessage.classList.remove('show');
-        updateProgress(0, validFiles.length);
-
-        try {
-            for (let i = 0; i < validFiles.length; i++) {
-                const compressed = await compressImage(validFiles[i]);
-                await fetch(CONFIG.photosScriptURL, {
-                    method: 'POST',
-                    mode:   'no-cors',
-                    body:   JSON.stringify({
-                        action:   'upload',
-                        year:     year,
-                        filename: validFiles[i].name,
-                        data:     compressed.split(',')[1],
-                        mimeType: 'image/jpeg'
-                    })
-                });
-                updateProgress(i + 1, validFiles.length);
-            }
-
-            showMessage(uploadMessage, 'success', `📸 Successfully uploaded ${validFiles.length} photo(s)!`);
-            setTimeout(loadPhotos, 2000);
-
-        } catch (err) {
-            console.error('Upload error:', err);
-            showMessage(uploadMessage, 'error', 'Upload failed. Please try again.');
-            document.getElementById('uploadProgress').style.display = 'none';
-        } finally {
-            photoInput.value = '';
-        }
-    }
-
-    async function loadPhotos() {
-        const year       = document.getElementById('photoYear').value;
-        const gallery    = document.getElementById('photoGallery');
-        const photoCount = document.getElementById('photoCount');
-
-        gallery.innerHTML      = getPhotoSkeletons(6);
-        photoCount.textContent = '';
-
-        if (CONFIG.photosScriptURL === 'YOUR_PHOTOS_SCRIPT_URL_HERE') {
-            gallery.innerHTML = '<p style="text-align:center;padding:40px;grid-column:1/-1;color:var(--text-light);">⚙️ Photo backend not yet configured.</p>';
-            return;
-        }
-
-        try {
-            const res  = await fetch(`${CONFIG.photosScriptURL}?action=read&year=${year}`);
-            const data = await res.json();
-            gallery.innerHTML = '';
-
-            if (data.photos?.length) {
-                photoCount.textContent = `(${data.photos.length} photos)`;
-                data.photos.forEach(photo => {
-                    const item = document.createElement('div');
-                    item.className = 'photo-item';
-                    // Use this.src in onclick so the URL never touches an attribute string
-                    item.innerHTML = `
-                        <img src="${photo.url}"
-                             alt="Labor Day ${year}"
-                             onclick="openLightbox(this.src)"
-                             loading="lazy">
-                        <button class="delete-btn"
-                                onclick="deletePhoto('${sanitize(photo.id)}', '${year}')"
-                                title="Delete photo">×</button>
-                    `;
-                    gallery.appendChild(item);
-                });
-            } else {
-                gallery.innerHTML = `
-                    <p style="text-align:center;padding:40px;grid-column:1/-1;color:var(--text-light);">
-                        No photos yet for ${year}. Be the first to upload! 📸
-                    </p>`;
-            }
-        } catch (err) {
-            console.error('Photo load error:', err);
-            gallery.innerHTML = '<p style="text-align:center;padding:40px;grid-column:1/-1;color:#721c24;">⚠️ Error loading photos. Please refresh.</p>';
-        }
-    }
-
-    async function deletePhoto(photoId, year) {
-        if (!confirm('Are you sure you want to delete this photo?')) return;
-        try {
-            await fetch(CONFIG.photosScriptURL, {
-                method: 'POST',
-                mode:   'no-cors',
-                body:   JSON.stringify({ action: 'delete', photoId, year })
-            });
-            setTimeout(loadPhotos, 1000);
-        } catch (err) {
-            console.error('Delete error:', err);
-            alert('Error deleting photo. Please try again.');
-        }
-    }
-
-    // =========================================================
-    // WEB SHARE API
-    // =========================================================
-    function shareApp() {
-        if (!navigator.share) return;
-        navigator.share({
-            title: 'Labor Day 2025',
-            text:  '🎉 Join us for Labor Day Weekend! RSVP and see all the details.',
-            url:   window.location.href
-        }).catch(err => console.log('Share cancelled:', err));
-    }
-
-    // =========================================================
-    // LIGHTBOX
-    // =========================================================
-    function openLightbox(src) {
-        document.getElementById('lightboxImg').src = src;
-        document.getElementById('lightbox').classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        document.getElementById('lightbox').classList.remove('show');
-        document.body.style.overflow = '';
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLightbox();
-    });
-
-    // =========================================================
-    // OFFLINE DETECTION
-    // =========================================================
-    function initOfflineDetection() {
-        const banner = document.getElementById('offlineBanner');
-
-        const update = () => {
-            banner.style.display = navigator.onLine ? 'none' : 'block';
-            // Auto-refresh data tables when connection returns
-            if (navigator.onLine && document.getElementById('info').classList.contains('active')) {
-                loadAllData();
-            }
-        };
-
-        window.addEventListener('online',  update);
-        window.addEventListener('offline', update);
-        update(); // Check immediately on load
-    }
-
-    // =========================================================
-    // FORM AUTO-SAVE (localStorage)
-    // =========================================================
-    function initFormAutoSave() {
-        const forms = {
-            rsvpForm: [
-                'rsvpName', 'rsvpEmail', 'rsvpPhone', 'rsvpAdults', 'rsvpKids',
-                'rsvpArrival', 'rsvpDeparting', 'rsvpAccommodation', 'rsvpPotluck', 'rsvpNotes'
-            ],
-            lobsterForm:  ['lobsterName', 'lobsterCount', 'clamCount', 'cornCount'],
-            supplyForm:   ['supplyName', 'supplyItems'],
-            activityForm: ['activityName', 'activityTitle', 'activityTime', 'activityDescription']
-        };
-
-        Object.entries(forms).forEach(([formId, fields]) => {
-            const key = `laborday_${formId}`;
-
-            // Restore any previously saved draft
-            try {
-                const saved = JSON.parse(localStorage.getItem(key) || '{}');
-                fields.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el && saved[id] !== undefined) el.value = saved[id];
-                });
-            } catch { localStorage.removeItem(key); }
-
-            // Save on every keystroke / selection change
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                const evt = el.tagName === 'SELECT' ? 'change' : 'input';
-                el.addEventListener(evt, () => {
-                    try {
-                        const data = JSON.parse(localStorage.getItem(key) || '{}');
-                        data[id] = el.value;
-                        localStorage.setItem(key, JSON.stringify(data));
-                    } catch { /* storage unavailable (e.g., private mode) */ }
-                });
-            });
-        });
-    }
-
-    // =========================================================
-    // INITIALIZE ON PAGE LOAD
-    // =========================================================
-    document.addEventListener('DOMContentLoaded', () => {
-        initSlideshow();
-        initCountdown();
-        initOfflineDetection();
-        initFormAutoSave();
-
-        // Show Share button only if the browser supports it
-        if (navigator.share) {
-            document.getElementById('shareBtn').style.display = 'inline-block';
-        }
-
-        // Support direct URL links to sections (e.g., shared bookmark)
-        const hash = window.location.hash.replace('#', '');
-        const valid = ['home', 'rsvp', 'photos', 'info', 'recaps'];
-        if (hash && valid.includes(hash)) showSection(hash);
-
-        if (CONFIG.rsvpScriptURL === 'YOUR_RSVP_SCRIPT_URL_HERE') {
-            console.warn('⚠️ Add your Google Apps Script URLs to CONFIG to enable backend features.');
-        }
-    });
-
-    // =========================================================
-    // SERVICE WORKER REGISTRATION
-    // ⚠️ Replace 'your-repo-name' with your actual GitHub repo name
-    // =========================================================
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/labor-day/sw.js', {
-                scope: '/labor-day/'
-            })
-            .then(reg => {
-                console.log('✅ SW registered:', reg.scope);
-
-                // Check for new version every 60 seconds
-                setInterval(() => reg.update(), 60000);
-
-                // Show banner when a new app version is ready
-                reg.addEventListener('updatefound', () => {
-                    const worker = reg.installing;
-                    worker.addEventListener('statechange', () => {
-                        if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-                            showUpdateBanner();
-                        }
-                    });
-                });
-            })
-            .catch(err => console.error('❌ SW failed:', err));
-        });
-    }
-
-    // "New version available" notification banner
-    function showUpdateBanner() {
-        if (document.getElementById('updateBanner')) return;
-        const b = document.createElement('div');
-        b.id = 'updateBanner';
-        b.style.cssText = `
-            position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
-            background:#264582;color:white;padding:14px 20px;border-radius:10px;
-            box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:9999;
-            display:flex;align-items:center;gap:12px;
-            font-family:inherit;font-size:14px;white-space:nowrap;
+    showMsg(uploadMsg, 'success', '📸 ' + valid.length + ' photo(s) submitted for review! They will appear in the gallery once approved.');
+    if (photoInput) photoInput.value = '';
+  } catch(e) {
+    showMsg(uploadMsg, 'error', '❌ Upload failed. Please try again.');
+    document.getElementById('uploadProgress').style.display = 'none';
+  }
+}
+
+async function loadPhotos() {
+  const year    = document.getElementById('photoYear')?.value || YEAR;
+  const gallery = document.getElementById('photoGallery');
+  const count   = document.getElementById('photoCount');
+  if (!gallery) return;
+  gallery.innerHTML = getPhotoSkeletons(6);
+  count.textContent = '';
+  try {
+    const data = await apiGet({ action:'read', type:'photos', year });
+    gallery.innerHTML = '';
+    if (data.photos?.length) {
+      count.textContent = '(' + data.photos.length + ' photos)';
+      data.photos.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'photo-item';
+        item.innerHTML = `
+          <img src="${p.url}" alt="Labor Day ${year}" onclick="openLightbox(this.src)" loading="lazy">
+          ${isAdmin ? `<button class="photo-del show" onclick="confirmDeletePhoto('${p.id}','${year}')" title="Delete">×</button>` : ''}
         `;
-        b.innerHTML = `
-            <span>🔄 New version available!</span>
-            <button onclick="location.reload()" style="
-                background:white;color:#264582;border:none;
-                padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:bold;">
-                Refresh
-            </button>
-            <button onclick="this.parentElement.remove()" style="
-                background:transparent;color:white;
-                border:1px solid rgba(255,255,255,.5);
-                padding:6px 10px;border-radius:6px;cursor:pointer;">✕</button>
-        `;
-        document.body.appendChild(b);
+        gallery.appendChild(item);
+      });
+    } else {
+      gallery.innerHTML = `<p style="text-align:center;padding:40px;grid-column:1/-1;color:var(--mid);">No photos yet for ${year}. Be the first to upload! 📸</p>`;
     }
+  } catch(e) {
+    gallery.innerHTML = '<p style="text-align:center;padding:40px;grid-column:1/-1;color:#721c24;">⚠️ Error loading photos.</p>';
+  }
+}
 
-    // "Add to Home Screen" install prompt (Android Chrome)
-    let deferredPrompt;
+async function confirmDeletePhoto(fileId, year) {
+  if (!confirm('Delete this photo permanently?')) return;
+  await apiPost({ action:'deleteApprovedPhoto', fileId, pin: adminPin });
+  setTimeout(() => loadPhotos(), 1200);
+}
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        setTimeout(showInstallBanner, 3000);
-    });
+// ═══════════════════════════════════════════════════════════
+// PAST YEARS
+// ═══════════════════════════════════════════════════════════
+async function loadPastYears() {
+  const container = document.getElementById('recapsContainer');
+  if (!container) return;
+  container.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mid);">Loading...</p>';
+  try {
+    const data = await apiGet({ action:'read', type:'pastYears' });
+    const years = data.years || [];
+    if (!years.length) {
+      container.innerHTML = '<p style="text-align:center;padding:40px;color:var(--mid);">No past year data yet.</p>';
+      return;
+    }
+    container.innerHTML = years.map(y => `
+      <div class="recap-card">
+        ${y.imageUrl
+          ? `<img class="recap-img" src="${y.imageUrl}" alt="Labor Day ${y.year}">`
+          : `<div class="recap-placeholder" style="background:linear-gradient(135deg,#264582,#2b346e);">
+               <span style="color:#fff;font-size:2.5em;font-weight:bold;">${sanitize(y.year)}</span>
+             </div>`
+        }
+        <div class="recap-info">
+          <h3>Labor Day ${sanitize(y.year)}</h3>
+          <div class="stats-grid">
+            <div class="stat-box"><span class="number">${sanitize(y.people)}</span><span class="label">People</span></div>
+            <div class="stat-box"><span class="number">${sanitize(y.lobsters)}</span><span class="label">Lobsters</span></div>
+            <div class="stat-box"><span class="number">${sanitize(y.clams)}</span><span class="label">Clams</span></div>
+            <div class="stat-box"><span class="number">${sanitize(y.corn)}</span><span class="label">Corn</span></div>
+          </div>
+          <p style="margin-top:12px;">${sanitize(y.description)}</p>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    container.innerHTML = '<p style="text-align:center;padding:40px;color:#721c24;">⚠️ Error loading past years.</p>';
+  }
+}
 
-    function showInstallBanner() {
-        if (window.matchMedia('(display-mode: standalone)').matches) return;
-        if (document.getElementById('installBanner')) return;
+// ═══════════════════════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════════════════════
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); closeEditModal(); } });
 
-        const b = document.createElement('div');
-        b.id = 'installBanner';
-        const small = window.innerWidth <= 768;
-        b.style.cssText = `
-            position:fixed;bottom:${small ? '70px' : '20px'};left:50%;
-            transform:translateX(-50%);
-            background:linear-gradient(135deg,#264582,#2b346e);color:white;
-            padding:14px 20px;border-radius:12px;
-            box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:9999;
-            display:flex;align-items:center;gap:12px;
-            font-family:inherit;font-size:14px;max-width:90vw;
-        `;
-        b.innerHTML = `
-            <span>📱 Add Labor Day 2025 to your home screen!</span>
-            <div style="display:flex;gap:8px;flex-shrink:0;">
-                <button id="installBtn" style="
-                    background:white;color:#264582;border:none;
-                    padding:6px 14px;border-radius:6px;
-                    cursor:pointer;font-weight:bold;">Install</button>
-                <button onclick="document.getElementById('installBanner').remove()" style="
-                    background:transparent;color:white;
-                    border:1px solid rgba(255,255,255,.5);
-                    padding:6px 10px;border-radius:6px;cursor:pointer;">✕</button>
+// ═══════════════════════════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════════════════════════
+function openAdminPanel() {
+  document.getElementById('adminPanelOverlay').style.display = 'block';
+  if (isAdmin) {
+    document.getElementById('adminPinScreen').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+  } else {
+    document.getElementById('adminPinScreen').style.display = 'block';
+    document.getElementById('adminDashboard').style.display = 'none';
+    setTimeout(() => document.getElementById('adminPinInput')?.focus(), 100);
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAdminPanel() {
+  document.getElementById('adminPanelOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function loginAdmin() {
+  const pin = document.getElementById('adminPinInput').value.trim();
+  if (!pin) return;
+  const errEl = document.getElementById('pinErrMsg');
+  errEl.classList.remove('show');
+  try {
+    const res = await apiGet({ action:'verifyPin', pin });
+    if (res.valid) {
+      adminPin = pin;
+      isAdmin  = true;
+      document.getElementById('adminPinInput').value = '';
+      document.getElementById('adminPinScreen').style.display  = 'none';
+      document.getElementById('adminDashboard').style.display  = 'block';
+      document.getElementById('adminBanner').style.display     = 'block';
+      document.getElementById('adminFab').textContent = '🔑';
+      showAdminTab('rsvps');
+    } else {
+      showMsg(errEl, 'error', '❌ Invalid PIN. Please try again.');
+    }
+  } catch(e) {
+    showMsg(errEl, 'error', '❌ Network error. Please try again.');
+  }
+}
+
+function logoutAdmin() {
+  adminPin = null; isAdmin = false;
+  document.getElementById('adminBanner').style.display = 'none';
+  document.getElementById('adminFab').textContent = '🔐';
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('adminPinScreen').style.display = 'block';
+  document.getElementById('adminPanelOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function showAdminTab(tab) {
+  document.querySelectorAll('.a-tab').forEach((t, i) => {
+    const tabs = ['rsvps','lobsters','supply','photos','years','inventory','settings'];
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  const ac = document.getElementById('adminContent');
+  ac.innerHTML = '<p style="text-align:center;padding:30px;color:var(--mid);">Loading...</p>';
+  switch(tab) {
+    case 'rsvps':     loadAdminRSVPs();     break;
+    case 'lobsters':  loadAdminLobsters();  break;
+    case 'supply':    loadAdminSupply();    break;
+    case 'photos':    loadAdminPhotos();    break;
+    case 'years':     loadAdminYears();     break;
+    case 'inventory': loadAdminInventory(); break;
+    case 'settings':  loadAdminSettings(); break;
+  }
+}
+
+async function loadAdminRSVPs() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data = await apiGet({ action:'read', type:'rsvp', pin:adminPin });
+    const rows = data.data || [];
+    ac.innerHTML = `
+      <h3 class="admin-section-title">👥 All RSVPs (${rows.length})</h3>
+      <button class="btn btn-sm" onclick="downloadCSV('adminRsvpTbl','rsvps_${YEAR}.csv')" style="margin-bottom:12px;">📥 Download CSV</button>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="adminRsvpTbl">
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Adults</th><th>Kids</th><th>Arriving</th><th>Departing</th><th>Accommodation</th><th>Potluck</th><th>Notes</th><th>Edited By</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td>${sanitize(r.Name)}</td>
+                <td>${sanitize(r.Email)}</td>
+                <td>${sanitize(r.Phone)}</td>
+                <td>${sanitize(r.Adults)}</td>
+                <td>${sanitize(r.Kids)}</td>
+                <td>${sanitize(r.Arrival)}</td>
+                <td>${sanitize(r.Departing)}</td>
+                <td>${sanitize(r.Accommodation)}</td>
+                <td>${sanitize(r.Potluck)}</td>
+                <td>${sanitize(r.Notes)}</td>
+                <td style="font-size:.8em;">${sanitize(r.EditedBy)}</td>
+                <td class="admin-row-actions">
+                  <button class="a-btn-del" onclick="confirmAdminDelete('rsvp','${r.RowID}')">🗑️ Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading RSVPs.</p>'; }
+}
+
+async function loadAdminLobsters() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data = await apiGet({ action:'read', type:'lobster', pin:adminPin });
+    const rows = data.data || [];
+    ac.innerHTML = `
+      <h3 class="admin-section-title">🦞 All Lobster Orders (${rows.length})</h3>
+      <button class="btn btn-sm" onclick="downloadCSV('adminLobTbl','lobster_${YEAR}.csv')" style="margin-bottom:12px;">📥 Download CSV</button>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="adminLobTbl">
+          <thead><tr><th>Name</th><th>Lobsters</th><th>Clams (doz)</th><th>Corn</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td>${sanitize(r.Name)}</td>
+                <td>${sanitize(r.Lobsters)}</td>
+                <td>${sanitize(r.Clams)}</td>
+                <td>${sanitize(r.Corn)}</td>
+                <td><button class="a-btn-del" onclick="confirmAdminDelete('lobster','${r.RowID}')">🗑️ Delete</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading orders.</p>'; }
+}
+
+async function loadAdminSupply() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data = await apiGet({ action:'read', type:'supplyChecklist', year:YEAR });
+    const items = data.items || [];
+    ac.innerHTML = `
+      <h3 class="admin-section-title">📦 Supply Checklist Manager — ${YEAR}</h3>
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn btn-sm" onclick="adminAddSupplyItem()">+ Add Item</button>
+        <button class="btn btn-sm" style="background:#dc3545;" onclick="adminResetSupplyYear()">↺ Reset All Claims for ${YEAR}</button>
+      </div>
+      <div id="adminSupplyList">
+        ${items.length ? items.map(i => `
+          <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;" id="asli-${i.id}">
+            <div>
+              <strong>${sanitize(i.item)}</strong>
+              <span style="font-size:.85em;color:var(--mid);margin-left:8px;">${i.claimed}/${i.needed} claimed</span>
             </div>
-        `;
-        document.body.appendChild(b);
+            <input type="number" id="asn-${i.id}" value="${i.needed}" min="1" style="width:65px;padding:5px;border:1px solid var(--border);border-radius:5px;">
+            <button class="a-btn-edit" onclick="adminUpdateSupplyItem('${i.id}')">Save Qty</button>
+            <button class="a-btn-del"  onclick="adminDeleteSupplyItem('${i.id}')">Delete</button>
+          </div>
+        `).join('') : '<p style="color:var(--mid);">No items yet. Add one above!</p>'}
+      </div>
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading supply list.</p>'; }
+}
 
-        document.getElementById('installBtn').addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log('Install outcome:', outcome);
-            deferredPrompt = null;
-            b.remove();
-        });
+function adminAddSupplyItem() {
+  const item = prompt('Enter the item name (e.g., "Paper Plates"):');
+  if (!item?.trim()) return;
+  const qty = parseInt(prompt('How many are needed?', '1')) || 1;
+  adminPost({ action:'addSupplyItem', item:item.trim(), needed:qty, year:YEAR },
+            () => loadAdminSupply());
+}
+
+function adminUpdateSupplyItem(id) {
+  const qty = parseInt(document.getElementById('asn-' + id)?.value) || 1;
+  adminPost({ action:'updateSupplyItem', id, needed:qty }, () => loadAdminSupply());
+}
+
+function adminDeleteSupplyItem(id) {
+  if (!confirm('Delete this supply item? All claims will be lost.')) return;
+  adminPost({ action:'deleteSupplyItem', id }, () => loadAdminSupply());
+}
+
+function adminResetSupplyYear() {
+  if (!confirm(`Reset ALL claim data for ${YEAR}? The item list stays but all "claimed by" info is erased.`)) return;
+  adminPost({ action:'resetSupplyYear', year:YEAR }, () => loadAdminSupply(), 2000);
+}
+
+async function loadAdminPhotos() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data = await apiGet({ action:'read', type:'pendingPhotos', pin:adminPin });
+    const photos = data.photos || [];
+    let folderLinks = '';
+    for (let y = YEAR; y >= 2022; y--) {
+      folderLinks += `<button class="btn btn-sm" onclick="openPhotoFolder(${y})" style="margin:2px;">${y} Folder 📂</button>`;
     }
+    ac.innerHTML = `
+      <h3 class="admin-section-title">📸 Photo Manager</h3>
+      <div style="margin-bottom:20px;">
+        <strong>Download Photos by Year (opens Google Drive folder):</strong><br>
+        <div style="margin-top:8px;">${folderLinks}</div>
+      </div>
+      <h4 style="color:var(--mid);margin-bottom:12px;">Pending Approval (${photos.length})</h4>
+      ${photos.length === 0
+        ? '<p style="color:var(--mid);text-align:center;padding:24px;">No pending photos ✅</p>'
+        : `<div class="photo-pending-grid">
+            ${photos.map(p => `
+              <div class="photo-pending-card">
+                <img src="${p.previewUrl}" alt="Pending photo" onerror="this.src='https://via.placeholder.com/220x180/ccc/666?text=Preview'">
+                <div class="photo-pending-info">
+                  <div><strong>${sanitize(p.uploaderName)}</strong></div>
+                  <div style="color:var(--mid);">${sanitize(p.uploaderEmail)}</div>
+                  <div style="color:var(--mid);font-size:.8em;">Year: ${p.year} · ${p.timestamp}</div>
+                  <div style="font-size:.85em;">${sanitize(p.fileName)}</div>
+                </div>
+                <div class="photo-pending-actions">
+                  <button class="a-btn-approve" onclick="adminApprovePhoto('${p.id}')">✓ Approve</button>
+                  <button class="a-btn-reject"  onclick="adminRejectPhoto('${p.id}')">✗ Reject</button>
+                </div>
+              </div>
+            `).join('')}
+           </div>`
+      }
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading photos.</p>'; }
+}
 
-    window.addEventListener('appinstalled', () => {
-        console.log('✅ App installed!');
-        const b = document.getElementById('installBanner');
-        if (b) b.remove();
-        deferredPrompt = null;
+async function openPhotoFolder(year) {
+  const res = await apiGet({ action:'folderUrl', year, pin:adminPin });
+  if (res.success) window.open(res.url, '_blank');
+  else alert('Could not get folder URL: ' + res.error);
+}
+
+function adminApprovePhoto(id) {
+  adminPost({ action:'approvePhoto', id }, () => loadAdminPhotos());
+}
+function adminRejectPhoto(id) {
+  if (!confirm('Reject and delete this photo?')) return;
+  adminPost({ action:'rejectPhoto', id }, () => loadAdminPhotos());
+}
+
+async function loadAdminYears() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data = await apiGet({ action:'read', type:'pastYears' });
+    const years = data.years || [];
+    ac.innerHTML = `
+      <h3 class="admin-section-title">🏖️ Past Years Manager</h3>
+      <button class="btn btn-sm" onclick="adminShowYearForm()" style="margin-bottom:16px;">+ Add / Edit Year</button>
+      <div id="adminYearForm" style="display:none;background:#f8f9fa;padding:18px;border-radius:10px;margin-bottom:16px;">
+        <h4 style="margin-bottom:12px;">Year Entry Form</h4>
+        <div class="year-form-grid">
+          <div class="form-group"><label>Year *</label><input type="number" id="ayr-year" value="${YEAR}" min="2000" max="2100"></div>
+          <div class="form-group"><label>People</label><input type="text" id="ayr-people" placeholder="e.g., ~90"></div>
+          <div class="form-group"><label>Lobsters</label><input type="text" id="ayr-lobsters" placeholder="e.g., 64"></div>
+          <div class="form-group"><label>Clams</label><input type="text" id="ayr-clams" placeholder="e.g., 39"></div>
+          <div class="form-group"><label>Corn</label><input type="text" id="ayr-corn" placeholder="e.g., 71"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea id="ayr-desc" placeholder="A short description of the year..."></textarea></div>
+        <div class="form-group">
+          <label>Year Photo</label>
+          <input type="file" id="ayr-img" accept="image/*">
+          <small style="color:var(--mid);">Upload a photo for this year's recap card.</small>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-sm" onclick="adminSaveYear()">💾 Save Year</button>
+          <button class="btn btn-sm" style="background:#999;" onclick="document.getElementById('adminYearForm').style.display='none'">Cancel</button>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Year</th><th>People</th><th>Lobsters</th><th>Description</th><th>Image</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${years.map(y => `
+            <tr>
+              <td><strong>${sanitize(y.year)}</strong></td>
+              <td>${sanitize(y.people)}</td>
+              <td>${sanitize(y.lobsters)}</td>
+              <td style="font-size:.85em;">${sanitize(y.description).substring(0,60)}…</td>
+              <td>${y.imageUrl ? `<img src="${y.imageUrl}" style="height:40px;border-radius:4px;">` : '—'}</td>
+              <td class="admin-row-actions">
+                <button class="a-btn-edit" onclick="adminEditYearForm('${sanitize(y.year)}',${JSON.stringify(y).replace(/"/g,'&quot;')})">✏️ Edit</button>
+                <button class="a-btn-del"  onclick="adminDeleteYear('${sanitize(y.year)}')">🗑️</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading years.</p>'; }
+}
+
+function adminShowYearForm() {
+  document.getElementById('adminYearForm').style.display = 'block';
+  ['year','people','lobsters','clams','corn','desc'].forEach(f => {
+    const el = document.getElementById('ayr-'+f);
+    if (el) el.value = f === 'year' ? YEAR : '';
+  });
+}
+
+function adminEditYearForm(year, data) {
+  if (typeof data === 'string') try { data = JSON.parse(data.replace(/&quot;/g,'"')); } catch(e){ data={}; }
+  document.getElementById('adminYearForm').style.display = 'block';
+  document.getElementById('ayr-year').value     = data.year || year;
+  document.getElementById('ayr-people').value   = data.people || '';
+  document.getElementById('ayr-lobsters').value = data.lobsters || '';
+  document.getElementById('ayr-clams').value    = data.clams || '';
+  document.getElementById('ayr-corn').value     = data.corn || '';
+  document.getElementById('ayr-desc').value     = data.description || '';
+  document.getElementById('adminYearForm').scrollIntoView({ behavior:'smooth' });
+}
+
+async function adminSaveYear() {
+  const year = document.getElementById('ayr-year').value.trim();
+  if (!year) { alert('Year is required.'); return; }
+
+  let imageFileId = '', imageUrl = '';
+  const imgFile = document.getElementById('ayr-img')?.files[0];
+  if (imgFile) {
+    const compressed = await compressImage(imgFile);
+    try {
+      const res = await new Promise((resolve, reject) => {
+        // Use fetch with mode: no-cors, then poll
+        apiPost({
+          action: 'uploadYearImage', year,
+          data: compressed.split(',')[1], mimeType:'image/jpeg', pin: adminPin
+        });
+        // Since no-cors, we can't read the response directly
+        // Use a GET workaround: won't have fileId immediately
+        // For now show success and reload
+        resolve({ success: true });
+      });
+    } catch(e) {}
+  }
+
+  await apiPost({
+    action: 'savePastYear', pin: adminPin, year,
+    people:      document.getElementById('ayr-people').value,
+    lobsters:    document.getElementById('ayr-lobsters').value,
+    clams:       document.getElementById('ayr-clams').value,
+    corn:        document.getElementById('ayr-corn').value,
+    description: document.getElementById('ayr-desc').value,
+    imageFileId, imageUrl
+  });
+
+  document.getElementById('adminYearForm').style.display = 'none';
+  setTimeout(() => loadAdminYears(), 1500);
+  alert('✅ Year saved! If you uploaded an image, it will appear shortly.');
+}
+
+function adminDeleteYear(year) {
+  if (!confirm('Delete ' + year + ' from past years?')) return;
+  adminPost({ action:'deletePastYear', year }, () => loadAdminYears());
+}
+
+async function loadAdminInventory() {
+  const ac = document.getElementById('adminContent');
+  try {
+    const data  = await apiGet({ action:'read', type:'whatWeHave' });
+    const items = data.items || [];
+    ac.innerHTML = `
+      <h3 class="admin-section-title">🏠 What We Have at the House</h3>
+      <p style="color:var(--mid);margin-bottom:16px;">Edit items below. Click "Save All" when done.</p>
+      <div id="invItems">
+        ${items.map(i => `
+          <div class="inv-item" data-id="${i.id}">
+            <input type="text" class="inv-input" value="${sanitize(i.item)}" placeholder="Item description">
+            <button class="inv-remove" onclick="this.closest('.inv-item').remove()" title="Remove">×</button>
+          </div>
+        `).join('')}
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <button class="btn btn-sm" onclick="adminAddInventoryItem()">+ Add Item</button>
+        <button class="btn btn-accent btn-sm" onclick="adminSaveInventory()">💾 Save All Changes</button>
+      </div>
+      <div id="invMsg" class="msg" style="margin-top:12px;"></div>
+    `;
+  } catch(e) { ac.innerHTML = '<p style="color:#721c24;">Error loading inventory.</p>'; }
+}
+
+function adminAddInventoryItem() {
+  const div = document.createElement('div');
+  div.className = 'inv-item';
+  div.dataset.id = 'new_' + Date.now();
+  div.innerHTML = `
+    <input type="text" class="inv-input" placeholder="New item description">
+    <button class="inv-remove" onclick="this.closest('.inv-item').remove()">×</button>
+  `;
+  document.getElementById('invItems')?.appendChild(div);
+}
+
+async function adminSaveInventory() {
+  const items = [];
+  document.querySelectorAll('.inv-item').forEach(div => {
+    const val = div.querySelector('.inv-input')?.value.trim();
+    if (val) items.push({ id: div.dataset.id || ('new_'+Date.now()), item: val });
+  });
+  await apiPost({ action:'saveWhatWeHave', items, pin: adminPin });
+  setTimeout(() => {
+    showMsg('invMsg', 'success', '✅ Inventory saved!');
+    loadWhatWeHave(); // Refresh public view too
+  }, 1200);
+}
+
+function loadAdminSettings() {
+  const ac = document.getElementById('adminContent');
+  ac.innerHTML = `
+    <h3 class="admin-section-title">⚙️ Settings</h3>
+
+    <!-- Change PIN -->
+    <div style="background:#f8f9fa;padding:18px;border-radius:10px;margin-bottom:20px;">
+      <h4 style="margin-bottom:12px;">🔑 Change Admin PIN</h4>
+      <div class="form-group"><label>Current PIN</label><input type="password" id="sPinOld" placeholder="Current PIN"></div>
+      <div class="form-group"><label>New PIN (min 4 characters)</label><input type="password" id="sPinNew" placeholder="New PIN"></div>
+      <div class="form-group"><label>Confirm New PIN</label><input type="password" id="sPinConf" placeholder="Confirm"></div>
+      <button class="btn btn-sm" onclick="adminChangePin()">Change PIN</button>
+      <div id="pinChangeMsg" class="msg" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Backup & Reset -->
+    <div style="background:#fff8e1;padding:18px;border-radius:10px;border-left:5px solid #ffc107;margin-bottom:20px;">
+      <h4 style="margin-bottom:10px;">📦 Backup & Reset</h4>
+      <p style="margin-bottom:12px;">Creates a backup of all current data, then clears all lists for the new year. <strong>This cannot be undone.</strong></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <div class="form-group" style="margin:0;flex:1;min-width:140px;">
+          <label>Backup Year</label>
+          <input type="number" id="sBackupYear" value="${YEAR}" min="2020" max="2099" style="max-width:120px;">
+        </div>
+        <div class="form-group" style="margin:0;flex:1;min-width:140px;">
+          <label>New Year</label>
+          <input type="number" id="sNewYear" value="${YEAR+1}" min="2020" max="2099" style="max-width:120px;">
+        </div>
+      </div>
+      <button class="btn btn-sm" style="background:#dc3545;" onclick="adminBackupReset()">⚠️ Backup & Reset Now</button>
+      <div id="backupMsg" class="msg" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Photo Folders -->
+    <div style="background:#f8f9fa;padding:18px;border-radius:10px;">
+      <h4 style="margin-bottom:10px;">📁 Photo Folder Links</h4>
+      <p style="font-size:.9em;color:var(--mid);margin-bottom:12px;">Click to open the Google Drive folder for each year. You can download the entire folder as a ZIP from Drive.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        ${[YEAR,YEAR-1,YEAR-2,YEAR-3].map(y => `<button class="btn btn-sm" onclick="openPhotoFolder(${y})">${y} 📂</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+async function adminChangePin() {
+  const oldPin = document.getElementById('sPinOld').value.trim();
+  const newPin = document.getElementById('sPinNew').value.trim();
+  const confPin= document.getElementById('sPinConf').value.trim();
+  const msgEl  = document.getElementById('pinChangeMsg');
+
+  if (!oldPin || !newPin) { showMsg(msgEl, 'error', 'Please fill in all fields.'); return; }
+  if (newPin !== confPin) { showMsg(msgEl, 'error', '❌ New PINs do not match.'); return; }
+  if (newPin.length < 4)  { showMsg(msgEl, 'error', '❌ PIN must be at least 4 characters.'); return; }
+  if (oldPin !== adminPin){ showMsg(msgEl, 'error', '❌ Current PIN is incorrect.'); return; }
+
+  try {
+    const res = await apiGet({ action:'changePin', pin:oldPin, newPin });
+    if (res.success) {
+      adminPin = newPin;
+      showMsg(msgEl, 'success', '✅ PIN changed successfully! Your new PIN is active.');
+      ['sPinOld','sPinNew','sPinConf'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    } else {
+      showMsg(msgEl, 'error', '❌ ' + (res.error || 'Failed to change PIN.'));
+    }
+  } catch(e) {
+    showMsg(msgEl, 'error', '❌ Network error. Please try again.');
+  }
+}
+
+async function adminBackupReset() {
+  const backupYear = document.getElementById('sBackupYear')?.value || YEAR;
+  const newYear    = document.getElementById('sNewYear')?.value || (YEAR + 1);
+  const msgEl      = document.getElementById('backupMsg');
+
+  if (!confirm(`⚠️ FINAL WARNING\n\nThis will:\n1. Back up all ${backupYear} data to backup sheets\n2. Clear all active lists\n3. Set current year to ${newYear}\n\nThis cannot be undone. Continue?`)) return;
+
+  showMsg(msgEl, 'info', '🔄 Backing up and resetting... please wait...');
+  await apiPost({ action:'backupReset', backupYear, newYear, pin:adminPin });
+  setTimeout(() => {
+    showMsg(msgEl, 'success', `✅ Done! Year ${backupYear} backed up. App is now configured for ${newYear}.`);
+  }, 3000);
+}
+
+function confirmAdminDelete(type, rowId) {
+  if (!confirm('⚠️ Delete this entry permanently? This cannot be undone.')) return;
+  adminPost({ action:'deleteRow', type, rowId }, () => {
+    loadAllData();
+    if (document.getElementById('adminPanelOverlay').style.display === 'block') {
+      showAdminTab(type === 'rsvp' ? 'rsvps' : type === 'lobster' ? 'lobsters' : type);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// SHARE API
+// ═══════════════════════════════════════════════════════════
+function shareApp() {
+  if (!navigator.share) return;
+  navigator.share({ title:'Labor Day '+YEAR, text:'🎉 Join us for Labor Day!', url:location.href })
+    .catch(() => {});
+}
+
+// ═══════════════════════════════════════════════════════════
+// OFFLINE DETECTION
+// ═══════════════════════════════════════════════════════════
+function initOffline() {
+  const banner = document.getElementById('offlineBanner');
+  const update = () => {
+    banner.style.display = navigator.onLine ? 'none' : 'block';
+    if (navigator.onLine && document.getElementById('info').classList.contains('active')) loadAllData();
+  };
+  window.addEventListener('online', update);
+  window.addEventListener('offline', update);
+  update();
+}
+
+// ═══════════════════════════════════════════════════════════
+// FORM AUTO-SAVE
+// ═══════════════════════════════════════════════════════════
+function initAutoSave() {
+  const forms = {
+    rsvpForm:     ['rsvpName','rsvpEmail','rsvpPhone','rsvpAdults','rsvpKids','rsvpArrival','rsvpDeparting','rsvpAccommodation','rsvpPotluck','rsvpNotes'],
+    lobsterForm:  ['lobsterName','lobsterCount','clamCount','cornCount'],
+    activityForm: ['activityName','activityTitle','activityTime','activityDescription']
+  };
+  Object.entries(forms).forEach(([fid, fields]) => {
+    const key = 'laborday_' + fid;
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || '{}');
+      fields.forEach(id => { const el=document.getElementById(id); if(el&&saved[id]!=null) el.value=saved[id]; });
+    } catch(e) { localStorage.removeItem(key); }
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener(el.tagName==='SELECT'?'change':'input', () => {
+        try { const d=JSON.parse(localStorage.getItem(key)||'{}'); d[id]=el.value; localStorage.setItem(key,JSON.stringify(d)); } catch(e){}
+      });
     });
-    </script>
+  });
+}
 
+// ═══════════════════════════════════════════════════════════
+// SERVICE WORKER
+// ═══════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/labor-day/sw.js', { scope:'/labor-day/' })
+      .then(reg => {
+        setInterval(() => reg.update(), 60000);
+        reg.addEventListener('updatefound', () => {
+          const w = reg.installing;
+          w.addEventListener('statechange', () => {
+            if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner();
+          });
+        });
+      }).catch(e => console.log('SW:', e));
+  });
+}
+
+function showUpdateBanner() {
+  if (document.getElementById('updBanner')) return;
+  const b = document.createElement('div');
+  b.id = 'updBanner';
+  b.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#264582;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:9999;display:flex;align-items:center;gap:10px;font-family:inherit;font-size:14px;white-space:nowrap;';
+  b.innerHTML = '<span>🔄 New version available!</span><button onclick="location.reload()" style="background:#fff;color:#264582;border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:bold;">Refresh</button><button onclick="this.parentElement.remove()" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);padding:5px 9px;border-radius:5px;cursor:pointer;">✕</button>';
+  document.body.appendChild(b);
+}
+
+let deferredInstall;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredInstall = e;
+  setTimeout(() => {
+    if (window.matchMedia('(display-mode:standalone)').matches) return;
+    const b = document.createElement('div');
+    b.id = 'instBanner';
+    const mob = window.innerWidth <= 768;
+    b.style.cssText = `position:fixed;bottom:${mob?'70px':'18px'};left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#264582,#2b346e);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:9998;display:flex;align-items:center;gap:10px;font-family:inherit;font-size:13px;max-width:92vw;`;
+    b.innerHTML = '<span>📱 Add Labor Day to your home screen!</span><div style="display:flex;gap:6px;flex-shrink:0;"><button id="instBtn" style="background:#fff;color:#264582;border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:bold;">Install</button><button onclick="this.parentElement.parentElement.remove()" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);padding:5px 8px;border-radius:5px;cursor:pointer;">✕</button></div>';
+    document.body.appendChild(b);
+    document.getElementById('instBtn').addEventListener('click', async () => {
+      if (!deferredInstall) return;
+      deferredInstall.prompt();
+      await deferredInstall.userChoice;
+      deferredInstall = null; b.remove();
+    });
+  }, 4000);
+});
+window.addEventListener('appinstalled', () => { const b=document.getElementById('instBanner'); if(b) b.remove(); });
+
+// ═══════════════════════════════════════════════════════════
+// INITIALIZE
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  initYearDisplays();
+  initSlideshow();
+  initOffline();
+  initAutoSave();
+  buildYearSelector();
+
+  if (navigator.share) document.getElementById('shareBtn').style.display = 'inline-block';
+
+  // Handle URL hash navigation
+  const hash = window.location.hash.replace('#','');
+  if (['home','rsvp','photos','info','recaps'].includes(hash)) showSection(hash);
+});
+</script>
 </body>
 </html>
