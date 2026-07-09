@@ -961,11 +961,29 @@ function setHomeCache(settings) {
   } catch(e){}
 }
 
+// Fields that allow basic HTML formatting (<strong>, <em>, <br>)
+const HTML_ALLOWED = ['home_venmo_body', 'home_welcome_text', 'home_welcome_subtext'];
+
 function populateHomeContent(settings) {
-  // Populate text elements
   Object.entries(HC_TEXT_MAP).forEach(([key, elId]) => {
     const el = document.getElementById(elId);
-    if (el) el.textContent = settings[key] || HC_DEFAULTS[key] || '';
+    if (!el) return;
+    const value = settings[key] || HC_DEFAULTS[key] || '';
+
+    if (HTML_ALLOWED.includes(key)) {
+      // Allow safe formatting tags only
+      el.innerHTML = value
+        .replace(/&/g, '&amp;')          // Escape ampersands first
+        .replace(/</g, '&lt;')           // Escape all HTML
+        .replace(/>/g, '&gt;')
+        .replace(/&lt;strong&gt;/g, '<strong>')   // Re-allow <strong>
+        .replace(/&lt;\/strong&gt;/g, '</strong>')
+        .replace(/&lt;em&gt;/g, '<em>')            // Re-allow <em>
+        .replace(/&lt;\/em&gt;/g, '</em>')
+        .replace(/\n/g, '<br>');         // Line breaks
+    } else {
+      el.textContent = value;
+    }
   });
 
   // Special: link elements
