@@ -605,8 +605,8 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
         </div>
         <label class="drop-zone" id="drop-zone" for="ph-file">
           <div class="drop-icon">📤</div>
-          <div class="drop-text">Click or Drag Photos Here<br><small style="color:var(--text3)">Auto-compressed for fast uploads</small></div>
-          <input type="file" id="ph-file" accept="image/*" style="display:none" onchange="handlePhotoFile(this)">
+          <div class="drop-text">Click or Drag Photos Here<br><small style="color:var(--text3)">Select multiple photos at once — auto-compressed for fast uploads</small></div>
+          <input type="file" id="ph-file" accept="image/*" multiple style="display:none" onchange="handlePhotoFiles(this)">
         </label>
         <div class="upload-prog" id="upload-prog">
           <div style="display:flex;justify-content:space-between;font-size:.79rem;margin-bottom:.2rem">
@@ -899,7 +899,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(dz){
     dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
     dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-    dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)processPhoto(f);});
+    dz.addEventListener('drop',e=>{
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+  if(files.length) processPhotoQueue(files);
+});
   }
 });
 function initOffline(){
@@ -1196,33 +1201,88 @@ function photoStepBack(){
   document.getElementById('ph-step2').classList.remove('active');
   document.getElementById('ph-step1').classList.add('active');
 }
-function handlePhotoFile(input){ const f=input.files[0]; if(f) processPhoto(f); }
-function processPhoto(file){
+function handlePhotoFiles(input){
+  const files=Array.from(input.files||[]);
+  if(!files.length) return;
+  processPhotoQueue(files);
+}
+function processPhotoQueue(files){
   const name=document.getElementById('ph-name').value.trim();
   const email=document.getElementById('ph-email').value.trim();
   if(!name){ photoStepBack(); toast('Please enter your name first.','error'); return; }
-  if(file.size>12*1024*1024){ toast('Photo too large (max 12 MB).','error'); return; }
+
+  // Filter oversized files
+  const valid=files.filter(f=>{
+    if(f.size>12*1024*1024){ toast(f.name+' is too large (max 12 MB) — skipped.','error'); return false; }
+    return true;
+  });
+  if(!valid.length) return;
+
+  const year=document.getElementById('ph-year').value;
+  const total=valid.length;
+  let completed=0, succeeded=0, failed=0;
+
+  // Show progress
   const prog=document.getElementById('upload-prog');
   const fill=document.getElementById('prog-fill');
   const pct=document.getElementById('upload-pct');
   const stat=document.getElementById('upload-status');
-  prog.style.display='block'; stat.textContent='Uploading…'; pct.textContent='0%'; fill.style.width='0';
-  let fp=0;
-  const fi=setInterval(()=>{ fp=Math.min(fp+Math.random()*10,80); fill.style.width=fp+'%'; pct.textContent=Math.round(fp)+'%'; },300);
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const year=document.getElementById('ph-year').value;
-    callPost({action:'uploadPhoto',data:ev.target.result.split(',')[1],year,
-      filename:file.name,mimeType:file.type,uploaderName:name,uploaderEmail:email},resp=>{
-      clearInterval(fi); fill.style.width='100%'; pct.textContent='100%';
-      stat.textContent=resp&&resp.success?'Upload complete! ✅':'Upload failed ❌';
-      setTimeout(()=>{ prog.style.display='none'; fill.style.width='0'; },2500);
-      if(resp&&resp.success){ toast('Photo uploaded! 📸','success'); document.getElementById('ph-file').value=''; loadPhotos(); }
-      else toast((resp&&resp.error)||'Upload failed.','error');
-    });
-  };
-  reader.readAsDataURL(file);
+  prog.style.display='block';
+  fill.style.width='0';
+  pct.textContent='0%';
+  stat.textContent='Uploading 1 of '+total+'…';
+
+  function updateProgress(){
+    const p=Math.round((completed/total)*100);
+    fill.style.width=p+'%';
+    pct.textContent=p+'%';
+    if(completed<total){
+      stat.textContent='Uploading '+(completed+1)+' of '+total+'…';
+    } else {
+      stat.textContent=succeeded+' uploaded'+( failed>0?' ('+failed+' failed)':'')+' ✅';
+      setTimeout(()=>{ prog.style.display='none'; fill.style.width='0'; },3000);
+      if(succeeded>0){
+        toast(succeeded+' photo'+(succeeded>1?'s':'')+' uploaded! 📸','success');
+        document.getElementById('ph-file').value='';
+        loadPhotos();
+      }
+    }
+  }
+
+  // Upload files sequentially to avoid overwhelming Apps Script
+  function uploadNext(index){
+    if(index>=valid.length){ updateProgress(); return; }
+    const file=valid[index];
+    stat.textContent='Uploading '+(index+1)+' of '+total+': '+file.name;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      callPost({
+        action:'uploadPhoto',
+        data:ev.target.result.split(',')[1],
+        year, filename:file.name,
+        mimeType:file.type,
+        uploaderName:name,
+        uploaderEmail:email
+      },resp=>{
+        completed++;
+        if(resp&&resp.success) succeeded++;
+        else{
+          failed++;
+          toast('Failed to upload '+file.name+(resp&&resp.error?' — '+resp.error:''),'error');
+        }
+        updateProgress();
+        // Small delay between uploads to avoid Apps Script rate limits
+        setTimeout(()=>uploadNext(index+1), 800);
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadNext(0);
 }
+
+// Keep processPhoto as an alias for drag/drop single file
+function processPhoto(file){ processPhotoQueue([file]); }
 function loadPhotos(){
   const c=document.getElementById('photo-gallery');
   if(c) c.innerHTML='<div class="empty-msg">📸 Loading photos…</div>';
