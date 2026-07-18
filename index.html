@@ -1476,22 +1476,57 @@ function loadInfoWWH(){
     const el=document.getElementById('wwh-chips');
     if(!el) return;
     if(!resp||!resp.success||!resp.items||!resp.items.length){
-      el.innerHTML='<div class="empty-msg" style="padding:.5rem">No items listed.</div>'; return;
+      el.innerHTML=_isAdmin?renderWWHAddBar()+'<div class="empty-msg" style="padding:.5rem">No items yet — add one above!</div>':'<div class="empty-msg" style="padding:.5rem">No items listed.</div>';
+      return;
     }
     _wwhCache=resp.items;
     if(_isAdmin){
-      el.innerHTML=resp.items.map(item=>
-        `<span class="wwh-chip" style="display:inline-flex;align-items:center;gap:.35rem">
-          ${esc(item.item)}
-          <button onclick="editWWHItem('${esc(item.id)}','${esc(item.item)}')"
-            style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:.8rem;padding:0;line-height:1" title="Edit">✏️</button>
-          <button onclick="deleteWWHItem('${esc(item.id)}')"
-            style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:.75rem;font-weight:700;padding:0;line-height:1" title="Remove">✕</button>
-        </span>`
-      ).join('');
+      el.innerHTML=
+        renderWWHAddBar()+
+        '<div class="wwh-chips" style="margin-top:.75rem">'+
+        resp.items.map(item=>
+          `<span class="wwh-chip" style="display:inline-flex;align-items:center;gap:.35rem">
+            ${esc(item.item)}
+            <button onclick="editWWHItem('${esc(item.id)}','${esc(item.item)}')"
+              style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:.8rem;padding:0;line-height:1" title="Edit">✏️</button>
+            <button onclick="deleteWWHItem('${esc(item.id)}')"
+              style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:.75rem;font-weight:700;padding:0;line-height:1" title="Remove">✕</button>
+          </span>`
+        ).join('')+
+        '</div>';
     } else {
-      el.innerHTML=resp.items.map(item=>`<span class="wwh-chip">${esc(item.item)}</span>`).join('');
+      el.innerHTML='<div class="wwh-chips">'+
+        resp.items.map(item=>`<span class="wwh-chip">${esc(item.item)}</span>`).join('')+
+        '</div>';
     }
+  });
+}
+
+function renderWWHAddBar(){
+  return `<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.25rem;flex-wrap:wrap">
+    <input class="form-control" id="wwh-new-item" type="text"
+           placeholder="Add an item…"
+           style="flex:1;min-width:180px;max-width:320px"
+           onkeydown="if(event.key==='Enter')addWWHItem()">
+    <button class="btn btn-primary btn-sm" onclick="addWWHItem()">+ Add</button>
+  </div>`;
+}
+
+function addWWHItem(){
+  const input=document.getElementById('wwh-new-item');
+  if(!input) return;
+  const val=input.value.trim();
+  if(!val){ toast('Please enter an item name.','error'); return; }
+  const newItem={ id: Math.random().toString(36).substr(2,8), item: val };
+  const updated=(_wwhCache||[]).concat(newItem);
+  setLoading(true,'Adding…');
+  callPost({action:'saveWhatWeHave',pin:_adminPin,items:updated},resp=>{
+    setLoading(false);
+    if(resp&&resp.success){
+      toast('"'+val+'" added! ✅','success');
+      input.value='';
+      loadInfoWWH();
+    } else toast((resp&&resp.error)||'Failed.','error');
   });
 }
 
