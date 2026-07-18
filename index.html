@@ -1253,14 +1253,15 @@ function processPhotoQueue(files){
   function uploadNext(index){
     if(index>=valid.length){ updateProgress(); return; }
     const file=valid[index];
-    stat.textContent='Uploading '+(index+1)+' of '+total+': '+file.name;
-    const reader=new FileReader();
-    reader.onload=ev=>{
+    stat.textContent='Compressing '+(index+1)+' of '+total+'…';
+    // Compress to max 1920px wide, 80% quality — keeps file well under 6MB
+    compressImage(file, 1920, 0.80, function(b64data, mimeType){
+      stat.textContent='Uploading '+(index+1)+' of '+total+'…';
       callPost({
         action:'uploadPhoto',
-        data:ev.target.result.split(',')[1],
+        data:b64data,
         year, filename:file.name,
-        mimeType:file.type,
+        mimeType:mimeType,
         uploaderName:name,
         uploaderEmail:email
       },resp=>{
@@ -1268,14 +1269,12 @@ function processPhotoQueue(files){
         if(resp&&resp.success) succeeded++;
         else{
           failed++;
-          toast('Failed to upload '+file.name+(resp&&resp.error?' — '+resp.error:''),'error');
+          toast('Failed: '+file.name+(resp&&resp.error?' — '+resp.error:''),'error');
         }
         updateProgress();
-        // Small delay between uploads to avoid Apps Script rate limits
         setTimeout(()=>uploadNext(index+1), 800);
       });
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   uploadNext(0);
@@ -2369,6 +2368,34 @@ function doUnclaim(){
       if(_tabLoaded.info) loadInfoChecklist();
     } else toast((resp&&resp.error)||'Could not remove claim.','error');
   });
+}
+
+function compressImage(file, maxWidth, quality, cb){
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      // Calculate new dimensions
+      let w=img.width, h=img.height;
+      if(w>maxWidth){
+        h=Math.round(h*(maxWidth/w));
+        w=maxWidth;
+      }
+      const canvas=document.createElement('canvas');
+      canvas.width=w; canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      // Convert to compressed JPEG
+      const compressed=canvas.toDataURL('image/jpeg', quality);
+      cb(compressed.split(',')[1], 'image/jpeg');
+    };
+    img.onerror=function(){
+      // If compression fails, fall back to original
+      cb(ev.target.result.split(',')[1], file.type);
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 </script>
 
