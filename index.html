@@ -22,12 +22,12 @@
   --accent:#84cc16;--accent2:#65a30d;
   --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
   --border:rgba(148,163,184,.13);
-  --danger:#ef4444;--warn:#f59e0b;--ok:#22c55e;--info:#3b82f6;
+  --danger:#ef4444;--warn:#f59e0b;--ok:#22c55e;
   --r:12px;--rs:8px;--shadow:0 4px 24px rgba(0,0,0,.5);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;min-height:100dvh;overflow-x:hidden;padding-bottom:65px}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;min-height:100dvh;overflow-x:hidden;padding-bottom:70px}
 img{display:block;max-width:100%}
 a{color:var(--accent);text-decoration:none}
 button{cursor:pointer;font-family:inherit}
@@ -36,7 +36,7 @@ input,select,textarea{font-family:inherit;font-size:inherit}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
 
-/* Buttons */
+/* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:.55rem 1.1rem;border:none;border-radius:var(--rs);font-size:.85rem;font-weight:600;transition:all .18s;cursor:pointer;white-space:nowrap;text-decoration:none}
 .btn-primary{background:var(--accent);color:#0f172a}.btn-primary:hover{background:var(--accent2)}
 .btn-secondary{background:var(--bg3);color:var(--text)}.btn-secondary:hover{background:#334155}
@@ -48,10 +48,10 @@ input,select,textarea{font-family:inherit;font-size:inherit}
 .btn-venmo{display:inline-flex;align-items:center;gap:6px;background:#3d95ce;color:#fff;font-weight:700;padding:.65rem 1.25rem;border-radius:var(--rs);text-decoration:none;font-size:.9rem;transition:background .18s}
 .btn-venmo:hover{background:#2d7ab8}
 
-/* Cards */
+/* ── Cards ── */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem}
 
-/* Forms */
+/* ── Forms ── */
 .form-group{margin-bottom:1rem}
 .form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em}
 .form-control{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:.6rem .85rem;color:var(--text);font-size:.9rem;transition:border-color .18s}
@@ -62,57 +62,68 @@ select.form-control option{background:var(--bg2)}
 .form-hint{font-size:.74rem;color:var(--text3);margin-top:.25rem}
 .honey{display:none!important;position:absolute;opacity:0;pointer-events:none}
 
-/* Tables */
+/* ── Tables ── */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:.84rem}
 thead th{background:var(--bg3);color:var(--text2);font-size:.73rem;text-transform:uppercase;letter-spacing:.04em;padding:.55rem .85rem;white-space:nowrap;text-align:left;border-bottom:1px solid var(--border)}
 tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:rgba(255,255,255,.03)}
-td{padding:.55rem .85rem;color:var(--text);vertical-align:top}
+td{padding:.55rem .85rem;color:var(--text);vertical-align:top;word-break:break-word}
 tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .tc{text-align:center}
 
-/* Offline + Admin bars */
+/* ── Offline + Admin bars ── */
 .offline-bar{display:none;background:var(--warn);color:#0f172a;text-align:center;padding:.45rem 1rem;font-size:.82rem;font-weight:700}
 .offline-bar.show{display:block}
 .admin-active-bar{display:none;background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.25);padding:.4rem 1rem;font-size:.8rem;color:var(--warn);font-weight:600;text-align:center;position:sticky;top:61px;z-index:90}
 .admin-active-bar.show{display:flex;align-items:center;justify-content:center;gap:.75rem}
 
-/* Header */
-.app-header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+/* ── Header ── */
+.app-header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
 .logo-wrap{display:flex;align-items:center;gap:.55rem}
 .logo-emoji{font-size:1.5rem}
 .logo-name{font-size:1rem;font-weight:900;color:var(--accent);line-height:1.15}
 .logo-sub{font-size:.67rem;color:var(--text3);font-weight:500}
-.header-right{display:flex;align-items:center;gap:.5rem}
+.header-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
 .install-btn{display:none;align-items:center;gap:4px;background:rgba(132,204,22,.1);border:1px solid rgba(132,204,22,.25);color:var(--accent);font-size:.75rem;font-weight:700;padding:.3rem .65rem;border-radius:var(--rs);cursor:pointer}
 .install-btn.visible{display:inline-flex}
-.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;background:none;border:none}
-.hamburger span{display:block;width:22px;height:2px;background:var(--text2);border-radius:2px;transition:all .2s}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none;cursor:pointer}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);border-radius:2px}
 @media(max-width:680px){.hamburger{display:flex}}
 
-/* Nav */
-.app-nav{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none}
+/* ── Nav ── */
+/* Desktop nav */
+.app-nav{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none;flex-shrink:1;min-width:0}
 .app-nav::-webkit-scrollbar{display:none}
 .nav-btn{background:none;border:none;color:var(--text2);font-size:.79rem;font-weight:600;padding:.44rem .68rem;border-radius:var(--rs);cursor:pointer;transition:all .18s;white-space:nowrap;flex-shrink:0}
 .nav-btn:hover{color:var(--text);background:var(--bg3)}
 .nav-btn.active{color:var(--accent);background:rgba(132,204,22,.11)}
 .nav-admin-btn{color:var(--warn)!important}
+/* Mobile nav — full-screen overlay */
 @media(max-width:680px){
-  .app-nav{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.98);flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;z-index:200;transform:translateX(-100%);transition:transform .22s ease}
+  .app-nav{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(15,23,42,.98);
+    flex-direction:column;align-items:center;justify-content:flex-start;
+    gap:.5rem;z-index:200;
+    transform:translateX(-100%);
+    transition:transform .22s ease;
+    overflow-y:auto;
+    padding:4.5rem 1.5rem 2rem;
+  }
   .app-nav.open{transform:translateX(0)}
-  .nav-btn{font-size:1.15rem;padding:.75rem 2rem}
-  .nav-close-x{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;color:var(--text2);font-size:1.5rem;cursor:pointer}
+  .nav-btn{font-size:1.1rem;padding:.75rem 2rem;width:100%;max-width:280px;text-align:center;border-radius:var(--r)}
+  .nav-close-x{position:fixed;top:1.2rem;right:1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;z-index:201;color:var(--text)}
 }
 
-/* Tabs */
+/* ── Tabs ── */
 .tab-pane{display:none;animation:fadeIn .22s ease}
 .tab-pane.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .content-wrap{max-width:900px;margin:0 auto;padding:1rem 1rem 2rem}
 
-/* Hero */
+/* ── Hero ── */
 .hero{position:relative;overflow:hidden;min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;padding:2.5rem 1.5rem;background:linear-gradient(135deg,#0f172a 0%,#1a3a5c 45%,#0f172a 100%)}
 .hero-bg-img{position:absolute;inset:0;background-image:url('background.jpg');background-size:cover;background-position:center;opacity:.18}
 .hero-content{position:relative;z-index:1}
@@ -121,33 +132,33 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .hero-sub{font-size:.95rem;color:var(--text2);margin-top:.35rem}
 .hero-year-tag{display:inline-block;background:rgba(132,204,22,.14);border:1px solid rgba(132,204,22,.3);color:var(--accent);font-size:.78rem;font-weight:700;padding:.2rem .7rem;border-radius:20px;margin-top:.55rem;letter-spacing:.04em}
 
-/* Slideshow */
+/* ── Slideshow ── */
 .slideshow-wrap{border-radius:var(--r);overflow:hidden;height:400px;background:var(--bg2);margin-bottom:1.25rem;display:none;position:relative}
 .slideshow-wrap img{width:100%;height:100%;object-fit:cover;transition:opacity .6s}
 @media(max-width:600px){.slideshow-wrap{height:240px}}
 
-/* Welcome text */
+/* ── Welcome text ── */
 .welcome-section{text-align:center;padding:.75rem 0 1.1rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border)}
-.welcome-bold{font-size:clamp(.9rem,2.5vw,1.05rem);font-weight:700;color:var(--text);line-height:1.55;margin-bottom:.45rem}
+.welcome-bold{font-size:clamp(.88rem,2.2vw,1rem);font-weight:700;color:var(--text);line-height:1.6;margin-bottom:.4rem}
 .welcome-sub{font-size:.88rem;color:var(--text2)}
 
-/* Event info grid (reference image layout) */
+/* ── Event info grid ── */
 .event-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
 @media(max-width:580px){.event-info-grid{grid-template-columns:1fr}}
 .event-info-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--rs);padding:.85rem 1rem}
-.event-info-box h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.event-info-row{font-size:.84rem;color:var(--text2);padding:.2rem 0;display:flex;gap:.4rem}
+.event-info-box h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.event-info-row{font-size:.84rem;color:var(--text2);padding:.18rem 0;display:flex;gap:.4rem;flex-wrap:wrap}
 .event-info-row strong{color:var(--text);white-space:nowrap;flex-shrink:0}
 
-/* Section */
+/* ── Section ── */
 .section-title{font-size:1rem;font-weight:800;color:var(--accent);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
 .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* Quick actions */
+/* ── Quick actions ── */
 .quick-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.4rem}
 .quick-actions .btn{flex:1;min-width:110px}
 
-/* Donation */
+/* ── Donation card ── */
 .donation-card{background:linear-gradient(135deg,var(--bg2) 0%,rgba(132,204,22,.05) 100%);border:1px solid rgba(132,204,22,.22);border-radius:var(--r);padding:1.4rem;margin-bottom:1.25rem}
 .donation-title{font-size:1.1rem;font-weight:800;color:var(--accent);margin-bottom:.3rem}
 .donation-subtitle{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.65rem}
@@ -157,14 +168,13 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .venmo-handle{font-size:1.25rem;font-weight:800;color:#60a5fa;margin-bottom:.65rem}
 .donation-footer{font-size:.82rem;color:var(--text2);line-height:1.65;margin-top:.9rem;font-style:italic}
 
-/* Contact */
-.contact-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.5rem}
-.contact-info .contact-name{font-weight:700;font-size:.92rem}
-.contact-info .contact-role{font-size:.74rem;color:var(--text3)}
-.contact-btns{display:flex;gap:.4rem;flex-shrink:0}
-.contact-note{font-size:.78rem;color:var(--text3);margin-top:.5rem;font-style:italic}
+/* ── Contact ── */
+.contact-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.5rem;flex-wrap:wrap}
+.contact-name{font-weight:700;font-size:.92rem}
+.contact-role{font-size:.74rem;color:var(--text3)}
+.contact-phone-btns{display:flex;gap:.4rem;flex-shrink:0}
 
-/* Accordion */
+/* ── Accordion ── */
 .accordion{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:.75rem}
 .accordion-hdr{display:flex;align-items:center;justify-content:space-between;padding:.88rem 1.1rem;background:var(--bg2);cursor:pointer;font-weight:700;font-size:.9rem;user-select:none;gap:.5rem}
 .accordion-hdr:hover{background:var(--bg3)}
@@ -173,31 +183,31 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .accordion-body{display:none;padding:1.1rem;background:var(--bg2);border-top:1px solid var(--border)}
 .accordion-body.open{display:block}
 
-/* RSVP note */
+/* ── RSVP note ── */
 .rsvp-note{background:rgba(132,204,22,.07);border:1px solid rgba(132,204,22,.2);border-radius:var(--rs);padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.84rem;color:var(--text2);line-height:1.6}
 
-/* Supply checklist form */
+/* ── Supply checklist form ── */
 .cl-items-wrap{max-height:300px;overflow-y:auto;margin-bottom:1rem;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3)}
-.cl-form-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .85rem;border-bottom:1px solid var(--border);transition:background .12s}
+.cl-form-item{display:flex;align-items:center;gap:.65rem;padding:.6rem .85rem;border-bottom:1px solid var(--border);transition:background .12s}
 .cl-form-item:last-child{border-bottom:none}
 .cl-form-item.full-item{opacity:.45}
 .cl-form-item input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);flex-shrink:0;cursor:pointer}
 .cl-form-item input[type=checkbox]:disabled{cursor:not-allowed}
 .cl-item-label{flex:1;font-size:.87rem;min-width:0}
 .cl-item-remaining{font-size:.74rem;color:var(--accent);font-weight:600;white-space:nowrap}
-.cl-qty-input{width:60px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:.3rem .5rem;color:var(--text);font-size:.84rem;text-align:center;flex-shrink:0}
+.cl-qty-input{width:55px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:.28rem .4rem;color:var(--text);font-size:.84rem;text-align:center;flex-shrink:0}
 .cl-qty-input:focus{outline:none;border-color:var(--accent)}
 .cl-qty-input:disabled{opacity:.4;cursor:not-allowed}
 
-/* Photos */
+/* ── Photos ── */
 .photo-step{display:none}
 .photo-step.active{display:block}
-.year-filter-bar{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.yr-filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
 .yr-filter-btn{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:.28rem .75rem;font-size:.79rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;flex-shrink:0}
-.yr-filter-btn.active{background:rgba(132,204,22,.14);border-color:var(--accent);color:var(--accent)}
+.yr-filter-btn.active,.yr-filter-btn:hover{background:rgba(132,204,22,.14);border-color:var(--accent);color:var(--accent)}
 .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.6rem}
 @media(max-width:480px){.photo-grid{grid-template-columns:repeat(2,1fr)}}
-.photo-year-hdr{color:var(--accent);font-size:.95rem;font-weight:700;padding-bottom:.35rem;border-bottom:1px solid rgba(132,204,22,.18);margin:.85rem 0 .55rem}
+.photo-yr-hdr{color:var(--accent);font-size:.95rem;font-weight:700;padding-bottom:.35rem;border-bottom:1px solid rgba(132,204,22,.18);margin:.85rem 0 .55rem}
 .photo-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;border:2px solid transparent;background:var(--bg2);transition:border-color .2s,transform .15s}
 .photo-card:hover{transform:scale(1.03)}
 .photo-card.selected{border-color:var(--accent)}
@@ -215,7 +225,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .prog-bar{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-top:.4rem}
 .prog-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s;width:0}
 
-/* Info stats */
+/* ── Info stats ── */
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.5rem}
 @media(max-width:480px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
 .stat-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.8rem .7rem;text-align:center}
@@ -223,33 +233,45 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .stat-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-top:.2rem;font-weight:600}
 .info-section{margin-bottom:1.7rem}
 
-/* What We Have chips */
+/* ── What We Have chips ── */
 .wwh-chips{display:flex;flex-wrap:wrap;gap:.4rem}
 .wwh-chip{background:var(--bg3);border-radius:20px;padding:.25rem .7rem;font-size:.81rem;color:var(--text2)}
 
-/* Past Years */
-.py-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+/* ── Past Years — smaller image, larger stats ── */
+.py-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
 @media(max-width:480px){.py-grid{grid-template-columns:1fr}}
 .py-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s}
 .py-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.py-img-wrap{width:100%;height:200px;background:var(--bg3);position:relative;overflow:hidden}
+.py-img-wrap{width:100%;height:130px;background:var(--bg3);position:relative;overflow:hidden}
 .py-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
-.py-color-sq{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:900;color:rgba(255,255,255,.12)}
-.py-body{padding:1rem}
-.py-year-num{font-size:1.5rem;font-weight:900;color:var(--accent);line-height:1;margin-bottom:.3rem}
-.py-stats-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.55rem}
-.py-stat-chip{background:var(--bg3);border-radius:20px;padding:.18rem .6rem;font-size:.75rem;color:var(--text2)}
-.py-stat-chip strong{color:var(--text)}
-.py-desc{font-size:.82rem;color:var(--text2);line-height:1.55}
+.py-color-sq{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:900;color:rgba(255,255,255,.12)}
+.py-body{padding:.85rem 1rem}
+.py-year-num{font-size:2rem;font-weight:900;color:var(--accent);line-height:1;margin-bottom:.55rem}
+.py-stats-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem}
+.py-stat-item{background:var(--bg3);border-radius:var(--rs);padding:.35rem .65rem;text-align:center;min-width:52px}
+.py-stat-num{font-size:1.1rem;font-weight:800;color:var(--text);line-height:1.2}
+.py-stat-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-top:.1rem}
+.py-desc{font-size:.82rem;color:var(--text2);line-height:1.55;margin-top:.4rem}
 .py-admin-btns{margin-top:.65rem;display:flex;gap:.4rem}
 
-/* Bottom nav */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(15,23,42,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-around;height:58px}
-.bnav-btn{flex:1;background:none;border:none;color:var(--text3);font-size:.61rem;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:color .18s;padding:.2rem 0}
-.bnav-btn .bi{font-size:1.2rem;line-height:1}
+/* ── Bottom nav — fixed, GPU-accelerated ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:150;
+  background:rgba(15,23,42,.97);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-top:2px solid var(--border);
+  display:flex;justify-content:space-around;
+  height:58px;
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+}
+.bnav-btn{flex:1;background:none;border:none;color:var(--text3);font-size:.55rem;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:color .18s;padding:.2rem 0}
+.bnav-btn .bi{font-size:1.1rem;line-height:1}
 .bnav-btn:hover,.bnav-btn.active{color:var(--accent)}
 
-/* Admin modal */
+/* ── Admin modal ── */
 .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:400;display:none;align-items:flex-start;justify-content:flex-end}
 .admin-overlay.open{display:flex}
 .admin-panel{background:var(--bg2);width:min(440px,100vw);height:100dvh;overflow-y:auto;border-left:1px solid var(--border);display:flex;flex-direction:column}
@@ -268,49 +290,33 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 .admin-row-main{flex:1;min-width:0;font-size:.84rem}
 .admin-row-sub{font-size:.72rem;color:var(--text3);margin-top:.08rem}
 
-/* PIN pad */
-.pin-section{padding:1.25rem}
-.pin-section p{font-size:.84rem;color:var(--text2);text-align:center;margin-bottom:.65rem}
-.pin-dots{display:flex;justify-content:center;gap:.6rem;margin:.5rem 0 .65rem}
-.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--text3);transition:all .18s}
-.pin-dot.filled{background:var(--accent);border-color:var(--accent)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-width:195px;margin:0 auto}
-.pin-key{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:.68rem;font-size:1.1rem;font-weight:700;color:var(--text);cursor:pointer;transition:background .15s;text-align:center}
-.pin-key:hover{background:#334155}
-.pin-key.pdel{color:var(--danger)}
-.pin-err{color:var(--danger);font-size:.78rem;text-align:center;min-height:1.15em;margin:.3rem 0}
+/* ── Admin PIN — text input style ── */
+.admin-pin-wrap{padding:1.75rem 1.5rem;text-align:center}
+.admin-pin-wrap h3{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.25rem}
+.admin-pin-wrap p{font-size:.83rem;color:var(--text2);margin-bottom:1.1rem}
+.pin-err{color:var(--danger);font-size:.8rem;min-height:1.2em;margin:.35rem 0;text-align:center}
 
-/* Modals */
+/* ── Generic modals ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;width:100%;max-width:400px;box-shadow:var(--shadow)}
 .modal h3{font-size:.97rem;font-weight:800;margin-bottom:.9rem}
 .modal-actions{display:flex;gap:.6rem;margin-top:1.1rem;justify-content:flex-end}
 
-/* Toast */
+/* ── Toast ── */
 .toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:.6rem 1.15rem;font-size:.84rem;font-weight:600;z-index:999;opacity:0;transition:all .24s;pointer-events:none;white-space:nowrap;max-width:92vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.success{border-color:var(--ok);color:var(--ok)}
 .toast.error{border-color:var(--danger);color:var(--danger)}
 .toast.info{border-color:var(--accent);color:var(--accent)}
 
-/* Loading */
+/* ── Loading ── */
 .loading-overlay{position:fixed;inset:0;background:rgba(15,23,42,.8);z-index:800;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
 .loading-overlay.show{display:flex}
 .spinner{width:38px;height:38px;border:3px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* A2HS */
-.a2hs-popup{position:fixed;bottom:65px;left:.75rem;right:.75rem;background:var(--bg2);border:1px solid rgba(132,204,22,.28);border-radius:var(--r);padding:1rem 1.1rem 1rem .95rem;z-index:250;box-shadow:var(--shadow);display:none;animation:slideUp .3s ease}
-.a2hs-popup.show{display:flex;align-items:flex-start;gap:.75rem}
-@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
-.a2hs-icon{font-size:1.9rem;flex-shrink:0;margin-top:.1rem}
-.a2hs-text h4{font-size:.87rem;font-weight:700;margin-bottom:.18rem}
-.a2hs-text p{font-size:.77rem;color:var(--text2);line-height:1.5}
-.a2hs-btns{display:flex;gap:.45rem;margin-top:.5rem;flex-wrap:wrap}
-.a2hs-x{position:absolute;top:.5rem;right:.65rem;background:none;border:none;color:var(--text3);font-size:1rem;cursor:pointer}
-
-/* Misc */
+/* ── Misc ── */
 .empty-msg{text-align:center;padding:2rem;color:var(--text3);font-size:.87rem}
 .ei{font-size:2.5rem;display:block;margin-bottom:.4rem}
 .error-msg{text-align:center;padding:1.5rem;color:var(--danger);font-size:.87rem}
@@ -320,18 +326,17 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 </head>
 <body>
 
-<!-- A2HS Popup -->
-<div class="a2hs-popup" id="a2hs-popup" style="position:relative">
-  <span class="a2hs-icon">📱</span>
-  <div class="a2hs-text">
-    <h4>Add to Your Home Screen!</h4>
-    <p id="a2hs-msg">Use Labor Day like a real app — fast access, works offline!</p>
-    <div class="a2hs-btns">
-      <button class="btn btn-primary btn-sm" onclick="dismissA2HS()">Got it! 👍</button>
-      <button class="btn btn-outline btn-sm" onclick="neverA2HS()">Don't show again</button>
-    </div>
+<!-- ══ A2HS Modal (centered, matching reference) ══ -->
+<div id="a2hs-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:600;display:none;align-items:center;justify-content:center;padding:1.25rem">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:2rem 1.75rem;width:100%;max-width:370px;text-align:center;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.7)">
+    <button onclick="dismissA2HS()" style="position:absolute;top:.85rem;right:1rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--text3);line-height:1;padding:.25rem">✕</button>
+    <div style="font-size:3.5rem;margin-bottom:.85rem">📱</div>
+    <h2 style="font-size:1.3rem;font-weight:900;color:var(--accent);margin-bottom:.4rem">Add to Your Home Screen!</h2>
+    <p style="font-size:.88rem;color:var(--text2);margin-bottom:1.5rem;line-height:1.55">Use Labor Day like a real app —<br>fast access, works offline!</p>
+    <div id="a2hs-steps" style="margin-bottom:1.5rem;text-align:left"></div>
+    <button class="btn btn-primary btn-full" style="padding:.8rem;font-size:.95rem;font-weight:700" onclick="dismissA2HS()">Got it! 👍</button>
+    <button onclick="neverA2HS()" style="background:none;border:none;color:var(--text3);text-decoration:underline;font-size:.8rem;cursor:pointer;margin-top:.75rem;display:block;width:100%;padding:.25rem">Don't show this again</button>
   </div>
-  <button class="a2hs-x" onclick="dismissA2HS()">✕</button>
 </div>
 
 <!-- Offline Banner -->
@@ -352,19 +357,9 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
       <div class="logo-sub" id="header-sub">Annual Family Reunion</div>
     </div>
   </div>
-  <nav class="app-nav" id="app-nav">
-    <button class="nav-close-x" onclick="closeNav()">✕</button>
-    <button class="nav-btn active" data-tab="home"      onclick="showTab('home');closeNav()">🏠 Home</button>
-    <button class="nav-btn"        data-tab="rsvp"      onclick="showTab('rsvp');closeNav()">🎊 RSVP</button>
-    <button class="nav-btn"        data-tab="photos"    onclick="showTab('photos');closeNav()">📸 Photos</button>
-    <button class="nav-btn"        data-tab="info"      onclick="showTab('info');closeNav()">📋 Info</button>
-    <button class="nav-btn"        data-tab="pastyears" onclick="showTab('pastyears');closeNav()">🎉 Past Years</button>
-    <button class="nav-btn nav-admin-btn"               onclick="openAdminModal();closeNav()">🔐 Admin</button>
-  </nav>
-  <div class="header-right">
-    <button class="install-btn" id="install-btn" onclick="triggerInstall()">📲 Install</button>
-    <button class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
-  </div>
+  <button onclick="showA2HSModal()" style="display:inline-flex;align-items:center;gap:5px;background:rgba(132,204,22,.1);border:1px solid rgba(132,204,22,.25);color:var(--accent);font-size:.75rem;font-weight:700;padding:.35rem .7rem;border-radius:var(--rs);cursor:pointer;white-space:nowrap;flex-shrink:0">
+    📲 Install App
+  </button>
 </header>
 
 <main>
@@ -382,7 +377,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
   </div>
 
   <div class="content-wrap">
-    <!-- Slideshow (400px) -->
+    <!-- Slideshow 400px -->
     <div class="slideshow-wrap" id="slideshow-wrap">
       <img id="slideshow-img" src="" alt="Reunion memories">
     </div>
@@ -390,21 +385,21 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <!-- Welcome text -->
     <div class="welcome-section">
       <p class="welcome-bold" id="home-welcome-text">Labor Day Weekend is the perfect time to reconnect, reminisce, and make new memories with the ones who matter most — family.</p>
-      <p class="welcome-sub" id="home-welcome-subtext">Join us for a fun-filled weekend full of laughter, love, and memories!</p>
+      <p class="welcome-sub"  id="home-welcome-subtext">Join us for a fun-filled weekend full of laughter, love, and memories!</p>
     </div>
 
     <!-- Event Schedule + Location (reference image layout) -->
     <div class="event-info-grid">
       <div class="event-info-box">
         <h4>📅 Event Schedule</h4>
-        <div class="event-info-row"><strong>When:</strong> <span id="home-schedule-when">Friday night through Monday afternoon</span></div>
-        <div class="event-info-row"><strong>Saturday:</strong> <span id="home-schedule-saturday">Potluck Dinner — Eat around 5 PM</span></div>
-        <div class="event-info-row"><strong>Sunday:</strong> <span id="home-schedule-sunday">Lobsters &amp; Clams — Eat around 3 PM</span></div>
+        <div class="event-info-row"><strong>When:</strong><span id="home-schedule-when">Friday night through Monday afternoon</span></div>
+        <div class="event-info-row"><strong>Saturday:</strong><span id="home-schedule-saturday">Potluck Dinner — Eat around 5 PM</span></div>
+        <div class="event-info-row"><strong>Sunday:</strong><span id="home-schedule-sunday">Lobsters &amp; Clams — Eat around 3 PM</span></div>
       </div>
       <div class="event-info-box">
         <h4>📍 Location</h4>
-        <div class="event-info-row"><strong>Hosted by:</strong> <span id="home-host">Chad &amp; Courtney Merithew</span></div>
-        <div class="event-info-row"><strong>Address:</strong> <span id="home-address">5 Gillian Dr, Lakeville, MA 02347</span></div>
+        <div class="event-info-row"><strong>Hosted by:</strong><span id="home-host">Chad &amp; Courtney Merithew</span></div>
+        <div class="event-info-row"><strong>Address:</strong><span id="home-address">5 Gillian Dr, Lakeville, MA 02347</span></div>
         <div style="margin-top:.65rem">
           <a class="btn btn-primary btn-sm"
              href="https://maps.google.com/maps?q=5+Gillian+Dr+Lakeville+MA+02347"
@@ -422,7 +417,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 
     <!-- Donation -->
     <div class="donation-card">
-      <div class="donation-title" id="home-venmo-title">Help Us Keep the Tradition Alive!</div>
+      <div class="donation-title"  id="home-venmo-title">Help Us Keep the Tradition Alive!</div>
       <div class="donation-subtitle" id="home-venmo-subtitle">To make this year's reunion as special as past ones, we need your help.</div>
       <p class="donation-body" id="home-venmo-body">Monetary donations help cover the essentials like restrooms, electricity, and the upkeep of our tents, chairs, and gathering spaces. We need your support, so see Lisa, Chad, or Courtney with cash donations or Venmo Lisa.</p>
       <div class="venmo-box">
@@ -439,19 +434,17 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <!-- Contact -->
     <div class="section-title">📞 Contact Info</div>
     <p style="font-size:.82rem;color:var(--text2);margin-bottom:.75rem" id="home-contact-note">Questions? Give us a call!</p>
-    <div id="contact-list">
-      <div class="contact-card">
-        <div class="contact-info"><div class="contact-name" id="c1-name">Courtney</div><div class="contact-role">Co-Host</div></div>
-        <div class="contact-btns" id="c1-btns"></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-info"><div class="contact-name" id="c2-name">Chad</div><div class="contact-role">Co-Host</div></div>
-        <div class="contact-btns" id="c2-btns"></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-info"><div class="contact-name" id="c3-name">Lisa</div><div class="contact-role">Organizer</div></div>
-        <div class="contact-btns" id="c3-btns"></div>
-      </div>
+    <div class="contact-card">
+      <div><div class="contact-name" id="c1-name">Courtney</div><div class="contact-role">Co-Host</div></div>
+      <div class="contact-phone-btns" id="c1-btns"><a class="btn btn-outline btn-sm" href="tel:7749947291">📞 774-994-7291</a></div>
+    </div>
+    <div class="contact-card">
+      <div><div class="contact-name" id="c2-name">Chad</div><div class="contact-role">Co-Host</div></div>
+      <div class="contact-phone-btns" id="c2-btns"><a class="btn btn-outline btn-sm" href="tel:5082941239">📞 508-294-1239</a></div>
+    </div>
+    <div class="contact-card">
+      <div><div class="contact-name" id="c3-name">Lisa</div><div class="contact-role">Organizer</div></div>
+      <div class="contact-phone-btns" id="c3-btns"><a class="btn btn-outline btn-sm" href="tel:5087268222">📞 508-726-8222</a></div>
     </div>
   </div>
 </div>
@@ -459,7 +452,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 <!-- ══ RSVP TAB ══ -->
 <div id="tab-rsvp" class="tab-pane">
   <div class="content-wrap">
-    <div class="rsvp-note" id="rsvp-note-text">🎉 <strong>We can't wait to see you!</strong> Fill in the form below and sign up to bring supplies or host an activity. Your contact info is visible to admins only.</div>
+    <div class="rsvp-note" id="rsvp-note-text">🏕️ All tents welcome! Limited camper spots — please call Courtney or Chad to reserve. Down payments to hold your spot are welcome 😊</div>
 
     <!-- RSVP Form -->
     <div class="accordion" id="acc-rsvp">
@@ -544,7 +537,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="accordion" id="acc-supply">
       <div class="accordion-hdr" onclick="toggleAcc('acc-supply')">📦 Supply Contributions <span class="acc-chevron">▶</span></div>
       <div class="accordion-body">
-        <p style="font-size:.83rem;color:var(--text2);margin-bottom:.75rem">Check items you can bring and choose your quantity. Remaining counts update live!</p>
+        <p style="font-size:.83rem;color:var(--text2);margin-bottom:.75rem">Check items you can bring and enter how many. Remaining counts update live!</p>
         <div class="cl-items-wrap" id="cl-form-items">
           <div class="empty-msg" style="padding:1rem">Loading items…</div>
         </div>
@@ -552,7 +545,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
           <input class="form-control" id="s-name" type="text" placeholder="Your name"></div>
         <div class="form-group">
           <label class="form-label">🖊️ Bringing something not listed?</label>
-          <input class="form-control" id="s-custom" type="text" placeholder="e.g. Kayak, lawn games…">
+          <input class="form-control" id="s-custom" type="text" placeholder="e.g. Kayak, lawn games, extra ice…">
         </div>
         <button class="btn btn-primary btn-full" onclick="submitSupply()">Submit Contributions 📦</button>
       </div>
@@ -631,13 +624,13 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     </div>
 
     <!-- Year filters -->
-    <div class="year-filter-bar" id="yr-filter-bar">
-      <button class="yr-filter-btn active" data-yr="all" onclick="filterPhotos('all')">All Years</button>
-      <button class="yr-filter-btn" data-yr="2025" onclick="filterPhotos('2025')">2025</button>
-      <button class="yr-filter-btn" data-yr="2024" onclick="filterPhotos('2024')">2024</button>
-      <button class="yr-filter-btn" data-yr="2023" onclick="filterPhotos('2023')">2023</button>
-      <button class="yr-filter-btn" data-yr="2022" onclick="filterPhotos('2022')">2022</button>
-      <button class="yr-filter-btn" data-yr="pre2022" onclick="filterPhotos('pre2022')">Before 2022</button>
+    <div class="yr-filter-bar">
+      <button class="yr-filter-btn active" data-yr="all"     onclick="filterPhotos('all')">All Years</button>
+      <button class="yr-filter-btn" data-yr="2025"           onclick="filterPhotos('2025')">2025</button>
+      <button class="yr-filter-btn" data-yr="2024"           onclick="filterPhotos('2024')">2024</button>
+      <button class="yr-filter-btn" data-yr="2023"           onclick="filterPhotos('2023')">2023</button>
+      <button class="yr-filter-btn" data-yr="2022"           onclick="filterPhotos('2022')">2022</button>
+      <button class="yr-filter-btn" data-yr="pre2022"        onclick="filterPhotos('pre2022')">Before 2022</button>
     </div>
 
     <div class="photo-controls">
@@ -655,7 +648,6 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 <!-- ══ INFO TAB ══ -->
 <div id="tab-info" class="tab-pane">
   <div class="content-wrap">
-    <!-- Stats -->
     <div class="section-title">📊 Event Summary — <span id="info-year-lbl"></span></div>
     <div class="stat-grid">
       <div class="stat-item"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total People</div></div>
@@ -670,9 +662,12 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="info-section">
       <div class="section-title">📋 Who's Coming — RSVP List</div>
       <div class="table-wrap">
-        <table id="rsvp-tbl">
-          <thead><tr><th>Name</th><th>Adults</th><th>Kids</th><th>Arriving</th><th>Departing</th><th>Stay</th><th>Potluck</th><th></th></tr></thead>
-          <tbody><tr><td colspan="8" class="empty-msg">Loading…</td></tr></tbody>
+        <table>
+          <thead><tr>
+            <th>Name</th><th class="tc">Adults</th><th class="tc">Kids</th>
+            <th>Arriving</th><th>Departing</th><th>Accommodation</th><th>Potluck Item</th><th></th>
+          </tr></thead>
+          <tbody id="rsvp-tbody"><tr><td colspan="8" class="empty-msg">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -681,9 +676,12 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="info-section">
       <div class="section-title">🦞 Lobster Orders</div>
       <div class="table-wrap">
-        <table id="lob-tbl">
-          <thead><tr><th>Name</th><th class="tc">🦞</th><th class="tc">🦪 Clams</th><th class="tc">🌽 Corn</th><th></th></tr></thead>
-          <tbody><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
+        <table>
+          <thead><tr>
+            <th>Name</th><th class="tc">🦞 Lobsters</th>
+            <th class="tc">🦪 Clams (doz)</th><th class="tc">🌽 Corn</th><th></th>
+          </tr></thead>
+          <tbody id="lob-tbody"><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
           <tfoot><tr id="lob-totals"><td colspan="5" style="text-align:center;opacity:.5">—</td></tr></tfoot>
         </table>
       </div>
@@ -693,9 +691,12 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="info-section">
       <div class="section-title">📦 Supply Checklist Status</div>
       <div class="table-wrap">
-        <table id="cl-tbl">
-          <thead><tr><th>Item</th><th class="tc">Needed</th><th class="tc">Claimed</th><th class="tc">Remaining</th><th>Claimed By</th></tr></thead>
-          <tbody><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
+        <table>
+          <thead><tr>
+            <th>Item</th><th class="tc">Needed</th>
+            <th class="tc">Claimed</th><th class="tc">Remaining</th><th>Claimed By</th>
+          </tr></thead>
+          <tbody id="cl-tbody"><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -704,9 +705,9 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="info-section">
       <div class="section-title">📝 Other Supply Contributions</div>
       <div class="table-wrap">
-        <table id="sup-tbl">
+        <table>
           <thead><tr><th>Name</th><th>Items Bringing</th><th></th></tr></thead>
-          <tbody><tr><td colspan="3" class="empty-msg">Loading…</td></tr></tbody>
+          <tbody id="sup-tbody"><tr><td colspan="3" class="empty-msg">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -715,9 +716,9 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     <div class="info-section">
       <div class="section-title">🎯 Scheduled Activities</div>
       <div class="table-wrap">
-        <table id="act-tbl">
+        <table>
           <thead><tr><th>Activity</th><th>Host</th><th>Time</th><th>Description</th><th></th></tr></thead>
-          <tbody><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
+          <tbody id="act-tbody"><tr><td colspan="5" class="empty-msg">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -727,20 +728,21 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
       <div class="section-title">🏠 What We Have at the House</div>
       <p style="font-size:.82rem;color:var(--text2);margin-bottom:.75rem">Items already on-site — no need to bring these unless told otherwise.</p>
       <div class="wwh-chips" id="wwh-chips">
-        <div class="empty-msg" style="padding:.75rem">Loading…</div>
+        <div class="empty-msg" style="padding:.5rem">Loading…</div>
       </div>
     </div>
 
-    <!-- Location Map -->
+    <!-- Map -->
     <div class="info-section">
       <div class="section-title">🗺️ Location Map</div>
       <p style="font-size:.82rem;color:var(--text2);margin-bottom:.75rem">5 Gillian Dr, Lakeville, MA 02347</p>
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-        <iframe width="100%" height="260" frameborder="0" style="display:block" loading="lazy"
+        <iframe width="100%" height="250" frameborder="0" style="display:block" loading="lazy"
           src="https://maps.google.com/maps?q=5+Gillian+Dr+Lakeville+MA+02347&output=embed&z=15"
           allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="Location"></iframe>
         <div style="padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap">
-          <div><div style="font-weight:700;font-size:.9rem">Chad &amp; Courtney's Place</div><div style="font-size:.8rem;color:var(--text2)">5 Gillian Dr, Lakeville, MA 02347</div></div>
+          <div><div style="font-weight:700;font-size:.9rem">Chad &amp; Courtney's Place</div>
+               <div style="font-size:.8rem;color:var(--text2)">5 Gillian Dr, Lakeville, MA 02347</div></div>
           <a class="btn btn-primary btn-sm" href="https://maps.google.com/maps?q=5+Gillian+Dr+Lakeville+MA+02347" target="_blank" rel="noopener">Get Directions</a>
         </div>
       </div>
@@ -761,13 +763,14 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 
 </main>
 
-<!-- Bottom Nav -->
+<!-- Bottom Nav — fixed at viewport bottom -->
 <nav class="bottom-nav">
   <button class="bnav-btn active" data-tab="home"      onclick="showTab('home')"><span class="bi">🏠</span>Home</button>
   <button class="bnav-btn"        data-tab="rsvp"      onclick="showTab('rsvp')"><span class="bi">🎊</span>RSVP</button>
   <button class="bnav-btn"        data-tab="photos"    onclick="showTab('photos')"><span class="bi">📸</span>Photos</button>
   <button class="bnav-btn"        data-tab="info"      onclick="showTab('info')"><span class="bi">📋</span>Info</button>
   <button class="bnav-btn"        data-tab="pastyears" onclick="showTab('pastyears')"><span class="bi">🎉</span>History</button>
+<button class="bnav-btn" onclick="openAdminModal()"><span class="bi">🔐</span>Admin</button>
 </nav>
 
 <!-- Edit Modal -->
@@ -794,7 +797,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
   </div>
 </div>
 
-<!-- Admin Modal -->
+<!-- Admin Slide-Out Panel -->
 <div class="admin-overlay" id="admin-overlay" onclick="adminOverlayClick(event)">
   <div class="admin-panel" id="admin-panel">
     <div class="admin-ph">
@@ -802,29 +805,18 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
       <button class="btn btn-sm btn-secondary" onclick="closeAdminModal()">Close ✕</button>
     </div>
 
-    <!-- PIN Section -->
-    <div id="admin-pin-sec" class="pin-section">
+    <!-- PIN Section — text input, min 4 chars, any characters -->
+    <div id="admin-pin-sec" class="admin-pin-wrap">
+      <div style="font-size:2.5rem;margin-bottom:.65rem">🔐</div>
+      <h3>Admin Access</h3>
       <p>Enter your admin PIN</p>
-      <div class="pin-dots">
-        <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
-        <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
-      </div>
+      <input class="form-control" id="admin-pin-input" type="password"
+             placeholder="Enter PIN (min 4 characters)" maxlength="30"
+             style="text-align:center;font-size:1rem;letter-spacing:.06em;margin-bottom:.5rem"
+             onkeydown="if(event.key==='Enter')doVerifyPin()">
       <div class="pin-err" id="pin-err"></div>
-      <div class="pin-pad">
-        <button class="pin-key" onclick="pinPress('1')">1</button>
-        <button class="pin-key" onclick="pinPress('2')">2</button>
-        <button class="pin-key" onclick="pinPress('3')">3</button>
-        <button class="pin-key" onclick="pinPress('4')">4</button>
-        <button class="pin-key" onclick="pinPress('5')">5</button>
-        <button class="pin-key" onclick="pinPress('6')">6</button>
-        <button class="pin-key" onclick="pinPress('7')">7</button>
-        <button class="pin-key" onclick="pinPress('8')">8</button>
-        <button class="pin-key" onclick="pinPress('9')">9</button>
-        <button class="pin-key" style="font-size:.8rem" onclick="pinClear()">CLR</button>
-        <button class="pin-key" onclick="pinPress('0')">0</button>
-        <button class="pin-key pdel" onclick="pinBack()">⌫</button>
-      </div>
-      <button class="btn btn-outline btn-sm btn-full" style="margin-top:1rem" onclick="closeAdminModal()">✕ Cancel</button>
+      <button class="btn btn-primary btn-full" style="margin-bottom:.5rem" onclick="doVerifyPin()">Login</button>
+      <button class="btn btn-outline btn-full" onclick="closeAdminModal()">✕ Cancel</button>
     </div>
 
     <!-- Admin Tabs (shown after PIN) -->
@@ -863,7 +855,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 const API = 'https://script.google.com/macros/s/AKfycbxu75dE9DFELS47b1FL6kmEc1I8qVSpK0wle8Lmm6c6LHUg-ZR7l6l1AGgr5Zyh8Pyj/exec';
 
 // ── State ──────────────────────────────────────────────────────
-let _adminPin='', _isAdmin=false, _pinEntry='';
+let _adminPin='', _isAdmin=false;
 let _editCtx=null, _confirmCb=null;
 let _homeSettings={};
 let _allPhotos=[], _photoMap={}, _selPhotos=new Set();
@@ -872,9 +864,13 @@ let _checklistData=[];
 let _tabLoaded={};
 let _installPrompt=null;
 let _currentYear='2025';
+// Data caches for edit buttons (avoids inline JSON in onclick)
+let _rsvpCache={}, _lobCache={};
 
 // ── Utilities ─────────────────────────────────────────────────
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 function toast(msg,type='info'){
   const el=document.getElementById('toast');
   el.textContent=msg; el.className='toast show '+type;
@@ -900,6 +896,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   initOffline(); checkA2HS(); initInstallPrompt();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   loadHomeContent();
+  // Drag/drop on photo drop zone
+  const dz=document.getElementById('drop-zone');
+  if(dz){
+    dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+    dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+    dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)processPhoto(f);});
+  }
 });
 function initOffline(){
   const b=document.getElementById('offline-bar');
@@ -912,7 +915,8 @@ function initOffline(){
 function showTab(name){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
-  document.getElementById('tab-'+name).classList.add('active');
+  const pane=document.getElementById('tab-'+name);
+  if(pane) pane.classList.add('active');
   if(!_tabLoaded[name]){ _tabLoaded[name]=true; onFirstLoad(name); }
 }
 function onFirstLoad(name){
@@ -921,13 +925,19 @@ function onFirstLoad(name){
   if(name==='info')      loadInfoTab();
   if(name==='pastyears') loadPastYears();
 }
-function toggleNav(){ document.getElementById('app-nav').classList.toggle('open'); }
-function closeNav(){  document.getElementById('app-nav').classList.remove('open'); }
+function toggleNav(){
+  document.getElementById('app-nav').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+function closeNav(){
+  document.getElementById('app-nav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
 function toggleAcc(id){
   const h=document.querySelector('#'+id+' .accordion-hdr');
   const b=document.querySelector('#'+id+' .accordion-body');
   const c=h&&h.querySelector('.acc-chevron');
-  if(!h||!b)return;
+  if(!h||!b) return;
   const open=h.classList.toggle('open');
   b.classList.toggle('open',open);
   if(c) c.textContent=open?'▼':'▶';
@@ -949,49 +959,63 @@ function loadHomeContent(){
     }
   });
 }
+
 function applyHomeSettings(s){
-  const set=(id,v)=>{ const el=document.getElementById(id); if(el&&v) el.textContent=v; };
+  // textContent setter (safe for plain text)
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el&&v!==undefined&&v!=='') el.textContent=v; };
+  // innerHTML setter for content that may contain markup (admin-controlled)
+  const setHTML=(id,v)=>{ const el=document.getElementById(id); if(el&&v!==undefined&&v!=='') el.innerHTML=v; };
+
   const yr=s.current_year||'2025'; _currentYear=yr;
-  set('header-sub','Labor Day '+yr);
-  set('hero-year-tag',yr+' Reunion');
-  set('home-welcome-text',       s.home_welcome_text);
-  set('home-welcome-subtext',    s.home_welcome_subtext);
-  set('home-schedule-when',      s.home_schedule_when);
-  set('home-schedule-saturday',  s.home_schedule_saturday);
-  set('home-schedule-sunday',    s.home_schedule_sunday);
-  set('home-host',               s.home_host);
-  set('home-address',            s.home_address);
-  set('home-venmo-title',        s.home_venmo_title);
-  set('home-venmo-subtitle',     s.home_venmo_subtitle);
-  set('home-venmo-body',         s.home_venmo_body);
-  set('home-venmo-tagline',      s.home_venmo_tagline);
-  set('home-contact-note',       s.home_contact_note);
-  set('rsvp-note-text',          s.home_rsvp_note ? '🏕️ '+s.home_rsvp_note : null);
-  set('info-year-lbl',yr); set('admin-year-lbl','Labor Day '+yr);
-  if(s.home_venmo_handle){ set('home-venmo-handle',s.home_venmo_handle); }
+  set('header-sub',           'Labor Day '+yr);
+  set('hero-year-tag',        yr+' Reunion');
+  set('home-welcome-text',    s.home_welcome_text);
+  set('home-welcome-subtext', s.home_welcome_subtext);
+  set('home-schedule-when',   s.home_schedule_when);
+  set('home-schedule-saturday',s.home_schedule_saturday);
+  set('home-schedule-sunday', s.home_schedule_sunday);
+  set('home-host',            s.home_host);
+  set('home-address',         s.home_address);
+  set('info-year-lbl',        yr);
+  set('admin-year-lbl',       'Labor Day '+yr);
+  set('home-venmo-title',     s.home_venmo_title);
+  set('home-venmo-subtitle',  s.home_venmo_subtitle);
+  // Use innerHTML for body and footer so stored HTML renders correctly
+  setHTML('home-venmo-body',    s.home_venmo_body);
+  setHTML('home-venmo-tagline', s.home_venmo_tagline);
+  set('home-contact-note',    s.home_contact_note);
+  if(s.home_rsvp_note){
+    const rn=document.getElementById('rsvp-note-text');
+    if(rn) rn.textContent='🏕️ '+s.home_rsvp_note;
+  }
+
+  // Venmo handle + link
+  if(s.home_venmo_handle) set('home-venmo-handle', s.home_venmo_handle);
   if(s.home_venmo_url){
     const btn=document.getElementById('venmo-btn');
     if(btn) btn.href=s.home_venmo_url;
   }
-  // Contact cards with phone numbers
+
+  // Contact names + phone numbers from settings
   ['c1','c2','c3'].forEach((p,i)=>{
     const n=s['home_contact'+(i+1)+'_name'];
     const ph=s['home_contact'+(i+1)+'_phone'];
     if(n) set(p+'-name',n);
-    const btns=document.getElementById(p+'-btns');
-    if(btns&&ph){
-      btns.innerHTML=`<a class="btn btn-outline btn-sm" href="tel:${esc(ph)}">📞 ${esc(ph)}</a>`;
+    if(ph){
+      const el=document.getElementById(p+'-btns');
+      if(el) el.innerHTML=`<a class="btn btn-outline btn-sm" href="tel:${esc(ph.replace(/\D/g,''))}">📞 ${esc(ph)}</a>`;
     }
   });
+
   // Photo year default
   const ys=document.getElementById('ph-year');
   if(ys&&yr) ys.value=yr;
 }
+
 function startSlideshow(){
-  if(!_slideshowUrls.length) return;
   const wrap=document.getElementById('slideshow-wrap');
   const img=document.getElementById('slideshow-img');
-  if(!wrap||!img) return;
+  if(!wrap||!img||!_slideshowUrls.length) return;
   img.src=_slideshowUrls[0];
   img.onload=()=>wrap.style.display='block';
   img.onerror=()=>wrap.style.display='none';
@@ -1004,9 +1028,10 @@ function startSlideshow(){
     },600);
   },5000);
 }
+
 function handleShareApp(){
   if(navigator.share){
-    navigator.share({title:'🦞 Labor Day Reunion',text:'Check out the Merithew Family Reunion app!',url:window.location.href});
+    navigator.share({title:'🦞 Labor Day Reunion',text:'Join the Merithew Family Labor Day Reunion!',url:window.location.href});
   } else if(navigator.clipboard){
     navigator.clipboard.writeText(window.location.href).then(()=>toast('Link copied! 📋','info'));
   }
@@ -1019,20 +1044,24 @@ function submitRSVP(e){
   if(!name){ toast('Name is required.','error'); return; }
   setLoading(true,'Submitting RSVP…');
   callPost({
-    action:'submit',type:'rsvp',_hp:'',
-    name, email:document.getElementById('r-email').value,
-    phone:document.getElementById('r-phone').value,
-    adults:document.getElementById('r-adults').value,
-    kids:document.getElementById('r-kids').value,
-    arrival:document.getElementById('r-arrival').value,
-    departing:document.getElementById('r-departing').value,
+    action:'submit',type:'rsvp',_hp:'',name,
+    email:        document.getElementById('r-email').value,
+    phone:        document.getElementById('r-phone').value,
+    adults:       document.getElementById('r-adults').value,
+    kids:         document.getElementById('r-kids').value,
+    arrival:      document.getElementById('r-arrival').value,
+    departing:    document.getElementById('r-departing').value,
     accommodation:document.getElementById('r-accommodation').value,
-    potluck:document.getElementById('r-potluck').value,
-    notes:document.getElementById('r-notes').value
+    potluck:      document.getElementById('r-potluck').value,
+    notes:        document.getElementById('r-notes').value
   },resp=>{
     setLoading(false);
-    if(resp&&resp.success){ toast('RSVP submitted! 🎊','success'); document.getElementById('rsvp-form').reset(); document.getElementById('r-adults').value='1'; }
-    else toast((resp&&resp.error)||'Submission failed.','error');
+    if(resp&&resp.success){
+      toast('RSVP submitted! 🎊','success');
+      document.getElementById('rsvp-form').reset();
+      document.getElementById('r-adults').value='1';
+      document.getElementById('r-kids').value='0';
+    } else toast((resp&&resp.error)||'Submission failed.','error');
   });
 }
 
@@ -1044,45 +1073,56 @@ function submitLobster(e){
   setLoading(true,'Submitting order…');
   callPost({action:'submit',type:'lobster',_hp:'',name,
     lobsters:document.getElementById('l-lob').value,
-    clams:document.getElementById('l-clam').value,
-    corn:document.getElementById('l-corn').value
+    clams:   document.getElementById('l-clam').value,
+    corn:    document.getElementById('l-corn').value
   },resp=>{
     setLoading(false);
-    if(resp&&resp.success){ toast('Order submitted! 🦞','success'); document.getElementById('lobster-form').reset(); ['l-lob','l-clam','l-corn'].forEach(id=>document.getElementById(id).value='0'); if(_tabLoaded.info) loadInfoLobsters(); }
-    else toast((resp&&resp.error)||'Failed.','error');
+    if(resp&&resp.success){
+      toast('Order submitted! 🦞','success');
+      document.getElementById('lobster-form').reset();
+      ['l-lob','l-clam','l-corn'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value='0'; });
+      if(_tabLoaded.info) loadInfoLobsters();
+    } else toast((resp&&resp.error)||'Failed.','error');
   });
 }
 
-// ── Supply Checklist Form ────────────────────────────────────
+// ── Supply Checklist Form ─────────────────────────────────────
 function loadChecklistForm(){
   const c=document.getElementById('cl-form-items');
   if(!c) return;
   callGet({action:'read',type:'supplyChecklist',year:_currentYear},resp=>{
-    if(!resp||!resp.success||!resp.items){ c.innerHTML='<div style="padding:.75rem;font-size:.83rem;color:var(--text3)">Could not load checklist.</div>'; return; }
+    if(!resp||!resp.success||!resp.items){
+      c.innerHTML='<div style="padding:.75rem;font-size:.83rem;color:var(--text3)">Could not load checklist.</div>';
+      return;
+    }
     _checklistData=resp.items;
-    if(!resp.items.length){ c.innerHTML='<div style="padding:.75rem;font-size:.83rem;color:var(--text3)">No checklist items yet.</div>'; return; }
+    if(!resp.items.length){
+      c.innerHTML='<div style="padding:.75rem;font-size:.83rem;color:var(--text3)">No checklist items yet.</div>';
+      return;
+    }
     c.innerHTML=resp.items.map(item=>{
       const rem=item.remaining||0;
       const full=rem<=0;
       return `<div class="cl-form-item${full?' full-item':''}">
-        <input type="checkbox" data-id="${esc(item.id)}" data-max="${rem}" class="cl-cb" ${full?'disabled':''}>
+        <input type="checkbox" class="cl-cb" data-id="${esc(item.id)}" data-max="${rem}"
+               ${full?'disabled':''}>
         <span class="cl-item-label">${esc(item.item)}</span>
         <span class="cl-item-remaining">${full?'✓ Full':rem+' left'}</span>
-        <input type="number" class="cl-qty-input" data-for="${esc(item.id)}" min="1" max="${rem}" value="1" ${full?'disabled':''} onclick="event.stopPropagation()">
+        <input type="number" class="cl-qty-input" data-for="${esc(item.id)}"
+               min="1" max="${rem||1}" value="1"
+               ${full?'disabled':''} onclick="event.stopPropagation()" disabled>
       </div>`;
     }).join('');
-    // Auto-set qty max on check
+    // Enable qty input only when its checkbox is checked
     c.querySelectorAll('.cl-cb').forEach(cb=>{
       cb.addEventListener('change',function(){
-        const qtyEl=c.querySelector('.cl-qty-input[data-for="'+this.dataset.id+'"]');
-        if(qtyEl) qtyEl.disabled=!this.checked||parseInt(this.dataset.max)<=0;
+        const qi=c.querySelector('.cl-qty-input[data-for="'+this.dataset.id+'"]');
+        if(qi) qi.disabled=!this.checked;
       });
-      // Default disabled until checked
-      const qtyEl=c.querySelector('.cl-qty-input[data-for="'+cb.dataset.id+'"]');
-      if(qtyEl&&!cb.disabled) qtyEl.disabled=true;
     });
   });
 }
+
 function submitSupply(){
   const name=document.getElementById('s-name').value.trim();
   const custom=document.getElementById('s-custom').value.trim();
@@ -1100,14 +1140,15 @@ function submitSupply(){
         document.getElementById('s-name').value='';
         document.getElementById('s-custom').value='';
         document.querySelectorAll('.cl-cb').forEach(c=>c.checked=false);
+        document.querySelectorAll('.cl-qty-input').forEach(q=>q.disabled=true);
         loadChecklistForm();
         if(_tabLoaded.info){ loadInfoChecklist(); loadInfoSupplies(); }
-      } else toast('Some submissions failed.','error');
+      } else toast('Submissions failed. Please try again.','error');
     }
   }
   checked.forEach(cb=>{
     const qtyEl=document.querySelector('.cl-qty-input[data-for="'+cb.dataset.id+'"]');
-    const qty=qtyEl?Math.max(1,parseInt(qtyEl.value)||1):1;
+    const qty=qtyEl&&!qtyEl.disabled?Math.max(1,parseInt(qtyEl.value)||1):1;
     callGet({action:'claimSupply',id:cb.dataset.id,name,qty},resp=>{
       if(resp&&resp.success) succeeded++;
       finish();
@@ -1129,8 +1170,8 @@ function submitActivity(e){
   if(!name||!title){ toast('Name and activity required.','error'); return; }
   setLoading(true,'Submitting…');
   callPost({action:'submit',type:'activity',_hp:'',name,title,
-    time:document.getElementById('a-time').value,
-    description:document.getElementById('a-desc').value
+    time:        document.getElementById('a-time').value,
+    description: document.getElementById('a-desc').value
   },resp=>{
     setLoading(false);
     if(resp&&resp.success){ toast('Activity added! 🎯','success'); document.getElementById('activity-form').reset(); if(_tabLoaded.info) loadInfoActivities(); }
@@ -1151,15 +1192,6 @@ function photoStepBack(){
   document.getElementById('ph-step2').classList.remove('active');
   document.getElementById('ph-step1').classList.add('active');
 }
-(function(){
-  document.addEventListener('DOMContentLoaded',()=>{
-    const dz=document.getElementById('drop-zone');
-    if(!dz) return;
-    dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
-    dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-    dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)processPhoto(f);});
-  });
-})();
 function handlePhotoFile(input){ const f=input.files[0]; if(f) processPhoto(f); }
 function processPhoto(file){
   const name=document.getElementById('ph-name').value.trim();
@@ -1175,10 +1207,9 @@ function processPhoto(file){
   const fi=setInterval(()=>{ fp=Math.min(fp+Math.random()*10,80); fill.style.width=fp+'%'; pct.textContent=Math.round(fp)+'%'; },300);
   const reader=new FileReader();
   reader.onload=ev=>{
-    const b64=ev.target.result.split(',')[1];
     const year=document.getElementById('ph-year').value;
-    callPost({action:'uploadPhoto',data:b64,year,filename:file.name,mimeType:file.type,
-      uploaderName:name,uploaderEmail:email},resp=>{
+    callPost({action:'uploadPhoto',data:ev.target.result.split(',')[1],year,
+      filename:file.name,mimeType:file.type,uploaderName:name,uploaderEmail:email},resp=>{
       clearInterval(fi); fill.style.width='100%'; pct.textContent='100%';
       stat.textContent=resp&&resp.success?'Upload complete! ✅':'Upload failed ❌';
       setTimeout(()=>{ prog.style.display='none'; fill.style.width='0'; },2500);
@@ -1188,7 +1219,6 @@ function processPhoto(file){
   };
   reader.readAsDataURL(file);
 }
-
 function loadPhotos(){
   const c=document.getElementById('photo-gallery');
   if(c) c.innerHTML='<div class="empty-msg">📸 Loading photos…</div>';
@@ -1199,8 +1229,7 @@ function loadPhotos(){
       if(resp&&resp.success&&resp.photos){
         resp.photos.forEach(p=>{ p.year=yr; all.push(p); });
       }
-      pending--;
-      if(pending<=0){ _allPhotos=all; renderPhotos(all); }
+      if(--pending<=0){ _allPhotos=all; renderPhotos(all); }
     });
   });
 }
@@ -1215,12 +1244,18 @@ function renderPhotos(photos){
   if(!c) return;
   if(!photos||!photos.length){ c.innerHTML='<div class="empty-msg"><span class="ei">📸</span>No photos yet — be the first to upload!</div>'; updatePhotoBtn(); return; }
   const byYr={};
-  photos.forEach(p=>{ const id=p.id||p.fileId; p.id=id; p.thumbUrl=thumbUrl(id); p.dlUrl=dlUrl(id); _photoMap[id]=p.dlUrl; if(!byYr[p.year]) byYr[p.year]=[]; byYr[p.year].push(p); });
-  const yrOrder=['2025','2024','2023','2022','pre2022'];
+  photos.forEach(p=>{
+    const id=p.id||p.fileId; p.id=id;
+    p.thumbUrl=thumbUrl(id); p.dlUrl=dlUrl(id);
+    _photoMap[id]=p.dlUrl;
+    if(!byYr[p.year]) byYr[p.year]=[];
+    byYr[p.year].push(p);
+  });
+  const order=['2025','2024','2023','2022','pre2022'];
   let html='';
-  yrOrder.filter(y=>byYr[y]).forEach(yr=>{
+  order.filter(y=>byYr[y]).forEach(yr=>{
     const label=yr==='pre2022'?'Before 2022':yr;
-    html+=`<div class="photo-year-hdr">📅 ${label}</div><div class="photo-grid">`;
+    html+=`<div class="photo-yr-hdr">📅 ${label}</div><div class="photo-grid">`;
     byYr[yr].forEach(p=>{
       html+=`<div class="photo-card" data-id="${esc(p.id)}" onclick="togglePhotoCard(this)">
         <div class="photo-cb-wrap" onclick="event.stopPropagation()">
@@ -1230,7 +1265,8 @@ function renderPhotos(photos){
              onerror="this.closest('.photo-card').style.display='none'">
         <div class="photo-caption">
           <span>${esc(p.uploaderName||'Family')}</span>
-          <a href="${esc(p.dlUrl)}" target="_blank" rel="noopener" class="photo-dl-link" onclick="event.stopPropagation()" title="Download">⬇</a>
+          <a href="${esc(p.dlUrl)}" target="_blank" rel="noopener" class="photo-dl-link"
+             onclick="event.stopPropagation()" title="Download">⬇</a>
         </div>
       </div>`;
     });
@@ -1238,16 +1274,12 @@ function renderPhotos(photos){
   });
   c.innerHTML=html; updatePhotoBtn();
 }
-function togglePhotoCard(card){
-  const cb=card.querySelector('.photo-cb');
-  if(!cb) return;
-  cb.checked=!cb.checked; onPhotoCb(cb);
-}
+function togglePhotoCard(card){ const cb=card.querySelector('.photo-cb'); if(!cb) return; cb.checked=!cb.checked; onPhotoCb(cb); }
 function onPhotoCb(cb){
   const id=cb.dataset.id;
   const card=document.querySelector('.photo-card[data-id="'+id+'"]');
   if(cb.checked){ _selPhotos.add(id); card&&card.classList.add('selected'); }
-  else{ _selPhotos.delete(id); card&&card.classList.remove('selected'); }
+  else           { _selPhotos.delete(id); card&&card.classList.remove('selected'); }
   updatePhotoBtn();
 }
 function photoSelectAll(){ document.querySelectorAll('.photo-cb').forEach(cb=>{ cb.checked=true; _selPhotos.add(cb.dataset.id); const c=document.querySelector('.photo-card[data-id="'+cb.dataset.id+'"]'); if(c)c.classList.add('selected'); }); updatePhotoBtn(); }
@@ -1255,16 +1287,14 @@ function photoDeselectAll(){ document.querySelectorAll('.photo-cb').forEach(cb=>
 function updatePhotoBtn(){
   const btn=document.getElementById('photo-dl-btn');
   const cnt=document.getElementById('photo-sel-count');
-  if(!btn) return;
-  const n=_selPhotos.size;
+  if(!btn) return; const n=_selPhotos.size;
   if(cnt) cnt.textContent=n;
   btn.style.display=n>0?'inline-flex':'none';
 }
 function downloadSelected(){
   if(!_selPhotos.size) return;
   Array.from(_selPhotos).forEach((id,i)=>{
-    const url=_photoMap[id];
-    if(!url) return;
+    const url=_photoMap[id]; if(!url) return;
     setTimeout(()=>{ const a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); document.body.removeChild(a); },i*500);
   });
   toast('Downloading '+_selPhotos.size+' photo(s)…','info');
@@ -1275,25 +1305,34 @@ function loadInfoTab(){
   loadInfoRSVPs(); loadInfoLobsters(); loadInfoChecklist();
   loadInfoSupplies(); loadInfoActivities(); loadInfoWWH();
 }
+
 function loadInfoRSVPs(){
   callGet({action:'read',type:'rsvp',pin:_adminPin},resp=>{
-    const tb=document.querySelector('#rsvp-tbl tbody');
+    const tb=document.getElementById('rsvp-tbody');
     if(!tb) return;
-    if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="8" class="error-msg">Could not load RSVPs.</td></tr>'; return; }
+    if(!resp||!resp.success){
+      tb.innerHTML='<tr><td colspan="8" class="error-msg">Could not load RSVPs.</td></tr>'; return;
+    }
     const data=resp.data||[];
     let tA=0,tK=0;
-    if(!data.length){ tb.innerHTML='<tr><td colspan="8"><div class="empty-msg"><span class="ei">🎊</span>No RSVPs yet.</div></td></tr>'; }
-    else{
+    _rsvpCache={};
+    if(!data.length){
+      tb.innerHTML='<tr><td colspan="8"><div class="empty-msg"><span class="ei">🎊</span>No RSVPs yet.</div></td></tr>';
+    } else {
       tb.innerHTML=data.map(r=>{
+        _rsvpCache[r.RowID]=r;
         tA+=parseInt(r.Adults)||0; tK+=parseInt(r.Kids)||0;
-        const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteRow('rsvp','${esc(r.RowID)}')">🗑</button>`:'';
+        const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteRSVP('${esc(r.RowID)}')">🗑</button>`:'';
         return `<tr>
           <td><strong>${esc(r.Name)}</strong>${r.EditedBy?`<div style="font-size:.7rem;color:var(--text3)">${esc(r.EditedBy)}</div>`:''}</td>
-          <td class="tc">${r.Adults||'—'}</td><td class="tc">${r.Kids||'—'}</td>
-          <td>${esc(r.Arrival)}</td><td>${esc(r.Departing)}</td>
-          <td>${esc(r.Accommodation)}</td><td>${esc(r.Potluck)}</td>
+          <td class="tc">${r.Adults||'—'}</td>
+          <td class="tc">${r.Kids||'—'}</td>
+          <td>${esc(r.Arrival)}</td>
+          <td>${esc(r.Departing)}</td>
+          <td>${esc(r.Accommodation)}</td>
+          <td>${esc(r.Potluck)}</td>
           <td><div class="edit-btns">
-            <button class="btn btn-outline btn-sm" onclick="openEditRSVP(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️</button>
+            <button class="btn btn-outline btn-sm" onclick="openEditRSVP('${esc(r.RowID)}')">✏️</button>
             ${adminDel}
           </div></td>
         </tr>`;
@@ -1303,24 +1342,32 @@ function loadInfoRSVPs(){
     sv('s-adults',tA); sv('s-kids',tK); sv('s-total',tA+tK);
   });
 }
+
 function loadInfoLobsters(){
   callGet({action:'read',type:'lobster',pin:_adminPin},resp=>{
-    const tb=document.querySelector('#lob-tbl tbody');
+    const tb=document.getElementById('lob-tbody');
     const tf=document.getElementById('lob-totals');
     if(!tb) return;
-    if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">⚠ Could not load orders.</td></tr>'; return; }
+    if(!resp||!resp.success){
+      tb.innerHTML='<tr><td colspan="5" class="error-msg">⚠ Could not load orders. Please try again.</td></tr>'; return;
+    }
     const data=resp.data||[];
     let tL=0,tC=0,tCo=0;
-    if(!data.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg"><span class="ei">🦞</span>No orders yet.</div></td></tr>'; }
-    else{
+    _lobCache={};
+    if(!data.length){
+      tb.innerHTML='<tr><td colspan="5"><div class="empty-msg"><span class="ei">🦞</span>No lobster orders yet.</div></td></tr>';
+    } else {
       tb.innerHTML=data.map(r=>{
+        _lobCache[r.RowID]=r;
         tL+=parseInt(r.Lobsters)||0; tC+=parseInt(r.Clams)||0; tCo+=parseInt(r.Corn)||0;
-        const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteRow('lobster','${esc(r.RowID)}')">🗑</button>`:'';
+        const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteLobster('${esc(r.RowID)}')">🗑</button>`:'';
         return `<tr>
           <td><strong>${esc(r.Name)}</strong></td>
-          <td class="tc">${r.Lobsters||'—'}</td><td class="tc">${r.Clams||'—'}</td><td class="tc">${r.Corn||'—'}</td>
+          <td class="tc">${r.Lobsters||'—'}</td>
+          <td class="tc">${r.Clams||'—'}</td>
+          <td class="tc">${r.Corn||'—'}</td>
           <td><div class="edit-btns">
-            <button class="btn btn-outline btn-sm" onclick="openEditLobster(${JSON.stringify(r).replace(/"/g,'&quot;')})">✏️</button>
+            <button class="btn btn-outline btn-sm" onclick="openEditLobster('${esc(r.RowID)}')">✏️</button>
             ${adminDel}
           </div></td>
         </tr>`;
@@ -1331,28 +1378,31 @@ function loadInfoLobsters(){
     sv('s-lob',tL); sv('s-clam',tC); sv('s-corn',tCo);
   });
 }
+
 function loadInfoChecklist(){
   callGet({action:'read',type:'supplyChecklist',year:_currentYear},resp=>{
-    const tb=document.querySelector('#cl-tbl tbody');
+    const tb=document.getElementById('cl-tbody');
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">Could not load.</td></tr>'; return; }
     const items=resp.items||[];
-    if(!items.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg">No checklist items.</div></td></tr>'; return; }
+    if(!items.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg">No checklist items yet.</div></td></tr>'; return; }
     tb.innerHTML=items.map(item=>{
       const rem=item.remaining||0;
       const names=(item.claims||[]).map(c=>typeof c==='object'?c.name:c).join(', ');
       return `<tr>
         <td><strong>${esc(item.item)}</strong></td>
-        <td class="tc">${item.needed||0}</td><td class="tc">${item.claimed||0}</td>
-        <td class="tc" style="color:${rem===0?'var(--ok)':'var(--accent)'}">${rem===0?'✓ Full':rem}</td>
+        <td class="tc">${item.needed||0}</td>
+        <td class="tc">${item.claimed||0}</td>
+        <td class="tc" style="color:${rem===0?'var(--ok)':'var(--accent)'};font-weight:700">${rem===0?'✓ Full':rem}</td>
         <td>${esc(names)}</td>
       </tr>`;
     }).join('');
   });
 }
+
 function loadInfoSupplies(){
   callGet({action:'read',type:'supply',pin:_adminPin},resp=>{
-    const tb=document.querySelector('#sup-tbl tbody');
+    const tb=document.getElementById('sup-tbody');
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="3" class="error-msg">Could not load.</td></tr>'; return; }
     const data=resp.data||[];
@@ -1362,106 +1412,136 @@ function loadInfoSupplies(){
     tb.innerHTML=Object.keys(byName).map(name=>{
       const rows=byName[name];
       const items=rows.map(r=>esc(r.Items)).filter(Boolean).join(', ');
-      const adminDels=_isAdmin?rows.map(r=>`<button class="btn btn-danger btn-sm" onclick="deleteRow('supply','${esc(r.RowID)}')">🗑</button>`).join(''):'' ;
+      const adminDels=_isAdmin?rows.map(r=>`<button class="btn btn-danger btn-sm" onclick="deleteSupply('${esc(r.RowID)}')">🗑</button>`).join(''):'';
       return `<tr><td><strong>${esc(name)}</strong></td><td>${items}</td><td><div class="edit-btns">${adminDels}</div></td></tr>`;
     }).join('');
   });
 }
+
 function loadInfoActivities(){
   callGet({action:'read',type:'activity',pin:_adminPin},resp=>{
-    const tb=document.querySelector('#act-tbl tbody');
+    const tb=document.getElementById('act-tbody');
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">Could not load.</td></tr>'; return; }
     const data=resp.data||[];
     if(!data.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg"><span class="ei">🎯</span>No activities yet.</div></td></tr>'; return; }
     tb.innerHTML=data.map(r=>{
-      const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteRow('activity','${esc(r.RowID)}')">🗑</button>`:'';
-      return `<tr><td><strong>${esc(r.Title)}</strong></td><td>${esc(r.Name)}</td><td>${esc(r.Time)}</td><td>${esc(r.Description)}</td><td>${adminDel}</td></tr>`;
+      const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteActivity('${esc(r.RowID)}')">🗑</button>`:'';
+      return `<tr>
+        <td><strong>${esc(r.Title)}</strong></td>
+        <td>${esc(r.Name)}</td>
+        <td>${esc(r.Time)}</td>
+        <td>${esc(r.Description)}</td>
+        <td>${adminDel}</td>
+      </tr>`;
     }).join('');
   });
 }
+
 function loadInfoWWH(){
   callGet({action:'read',type:'whatWeHave'},resp=>{
     const el=document.getElementById('wwh-chips');
     if(!el) return;
-    if(!resp||!resp.success||!resp.items||!resp.items.length){ el.innerHTML='<div class="empty-msg" style="padding:.5rem">No items listed.</div>'; return; }
-    // ✅ FIXED: only display item.item — no extra columns
+    if(!resp||!resp.success||!resp.items||!resp.items.length){
+      el.innerHTML='<div class="empty-msg" style="padding:.5rem">No items listed.</div>'; return;
+    }
+    // Display only item.item — no extra columns, no "true" values
     el.innerHTML=resp.items.map(item=>`<span class="wwh-chip">${esc(item.item)}</span>`).join('');
   });
 }
 
-// ── Delete Row ────────────────────────────────────────────────
-function deleteRow(type,rowId){
+// ── Delete helpers ────────────────────────────────────────────
+function deleteRSVP(rowId){ confirmDelete('rsvp',rowId,()=>{ if(_tabLoaded.info)loadInfoRSVPs(); }); }
+function deleteLobster(rowId){ confirmDelete('lobster',rowId,()=>{ if(_tabLoaded.info)loadInfoLobsters(); }); }
+function deleteSupply(rowId){ confirmDelete('supply',rowId,()=>{ if(_tabLoaded.info)loadInfoSupplies(); }); }
+function deleteActivity(rowId){ confirmDelete('activity',rowId,()=>{ if(_tabLoaded.info)loadInfoActivities(); }); }
+function confirmDelete(type,rowId,onDone){
   if(!_isAdmin){ toast('Admin access required.','error'); return; }
   showConfirm('Delete this entry?','This cannot be undone.',()=>{
     setLoading(true,'Deleting…');
     callPost({action:'deleteRow',pin:_adminPin,type,rowId},resp=>{
       setLoading(false);
-      if(resp&&resp.success){ toast('Deleted ✅','success'); if(type==='rsvp')loadInfoRSVPs(); if(type==='lobster')loadInfoLobsters(); if(type==='supply')loadInfoSupplies(); if(type==='activity')loadInfoActivities(); }
-      else toast((resp&&resp.error)||'Failed.','error');
+      if(resp&&resp.success){ toast('Deleted ✅','success'); onDone&&onDone(); }
+      else toast((resp&&resp.error)||'Delete failed.','error');
     });
   });
 }
 
 // ── Edit Modals ───────────────────────────────────────────────
-function openEditRSVP(r){
+function openEditRSVP(rowId){
+  const r=_rsvpCache[rowId];
+  if(!r){ toast('Data not found. Please refresh.','error'); return; }
   _editCtx={type:'rsvp',rowId:r.RowID,origName:r.Name};
   document.getElementById('edit-modal-title').textContent='Edit RSVP';
   document.getElementById('edit-modal-body').innerHTML=`
-    <div class="form-group"><label class="form-label">Name</label><input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
+    <div class="form-group"><label class="form-label">Name</label>
+      <input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Adults</label><input class="form-control" id="em-adults" type="number" min="1" value="${r.Adults||1}"></div>
-      <div class="form-group"><label class="form-label">Kids</label><input class="form-control" id="em-kids" type="number" min="0" value="${r.Kids||0}"></div>
+      <div class="form-group"><label class="form-label">Adults</label>
+        <input class="form-control" id="em-adults" type="number" min="1" value="${r.Adults||1}"></div>
+      <div class="form-group"><label class="form-label">Kids</label>
+        <input class="form-control" id="em-kids" type="number" min="0" value="${r.Kids||0}"></div>
     </div>
-    <div class="form-group"><label class="form-label">Potluck</label><input class="form-control" id="em-potluck" value="${esc(r.Potluck)}"></div>
-    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="em-notes" rows="2">${esc(r.Notes)}</textarea></div>
-    ${!_isAdmin?'<p class="form-hint">⚠️ Name must match your original submission to save.</p>':''}`;
+    <div class="form-group"><label class="form-label">Potluck Item</label>
+      <input class="form-control" id="em-potluck" value="${esc(r.Potluck)}"></div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <textarea class="form-control" id="em-notes" rows="2">${esc(r.Notes)}</textarea></div>
+    ${!_isAdmin?'<p class="form-hint">⚠️ Your name must match your original submission to save.</p>':''}`;
   document.getElementById('edit-modal').classList.add('open');
 }
-function openEditLobster(r){
+
+function openEditLobster(rowId){
+  const r=_lobCache[rowId];
+  if(!r){ toast('Data not found. Please refresh.','error'); return; }
   _editCtx={type:'lobster',rowId:r.RowID,origName:r.Name};
   document.getElementById('edit-modal-title').textContent='Edit Lobster Order';
   document.getElementById('edit-modal-body').innerHTML=`
-    <div class="form-group"><label class="form-label">Name</label><input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
+    <div class="form-group"><label class="form-label">Name</label>
+      <input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
     <div class="form-row" style="grid-template-columns:repeat(3,1fr)">
-      <div class="form-group"><label class="form-label">🦞</label><input class="form-control" id="em-lobsters" type="number" min="0" value="${r.Lobsters||0}"></div>
-      <div class="form-group"><label class="form-label">🦪</label><input class="form-control" id="em-clams" type="number" min="0" value="${r.Clams||0}"></div>
-      <div class="form-group"><label class="form-label">🌽</label><input class="form-control" id="em-corn" type="number" min="0" value="${r.Corn||0}"></div>
+      <div class="form-group"><label class="form-label">🦞 Lobsters</label>
+        <input class="form-control" id="em-lobsters" type="number" min="0" value="${r.Lobsters||0}"></div>
+      <div class="form-group"><label class="form-label">🦪 Clams</label>
+        <input class="form-control" id="em-clams" type="number" min="0" value="${r.Clams||0}"></div>
+      <div class="form-group"><label class="form-label">🌽 Corn</label>
+        <input class="form-control" id="em-corn" type="number" min="0" value="${r.Corn||0}"></div>
     </div>`;
   document.getElementById('edit-modal').classList.add('open');
 }
+
 function doEdit(){
   if(!_editCtx) return;
   const ctx=_editCtx;
-  const editorName=document.getElementById('em-name')&&document.getElementById('em-name').value.trim()||ctx.origName;
-  const doSave=(verified)=>{
+  const editorName=(document.getElementById('em-name')&&document.getElementById('em-name').value.trim())||ctx.origName;
+  const save=(verified)=>{
     if(!verified&&!_isAdmin){ toast('Name does not match original submission.','error'); return; }
-    let params={type:ctx.type,rowId:ctx.rowId,editorName};
+    const params={type:ctx.type,rowId:ctx.rowId,editorName};
     if(_isAdmin){ params.action='adminEditRow'; params.pin=_adminPin; }
-    else{ params.action='editRow'; }
+    else params.action='editRow';
     if(ctx.type==='rsvp'){
-      params.adults=document.getElementById('em-adults')&&document.getElementById('em-adults').value;
-      params.kids=document.getElementById('em-kids')&&document.getElementById('em-kids').value;
-      params.potluck=document.getElementById('em-potluck')&&document.getElementById('em-potluck').value;
-      params.notes=document.getElementById('em-notes')&&document.getElementById('em-notes').value;
+      params.adults=document.getElementById('em-adults').value;
+      params.kids  =document.getElementById('em-kids').value;
+      params.potluck=document.getElementById('em-potluck').value;
+      params.notes =document.getElementById('em-notes').value;
     } else if(ctx.type==='lobster'){
-      params.lobsters=document.getElementById('em-lobsters')&&document.getElementById('em-lobsters').value;
-      params.clams=document.getElementById('em-clams')&&document.getElementById('em-clams').value;
-      params.corn=document.getElementById('em-corn')&&document.getElementById('em-corn').value;
+      params.lobsters=document.getElementById('em-lobsters').value;
+      params.clams   =document.getElementById('em-clams').value;
+      params.corn    =document.getElementById('em-corn').value;
     }
     setLoading(true,'Saving…');
     const fn=_isAdmin?callPost:callGet;
     fn(params,resp=>{
       setLoading(false); closeEditModal();
-      if(resp&&resp.success){ toast('Saved! ✅','success'); if(ctx.type==='rsvp')loadInfoRSVPs(); if(ctx.type==='lobster')loadInfoLobsters(); }
-      else toast((resp&&resp.error)||'Save failed.','error');
+      if(resp&&resp.success){
+        toast('Saved! ✅','success');
+        if(ctx.type==='rsvp')    loadInfoRSVPs();
+        if(ctx.type==='lobster') loadInfoLobsters();
+      } else toast((resp&&resp.error)||'Save failed.','error');
     });
   };
   if(!_isAdmin){
-    callGet({action:'verifyOwner',type:ctx.type,rowId:ctx.rowId,name:editorName},resp=>{
-      doSave(resp&&resp.verified);
-    });
-  } else { doSave(true); }
+    callGet({action:'verifyOwner',type:ctx.type,rowId:ctx.rowId,name:editorName},resp=>save(resp&&resp.verified));
+  } else save(true);
 }
 function closeEditModal(){ document.getElementById('edit-modal').classList.remove('open'); _editCtx=null; }
 
@@ -1475,10 +1555,26 @@ function loadPastYears(){
     if(!years.length){ grid.innerHTML='<div class="empty-msg"><span class="ei">🎉</span>No past years yet.</div>'; return; }
     const colors=['#1e3a5f','#1a3a2a','#3a1a2a','#2a2a1a','#1a2a3a'];
     grid.innerHTML=years.map((py,i)=>{
-      const imgUrl=py.imageUrl?'https://drive.google.com/thumbnail?id='+py.imageFileId+'&sz=w600':null;
+      // Use thumbnail URL for year images
+      const imgId=py.imageFileId;
+      const imgUrl=imgId?`https://drive.google.com/thumbnail?id=${imgId}&sz=w600`:'';
       const imgEl=imgUrl
-        ?`<img src="${esc(imgUrl)}" alt="${esc(py.year)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        ?`<img src="${esc(imgUrl)}" alt="${esc(py.year)}" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
         :'';
+      // Stats with large numbers
+      const statItem=(emoji,val,lbl)=>val&&val!=='0'
+        ?`<div class="py-stat-item"><div class="py-stat-num">${emoji} ${esc(val)}</div><div class="py-stat-lbl">${lbl}</div></div>`:'';
+      const statsHtml=`
+        ${py.people ?statItem('👥',py.people,'People'):''}
+        ${statItem('🦞',py.lobsters,'Lobsters')}
+        ${statItem('🦪',py.clams,'Clams')}
+        ${statItem('🌽',py.corn,'Corn')}`;
+      const adminBtns=_isAdmin
+        ?`<div class="py-admin-btns">
+            <button class="btn btn-outline btn-sm" onclick="openEditPY(${i})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePastYear('${esc(py.year)}')">🗑</button>
+          </div>`:'' ;
       return `<div class="py-card">
         <div class="py-img-wrap">
           ${imgEl}
@@ -1486,14 +1582,9 @@ function loadPastYears(){
         </div>
         <div class="py-body">
           <div class="py-year-num">${esc(py.year)}</div>
-          <div class="py-stats-row">
-            ${py.people?`<span class="py-stat-chip">👥 <strong>${esc(py.people)}</strong></span>`:''}
-            ${py.lobsters&&py.lobsters!=='0'?`<span class="py-stat-chip">🦞 <strong>${esc(py.lobsters)}</strong></span>`:''}
-            ${py.clams&&py.clams!=='0'?`<span class="py-stat-chip">🦪 <strong>${esc(py.clams)}</strong></span>`:''}
-            ${py.corn&&py.corn!=='0'?`<span class="py-stat-chip">🌽 <strong>${esc(py.corn)}</strong></span>`:''}
-          </div>
+          <div class="py-stats-row">${statsHtml}</div>
           ${py.description?`<p class="py-desc">${esc(py.description)}</p>`:''}
-          ${_isAdmin?`<div class="py-admin-btns"><button class="btn btn-outline btn-sm" onclick="openEditPastYear(${JSON.stringify(py).replace(/"/g,'&quot;')})">✏️ Edit</button><button class="btn btn-danger btn-sm" onclick="deletePastYear('${esc(py.year)}')">🗑</button></div>`:''}
+          ${adminBtns}
         </div>
       </div>`;
     }).join('');
@@ -1502,35 +1593,45 @@ function loadPastYears(){
 
 // ── Admin ──────────────────────────────────────────────────────
 function openAdminModal(){
-  _pinEntry=''; updatePinDots(); document.getElementById('pin-err').textContent='';
+  const input=document.getElementById('admin-pin-input');
+  if(input) input.value='';
+  document.getElementById('pin-err').textContent='';
   const pinSec=document.getElementById('admin-pin-sec');
   const tabsSec=document.getElementById('admin-tabs-sec');
   if(_isAdmin){ pinSec.style.display='none'; tabsSec.style.display='block'; renderAdminTab('home'); }
-  else{ pinSec.style.display='block'; tabsSec.style.display='none'; }
+  else        { pinSec.style.display='block'; tabsSec.style.display='none'; }
   document.getElementById('admin-overlay').classList.add('open');
+  // Focus the PIN input
+  setTimeout(()=>{ if(input&&!_isAdmin) input.focus(); },250);
 }
 function closeAdminModal(){ document.getElementById('admin-overlay').classList.remove('open'); }
 function adminOverlayClick(e){ if(e.target===document.getElementById('admin-overlay')) closeAdminModal(); }
 function lockAdmin(){ _isAdmin=false; _adminPin=''; document.getElementById('admin-active-bar').classList.remove('show'); toast('Admin logged out.','info'); }
-function pinPress(d){ if(_pinEntry.length>=4) return; _pinEntry+=d; updatePinDots(); if(_pinEntry.length===4) doVerifyPin(); }
-function pinBack(){ _pinEntry=_pinEntry.slice(0,-1); updatePinDots(); }
-function pinClear(){ _pinEntry=''; updatePinDots(); document.getElementById('pin-err').textContent=''; }
-function updatePinDots(){ for(let i=0;i<4;i++) document.getElementById('pd'+i).classList.toggle('filled',i<_pinEntry.length); }
+
+// Admin PIN verification — accepts any characters, min 4
 function doVerifyPin(){
-  callGet({action:'verifyPin',pin:_pinEntry},resp=>{
+  const input=document.getElementById('admin-pin-input');
+  const pin=(input?input.value:'').trim();
+  if(!pin||pin.length<4){
+    document.getElementById('pin-err').textContent='PIN must be at least 4 characters.';
+    return;
+  }
+  document.getElementById('pin-err').textContent='';
+  callGet({action:'verifyPin',pin},resp=>{
     if(resp&&resp.valid){
-      _adminPin=_pinEntry; _isAdmin=true;
+      _adminPin=pin; _isAdmin=true;
       document.getElementById('admin-pin-sec').style.display='none';
       document.getElementById('admin-tabs-sec').style.display='block';
       document.getElementById('admin-active-bar').classList.add('show');
       renderAdminTab('home');
       if(_tabLoaded.info) loadInfoTab();
     } else {
-      document.getElementById('pin-err').textContent='✕ Incorrect PIN.';
-      _pinEntry=''; updatePinDots();
+      document.getElementById('pin-err').textContent='✕ Incorrect PIN. Try again.';
+      if(input){ input.value=''; input.focus(); }
     }
   });
 }
+
 function showAdminTab(name){
   document.querySelectorAll('.atab-btn').forEach(b=>b.classList.toggle('active',b.dataset.atab===name));
   document.querySelectorAll('.atab-pane').forEach(p=>p.classList.remove('active'));
@@ -1541,8 +1642,8 @@ function renderAdminTab(name){
   const el=document.getElementById('atab-'+name);
   if(!el) return;
   if(name==='home')      renderAdminHome(el);
-  if(name==='rsvps')     renderAdminDataList(el,'read&type=rsvp','rsvp',['Name','Adults','Kids','Arrival']);
-  if(name==='lobster')   renderAdminDataList(el,'read&type=lobster','lobster',['Name','Lobsters','Clams','Corn']);
+  if(name==='rsvps')     renderAdminSimpleList(el,'rsvp',['Name','Adults','Kids','Arrival']);
+  if(name==='lobster')   renderAdminSimpleList(el,'lobster',['Name','Lobsters','Clams','Corn']);
   if(name==='supply')    renderAdminSupply(el);
   if(name==='photos')    renderAdminPhotos(el);
   if(name==='pastyears') renderAdminPastYears(el);
@@ -1556,24 +1657,28 @@ function renderAdminHome(el){
     ${ta?`<textarea class="form-control" id="hc-${k}" rows="3">${esc(s[k]||'')}</textarea>`
        :`<input class="form-control" id="hc-${k}" value="${esc(s[k]||'')}">`}</div>`;
   el.innerHTML=`
-    <div class="admin-sec-title">Home Content</div>
-    ${fld('home_schedule_when','When')}${fld('home_schedule_saturday','Saturday')}${fld('home_schedule_sunday','Sunday')}
-    ${fld('home_host','Hosted By')}${fld('home_address','Address')}
-    ${fld('home_welcome_text','Welcome Text',true)}${fld('home_welcome_subtext','Welcome Sub-text')}
-    ${fld('home_venmo_title','Donation Title')}${fld('home_venmo_subtitle','Donation Subtitle')}
-    ${fld('home_venmo_body','Donation Body',true)}${fld('home_venmo_handle','Venmo Handle')}
-    ${fld('home_venmo_url','Venmo URL')}${fld('home_venmo_tagline','Donation Footer',true)}
+    <div class="admin-sec-title">Schedule & Location</div>
+    ${fld('home_schedule_when','When')}${fld('home_schedule_saturday','Saturday')}
+    ${fld('home_schedule_sunday','Sunday')}${fld('home_host','Hosted By')}${fld('home_address','Address')}
+    <div class="admin-sec-title" style="margin-top:1rem">Welcome Text</div>
+    ${fld('home_welcome_text','Welcome Text',true)}${fld('home_welcome_subtext','Sub-text')}
+    <div class="admin-sec-title" style="margin-top:1rem">Donation Section</div>
+    ${fld('home_venmo_title','Title')}${fld('home_venmo_subtitle','Subtitle')}
+    ${fld('home_venmo_body','Body Text',true)}${fld('home_venmo_handle','Venmo Handle')}
+    ${fld('home_venmo_url','Venmo URL')}${fld('home_venmo_tagline','Footer Text',true)}
+    <div class="admin-sec-title" style="margin-top:1rem">Contact</div>
     ${fld('home_contact1_name','Contact 1 Name')}${fld('home_contact1_phone','Contact 1 Phone')}
     ${fld('home_contact2_name','Contact 2 Name')}${fld('home_contact2_phone','Contact 2 Phone')}
     ${fld('home_contact3_name','Contact 3 Name')}${fld('home_contact3_phone','Contact 3 Phone')}
     ${fld('home_contact_note','Contact Note')}${fld('home_rsvp_note','RSVP Note',true)}
-    <button class="btn btn-primary btn-full" onclick="saveAdminHomeContent()">Save Changes ✅</button>`;
+    <button class="btn btn-primary btn-full" onclick="saveAdminHomeContent()" style="margin-top:.5rem">Save Changes ✅</button>`;
 }
 function saveAdminHomeContent(){
   const keys=['home_schedule_when','home_schedule_saturday','home_schedule_sunday','home_host','home_address',
     'home_welcome_text','home_welcome_subtext','home_venmo_title','home_venmo_subtitle','home_venmo_body',
-    'home_venmo_handle','home_venmo_url','home_venmo_tagline','home_contact1_name','home_contact1_phone',
-    'home_contact2_name','home_contact2_phone','home_contact3_name','home_contact3_phone','home_contact_note','home_rsvp_note'];
+    'home_venmo_handle','home_venmo_url','home_venmo_tagline',
+    'home_contact1_name','home_contact1_phone','home_contact2_name','home_contact2_phone',
+    'home_contact3_name','home_contact3_phone','home_contact_note','home_rsvp_note'];
   const settings={};
   keys.forEach(k=>{ const el=document.getElementById('hc-'+k); if(el) settings[k]=el.value; });
   setLoading(true,'Saving…');
@@ -1584,11 +1689,9 @@ function saveAdminHomeContent(){
   });
 }
 
-function renderAdminDataList(el,readAction,type,fields){
+function renderAdminSimpleList(el,type,fields){
   el.innerHTML='<div class="empty-msg" style="padding:.75rem">Loading…</div>';
-  const params=Object.fromEntries(readAction.split('&').map(p=>[...p.split('=')]));
-  params.pin=_adminPin;
-  callGet(params,resp=>{
+  callGet({action:'read',type,pin:_adminPin},resp=>{
     if(!resp||!resp.success){ el.innerHTML='<div class="error-msg">Load failed.</div>'; return; }
     const data=resp.data||[];
     if(!data.length){ el.innerHTML='<div class="empty-msg">No entries yet.</div>'; return; }
@@ -1597,7 +1700,7 @@ function renderAdminDataList(el,readAction,type,fields){
         <div class="admin-row-main"><strong>${esc(r.Name||'')}</strong>
           <div class="admin-row-sub">${fields.slice(1).map(f=>f+': '+(r[f]||0)).join(' · ')}</div>
         </div>
-        <button class="btn btn-danger btn-sm" onclick="deleteRow('${type}','${esc(r.RowID)}')">🗑</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('${type}','${esc(r.RowID)}',()=>{renderAdminTab('${type==='rsvp'?'rsvps':'lobster'}')})">🗑</button>
       </div>`).join('');
   });
 }
@@ -1609,7 +1712,7 @@ function renderAdminSupply(el){
       <input class="form-control" id="adm-cl-item" placeholder="Item name">
       <input class="form-control" id="adm-cl-qty" type="number" min="1" value="1" style="max-width:80px">
     </div>
-    <button class="btn btn-primary btn-sm btn-full" onclick="adminAddChecklistItem()">Add Item</button>`;
+    <button class="btn btn-primary btn-sm btn-full" onclick="adminAddChecklistItem()">Add Item ✅</button>`;
 }
 function adminAddChecklistItem(){
   const item=document.getElementById('adm-cl-item').value.trim();
@@ -1626,33 +1729,26 @@ function adminAddChecklistItem(){
 function renderAdminPhotos(el){
   el.innerHTML=`
     <div class="admin-sec-title">Delete Photos by Year</div>
-    <div class="form-group">
-      <select class="form-control" id="adm-del-yr">
-        <option value="2025">2025</option><option value="2024">2024</option>
-        <option value="2023">2023</option><option value="2022">2022</option>
-        <option value="pre2022">Before 2022</option>
-      </select>
-    </div>
-    <button class="btn btn-danger btn-sm btn-full" style="margin-bottom:.5rem" onclick="adminDeletePhotosByYear()">Delete All Photos for Selected Year</button>
+    <div class="form-group"><select class="form-control" id="adm-del-yr">
+      <option value="2025">2025</option><option value="2024">2024</option>
+      <option value="2023">2023</option><option value="2022">2022</option>
+      <option value="pre2022">Before 2022</option>
+    </select></div>
+    <button class="btn btn-danger btn-sm btn-full" style="margin-bottom:.5rem" onclick="adminDeletePhotosByYear()">Delete All for Selected Year</button>
     <button class="btn btn-secondary btn-sm btn-full" onclick="adminFixPhotoSharing()">🔧 Fix Photo Sharing (run once)</button>`;
 }
 function adminDeletePhotosByYear(){
   const year=document.getElementById('adm-del-yr').value;
-  showConfirm('Delete ALL '+year+' photos?','Permanently removes from Drive.',()=>{
-    setLoading(true,'Deleting…');
-    callGet({action:'folderUrl',pin:_adminPin,year},resp=>{
-      // Bulk delete via folder — get file IDs first then bulk delete
-      callGet({action:'read',type:'photos',year,pin:_adminPin},resp2=>{
+  showConfirm('Delete ALL '+year+' photos?','Permanently removes them from Google Drive.',()=>{
+    setLoading(true,'Loading photo list…');
+    callGet({action:'read',type:'photos',year,pin:_adminPin},resp2=>{
+      if(!resp2||!resp2.photos||!resp2.photos.length){ setLoading(false); toast('No photos found for '+year,'info'); return; }
+      const ids=resp2.photos.map(p=>p.id);
+      setLoading(true,'Deleting '+ids.length+' photos…');
+      callPost({action:'bulkDeletePhotos',pin:_adminPin,fileIds:ids},resp3=>{
         setLoading(false);
-        if(resp2&&resp2.photos&&resp2.photos.length){
-          const ids=resp2.photos.map(p=>p.id);
-          setLoading(true,'Deleting '+ids.length+' photos…');
-          callPost({action:'bulkDeletePhotos',pin:_adminPin,fileIds:ids},resp3=>{
-            setLoading(false);
-            if(resp3&&resp3.success){ toast('Deleted '+resp3.deleted+' photos ✅','success'); loadPhotos(); }
-            else toast((resp3&&resp3.error)||'Failed.','error');
-          });
-        } else toast('No photos found for '+year,'info');
+        if(resp3&&resp3.success){ toast('Deleted '+resp3.deleted+' photos ✅','success'); loadPhotos(); }
+        else toast((resp3&&resp3.error)||'Failed.','error');
       });
     });
   });
@@ -1666,71 +1762,73 @@ function adminFixPhotoSharing(){
   });
 }
 
+let _pyEditCache=[];
+function openEditPY(idx){ renderAdminTab('pastyears'); /* prefill done in renderAdminPastYears */ }
 function renderAdminPastYears(el){
   el.innerHTML=`
     <div class="admin-sec-title">Add / Edit Past Year</div>
     <div class="form-group"><label class="form-label">Year *</label>
-      <input class="form-control" id="py-yr" type="number" placeholder="e.g. 2024"></div>
+      <input class="form-control" id="py-yr" type="number" placeholder="${new Date().getFullYear()-1}"></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">People</label>
+      <div class="form-group"><label class="form-label">👥 People</label>
         <input class="form-control" id="py-ppl" placeholder="e.g. ~90"></div>
       <div class="form-group"><label class="form-label">🦞 Lobsters</label>
-        <input class="form-control" id="py-lob" type="number" placeholder="0" min="0"></div>
+        <input class="form-control" id="py-lob" type="number" min="0" placeholder="0"></div>
     </div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">🦪 Clams</label>
-        <input class="form-control" id="py-clam" type="number" placeholder="0" min="0"></div>
+        <input class="form-control" id="py-clam" type="number" min="0" placeholder="0"></div>
       <div class="form-group"><label class="form-label">🌽 Corn</label>
-        <input class="form-control" id="py-corn" type="number" placeholder="0" min="0"></div>
+        <input class="form-control" id="py-corn" type="number" min="0" placeholder="0"></div>
     </div>
     <div class="form-group"><label class="form-label">Description</label>
-      <textarea class="form-control" id="py-desc" rows="2" placeholder="A brief description of the year…"></textarea></div>
+      <textarea class="form-control" id="py-desc" rows="2" placeholder="A brief description…"></textarea></div>
     <div class="form-group"><label class="form-label">Year Photo (optional)</label>
       <input class="form-control" id="py-img" type="file" accept="image/*" style="padding:.4rem"></div>
-    <button class="btn btn-primary btn-sm btn-full" onclick="adminSavePastYear()">Save Past Year 🎉</button>
-    <div class="admin-sec-title" style="margin-top:1.25rem">Existing Past Years</div>
+    <button class="btn btn-primary btn-sm btn-full" style="margin-bottom:1rem" onclick="adminSavePastYear()">Save Past Year 🎉</button>
+    <div class="admin-sec-title">Existing Past Years</div>
     <div id="adm-py-list"><div class="empty-msg" style="padding:.5rem">Loading…</div></div>`;
-  // Load list
   callGet({action:'read',type:'pastYears'},resp=>{
     const list=document.getElementById('adm-py-list');
     if(!list) return;
     if(!resp||!resp.years||!resp.years.length){ list.innerHTML='<div class="empty-msg" style="padding:.5rem">None yet.</div>'; return; }
-    list.innerHTML=resp.years.map(py=>`
+    _pyEditCache=resp.years;
+    list.innerHTML=resp.years.map((py,i)=>`
       <div class="admin-row">
         <div class="admin-row-main"><strong>${esc(py.year)}</strong>
-          <div class="admin-row-sub">👥${py.people||'?'} 🦞${py.lobsters||0} 🦪${py.clams||0} 🌽${py.corn||0}</div>
+          <div class="admin-row-sub">👥${py.people||'?'} · 🦞${py.lobsters||0} · 🦪${py.clams||0} · 🌽${py.corn||0}</div>
         </div>
         <div class="edit-btns">
-          <button class="btn btn-outline btn-sm" onclick="prefillPastYear(${JSON.stringify(py).replace(/"/g,'&quot;')})">✏️</button>
+          <button class="btn btn-outline btn-sm" onclick="prefillPY(${i})">✏️</button>
           <button class="btn btn-danger btn-sm" onclick="deletePastYear('${esc(py.year)}')">🗑</button>
         </div>
       </div>`).join('');
   });
 }
-function prefillPastYear(py){
+function prefillPY(i){
+  const py=_pyEditCache[i]; if(!py) return;
   const sv=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
   sv('py-yr',py.year); sv('py-ppl',py.people); sv('py-lob',py.lobsters);
   sv('py-clam',py.clams); sv('py-corn',py.corn); sv('py-desc',py.description);
-  document.getElementById('py-img').value='';
+  const img=document.getElementById('py-img'); if(img) img.value='';
   document.getElementById('atab-pastyears').scrollTop=0;
 }
-function openEditPastYear(py){ showAdminTab('pastyears'); prefillPastYear(py); }
 function adminSavePastYear(){
-  const year=document.getElementById('py-yr').value.trim();
+  const year=(document.getElementById('py-yr').value||'').trim();
   if(!year){ toast('Year required.','error'); return; }
   const file=document.getElementById('py-img').files[0];
   const doSave=(imgFileId,imgUrl)=>{
-    setLoading(true,'Saving…');
+    setLoading(true,'Saving past year…');
     callPost({action:'savePastYear',pin:_adminPin,year,
-      people:document.getElementById('py-ppl').value,
-      lobsters:document.getElementById('py-lob').value,
-      clams:document.getElementById('py-clam').value,
-      corn:document.getElementById('py-corn').value,
+      people:     document.getElementById('py-ppl').value,
+      lobsters:   document.getElementById('py-lob').value,
+      clams:      document.getElementById('py-clam').value,
+      corn:       document.getElementById('py-corn').value,
       description:document.getElementById('py-desc').value,
       imageFileId:imgFileId||'',imageUrl:imgUrl||''
     },resp=>{
       setLoading(false);
-      if(resp&&resp.success){ toast('Past year saved! ✅','success'); if(_tabLoaded.pastyears)loadPastYears(); renderAdminTab('pastyears'); }
+      if(resp&&resp.success){ toast('Past year saved! ✅','success'); if(_tabLoaded.pastyears) loadPastYears(); renderAdminTab('pastyears'); }
       else toast((resp&&resp.error)||'Save failed.','error');
     });
   };
@@ -1738,8 +1836,7 @@ function adminSavePastYear(){
     setLoading(true,'Uploading image…');
     const reader=new FileReader();
     reader.onload=ev=>{
-      const b64=ev.target.result.split(',')[1];
-      callPost({action:'uploadYearImage',pin:_adminPin,year,data:b64,mimeType:file.type},resp=>{
+      callPost({action:'uploadYearImage',pin:_adminPin,year,data:ev.target.result.split(',')[1],mimeType:file.type},resp=>{
         if(resp&&resp.success) doSave(resp.fileId,resp.url);
         else{ setLoading(false); toast((resp&&resp.error)||'Image upload failed.','error'); }
       });
@@ -1748,11 +1845,11 @@ function adminSavePastYear(){
   } else doSave('','');
 }
 function deletePastYear(year){
-  showConfirm('Delete '+year+' past year?','This removes it from the history.',()=>{
+  showConfirm('Delete '+year+' from history?','',()=>{
     setLoading(true);
     callPost({action:'deletePastYear',pin:_adminPin,year},resp=>{
       setLoading(false);
-      if(resp&&resp.success){ toast('Deleted ✅','success'); if(_tabLoaded.pastyears)loadPastYears(); renderAdminTab('pastyears'); }
+      if(resp&&resp.success){ toast('Deleted ✅','success'); if(_tabLoaded.pastyears) loadPastYears(); renderAdminTab('pastyears'); }
       else toast((resp&&resp.error)||'Failed.','error');
     });
   });
@@ -1761,9 +1858,9 @@ function deletePastYear(year){
 function renderAdminInventory(el){
   el.innerHTML=`
     <div class="admin-sec-title">What We Have — Edit List</div>
-    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.75rem">Enter one item per line. This replaces the entire list.</p>
-    <div class="form-group"><textarea class="form-control" id="adm-wwh" rows="12" placeholder="Loading…"></textarea></div>
-    <button class="btn btn-primary btn-sm btn-full" onclick="saveAdminWWH()">Save List ✅</button>`;
+    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">One item per line. Replaces the entire list.</p>
+    <textarea class="form-control" id="adm-wwh" rows="14" placeholder="Loading…"></textarea>
+    <button class="btn btn-primary btn-sm btn-full" style="margin-top:.5rem" onclick="saveAdminWWH()">Save List ✅</button>`;
   callGet({action:'read',type:'whatWeHave'},resp=>{
     const ta=document.getElementById('adm-wwh');
     if(ta&&resp&&resp.items) ta.value=resp.items.map(i=>i.item).join('\n');
@@ -1775,7 +1872,7 @@ function saveAdminWWH(){
   setLoading(true,'Saving…');
   callPost({action:'saveWhatWeHave',pin:_adminPin,items},resp=>{
     setLoading(false);
-    if(resp&&resp.success){ toast('Saved! ✅','success'); if(_tabLoaded.info)loadInfoWWH(); }
+    if(resp&&resp.success){ toast('Saved! ✅','success'); if(_tabLoaded.info) loadInfoWWH(); }
     else toast((resp&&resp.error)||'Failed.','error');
   });
 }
@@ -1783,22 +1880,27 @@ function saveAdminWWH(){
 function renderAdminSettings(el){
   el.innerHTML=`
     <div class="admin-sec-title">Change PIN</div>
-    <div class="form-group"><label class="form-label">New PIN (min 4 digits)</label>
-      <input class="form-control" id="adm-newpin" type="password" placeholder="New PIN" maxlength="10"></div>
+    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.65rem">Min 4 characters. Letters, numbers, and symbols accepted.</p>
+    <div class="form-group"><label class="form-label">New PIN</label>
+      <input class="form-control" id="adm-newpin" type="password" placeholder="Enter new PIN" maxlength="30"
+             onkeydown="if(event.key==='Enter')adminChangePin()"></div>
     <button class="btn btn-secondary btn-sm btn-full" style="margin-bottom:1.5rem" onclick="adminChangePin()">Change PIN</button>
     <div class="admin-sec-title">Backup &amp; Reset</div>
-    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.75rem">Archives all data, auto-populates Past Years stats, clears RSVP/orders/supplies, advances the year counter.</p>
+    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.75rem">Archives all data, captures year stats, clears RSVP/orders/supplies, preserves checklist items, advances the year counter.</p>
     <div class="form-row" style="margin-bottom:.75rem">
       <div class="form-group"><label class="form-label">Backup Year</label>
         <input class="form-control" id="adm-bk-yr" value="${_currentYear}"></div>
       <div class="form-group"><label class="form-label">New Year</label>
         <input class="form-control" id="adm-new-yr" value="${parseInt(_currentYear)+1}"></div>
     </div>
-    <button class="btn btn-danger btn-full" onclick="adminBackupReset()">🔄 Backup &amp; Reset for New Year</button>`;
+    <button class="btn btn-danger btn-full" onclick="adminBackupReset()">🔄 Backup &amp; Reset for New Year</button>
+    <div style="margin-top:1.5rem;text-align:center">
+      <button class="btn btn-outline btn-sm" onclick="lockAdmin();closeAdminModal()">🔒 Lock Admin &amp; Close</button>
+    </div>`;
 }
 function adminChangePin(){
   const newPin=(document.getElementById('adm-newpin').value||'').trim();
-  if(newPin.length<4){ toast('PIN must be at least 4 digits.','error'); return; }
+  if(newPin.length<4){ toast('PIN must be at least 4 characters.','error'); return; }
   callGet({action:'changePin',pin:_adminPin,newPin},resp=>{
     if(resp&&resp.success){ _adminPin=newPin; toast('PIN changed! ✅','success'); document.getElementById('adm-newpin').value=''; }
     else toast((resp&&resp.error)||'Failed.','error');
@@ -1807,7 +1909,7 @@ function adminChangePin(){
 function adminBackupReset(){
   const backupYear=document.getElementById('adm-bk-yr').value.trim();
   const newYear=document.getElementById('adm-new-yr').value.trim();
-  showConfirm('Backup & Reset?','This archives '+backupYear+' data and resets for '+newYear+'. Cannot be undone.',()=>{
+  showConfirm('Backup & Reset?','Archives '+backupYear+' and resets all lists for '+newYear+'. Cannot be undone.',()=>{
     setLoading(true,'Running backup & reset…');
     callPost({action:'backupReset',pin:_adminPin,backupYear,newYear},resp=>{
       setLoading(false);
@@ -1818,31 +1920,90 @@ function adminBackupReset(){
 }
 
 // ── Confirm ────────────────────────────────────────────────────
-function showConfirm(title,msg,cb){ document.getElementById('confirm-title').textContent=title; document.getElementById('confirm-msg').textContent=msg; _confirmCb=cb; document.getElementById('confirm-modal').classList.add('open'); }
+function showConfirm(title,msg,cb){
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-msg').textContent=msg;
+  _confirmCb=cb;
+  document.getElementById('confirm-modal').classList.add('open');
+}
 function closeConfirm(){ document.getElementById('confirm-modal').classList.remove('open'); _confirmCb=null; }
 function doConfirm(){ closeConfirm(); if(_confirmCb) _confirmCb(); }
 
-// ── A2HS / Install ─────────────────────────────────────────────
-function initInstallPrompt(){
-  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); _installPrompt=e; document.getElementById('install-btn').classList.add('visible'); });
-  window.addEventListener('appinstalled',()=>{ document.getElementById('install-btn').classList.remove('visible'); _installPrompt=null; });
+// Opens the A2HS modal on demand (from the header Install button)
+function showA2HSModal(){
+  const modal=document.getElementById('a2hs-modal');
+  if(!modal) return;
+  // Re-run the steps logic in case it wasn't set yet
+  const steps=document.getElementById('a2hs-steps');
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  const isAndroid=/Android/.test(navigator.userAgent);
+  const sty='background:var(--bg3);border-radius:var(--rs);padding:.75rem 1rem;display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.5rem;font-size:.84rem;color:var(--text2);line-height:1.55;text-align:left';
+  if(steps){
+    if(isIOS){
+      steps.innerHTML=`<div style="${sty}"><span style="font-size:1.7rem;flex-shrink:0">📤</span><span>Tap the <strong style="color:var(--text)">Share</strong> button at the bottom of Safari, then tap <strong style="color:var(--text)">"Add to Home Screen"</strong></span></div>`;
+    } else if(isAndroid){
+      steps.innerHTML=`<div style="${sty}"><span style="font-size:1.7rem;flex-shrink:0">⋮</span><span>Tap the <strong style="color:var(--text)">browser menu</strong>, then tap <strong style="color:var(--text)">"Add to Home Screen"</strong> or <strong style="color:var(--text)">"Install App"</strong></span></div>`;
+    } else {
+      steps.innerHTML=`
+        <div style="${sty}"><span style="font-size:1.5rem;flex-shrink:0">💻</span><span>Look for the <strong style="color:var(--text)">install icon ⊕</strong> in your browser address bar and click it</span></div>
+        <div style="${sty}"><span style="font-size:1.5rem;flex-shrink:0">📌</span><span>Or <strong style="color:var(--text)">bookmark this page</strong> for quick access!</span></div>`;
+    }
+  }
+  // If Chrome Android has the native install prompt, trigger it instead
+  if(isAndroid&&_installPrompt){ triggerInstall(); return; }
+  modal.style.display='flex';
 }
-function triggerInstall(){ if(_installPrompt){ _installPrompt.prompt(); _installPrompt.userChoice.then(()=>{ _installPrompt=null; document.getElementById('install-btn').classList.remove('visible'); }); } }
+
+// ── A2HS — centered modal matching reference image ─────────────
 function checkA2HS(){
   if(localStorage.getItem('a2hs-never')||localStorage.getItem('a2hs-dismissed')) return;
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   const isAndroid=/Android/.test(navigator.userAgent);
   const isStandalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   if(isStandalone) return;
-  const el=document.getElementById('a2hs-popup');
-  const msg=document.getElementById('a2hs-msg');
-  if(isIOS&&msg) msg.innerHTML='Tap the <strong>Share ⎙</strong> button in Safari, then <strong>"Add to Home Screen"</strong>.';
-  else if(isAndroid&&msg) msg.innerHTML='Tap the <strong>⋮ menu</strong> in Chrome, then <strong>"Add to Home Screen"</strong>.';
-  else if(msg) msg.textContent='Use Labor Day like a real app — fast access, works offline!';
-  setTimeout(()=>el&&el.classList.add('show'),2500);
+  const modal=document.getElementById('a2hs-modal');
+  const steps=document.getElementById('a2hs-steps');
+  if(!modal||!steps) return;
+  const sty='background:var(--bg3);border-radius:var(--rs);padding:.75rem 1rem;display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.5rem;font-size:.84rem;color:var(--text2);line-height:1.55;text-align:left';
+  if(isIOS){
+    steps.innerHTML=`<div style="${sty}"><span style="font-size:1.7rem;flex-shrink:0;margin-top:-.1rem">📤</span><span>Tap the <strong style="color:var(--text)">Share</strong> button at the bottom of Safari, then tap <strong style="color:var(--text)">"Add to Home Screen"</strong></span></div>`;
+  } else if(isAndroid){
+    steps.innerHTML=`<div style="${sty}"><span style="font-size:1.7rem;flex-shrink:0;margin-top:-.1rem">⋮</span><span>Tap the <strong style="color:var(--text)">browser menu</strong>, then tap <strong style="color:var(--text)">"Add to Home Screen"</strong> or <strong style="color:var(--text)">"Install App"</strong></span></div>`;
+  } else {
+    steps.innerHTML=`
+      <div style="${sty}"><span style="font-size:1.5rem;flex-shrink:0">💻</span><span>Look for the <strong style="color:var(--text)">install icon ⊕</strong> in your browser address bar and click it</span></div>
+      <div style="${sty}"><span style="font-size:1.5rem;flex-shrink:0">📌</span><span>Or <strong style="color:var(--text)">bookmark this page</strong> for quick access!</span></div>`;
+  }
+  setTimeout(()=>{ modal.style.display='flex'; },2500);
 }
-function dismissA2HS(){ document.getElementById('a2hs-popup').classList.remove('show'); localStorage.setItem('a2hs-dismissed','1'); }
-function neverA2HS(){ document.getElementById('a2hs-popup').classList.remove('show'); localStorage.setItem('a2hs-never','1'); }
+function dismissA2HS(){
+  const m=document.getElementById('a2hs-modal');
+  if(m) m.style.display='none';
+  localStorage.setItem('a2hs-dismissed','1');
+}
+function neverA2HS(){
+  const m=document.getElementById('a2hs-modal');
+  if(m) m.style.display='none';
+  localStorage.setItem('a2hs-never','1');
+}
+
+// ── PWA Install ────────────────────────────────────────────────
+function initInstallPrompt(){
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault(); _installPrompt=e;
+    document.getElementById('install-btn').classList.add('visible');
+  });
+  window.addEventListener('appinstalled',()=>{
+    document.getElementById('install-btn').classList.remove('visible');
+    _installPrompt=null;
+  });
+}
+function triggerInstall(){
+  if(_installPrompt){
+    _installPrompt.prompt();
+    _installPrompt.userChoice.then(()=>{ _installPrompt=null; document.getElementById('install-btn').classList.remove('visible'); });
+  }
+}
 </script>
 </body>
 </html>
