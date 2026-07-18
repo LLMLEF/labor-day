@@ -76,7 +76,7 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 /* ── Offline + Admin bars ── */
 .offline-bar{display:none;background:var(--warn);color:#0f172a;text-align:center;padding:.45rem 1rem;font-size:.82rem;font-weight:700}
 .offline-bar.show{display:block}
-.admin-active-bar{display:none;background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.25);padding:.4rem 1rem;font-size:.8rem;color:var(--warn);font-weight:600;text-align:center;position:sticky;top:61px;z-index:90}
+.admin-active-bar{display:none;background:rgba(245,158,11,.12);border-top:2px solid rgba(245,158,11,.4);padding:.45rem 1rem;font-size:.8rem;color:var(--warn);font-weight:600;text-align:center;position:fixed;bottom:58px;left:0;right:0;z-index:160}
 .admin-active-bar.show{display:flex;align-items:center;justify-content:center;gap:.75rem}
 
 /* ── Header ── */
@@ -341,12 +341,6 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
 
 <!-- Offline Banner -->
 <div class="offline-bar" id="offline-bar">📡 You're offline — some features may not be available</div>
-
-<!-- Admin Active Bar -->
-<div class="admin-active-bar" id="admin-active-bar">
-  🔑 Admin Mode Active
-  <button class="btn btn-sm btn-outline" onclick="lockAdmin()" style="padding:.18rem .55rem;font-size:.73rem">Logout</button>
-</div>
 
 <!-- Header -->
 <header class="app-header">
@@ -1679,7 +1673,12 @@ function openAdminModal(){
 }
 function closeAdminModal(){ document.getElementById('admin-overlay').classList.remove('open'); }
 function adminOverlayClick(e){ if(e.target===document.getElementById('admin-overlay')) closeAdminModal(); }
-function lockAdmin(){ _isAdmin=false; _adminPin=''; document.getElementById('admin-active-bar').classList.remove('show'); toast('Admin logged out.','info'); }
+function lockAdmin(){
+  _isAdmin=false; _adminPin='';
+  document.getElementById('admin-active-bar').classList.remove('show');
+  toast('Admin logged out. Refreshing…','info');
+  setTimeout(()=>window.location.reload(), 1200);
+}
 
 // Admin PIN verification — accepts any characters, min 4
 function doVerifyPin(){
@@ -2209,5 +2208,11 @@ function deleteSinglePhoto(fileId){
   });
 }
 </script>
+
+<!-- Admin Active Bar — fixed above bottom nav -->
+<div class="admin-active-bar" id="admin-active-bar">
+  🔑 Admin Mode Active
+  <button class="btn btn-sm btn-danger" onclick="lockAdmin()" style="padding:.25rem .65rem;font-size:.78rem;font-weight:700">Logout</button>
+</div>
 </body>
 </html>
