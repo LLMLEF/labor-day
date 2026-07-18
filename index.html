@@ -1101,17 +1101,23 @@ function loadChecklistForm(){
     c.innerHTML=resp.items.map(item=>{
       const rem=item.remaining||0;
       const full=rem<=0;
+      const hasClaims=item.claimed>0;
+      const claimerNames=(item.claims||[]).map(cl=>typeof cl==='object'?cl.name:cl).join(', ');
       return `<div class="cl-form-item${full?' full-item':''}">
         <input type="checkbox" class="cl-cb" data-id="${esc(item.id)}" data-max="${rem}"
                ${full?'disabled':''}>
-        <span class="cl-item-label">${esc(item.item)}</span>
+        <div class="cl-item-label">
+          <div>${esc(item.item)}</div>
+          ${hasClaims?`<div style="font-size:.72rem;color:var(--text3);margin-top:.1rem">Claimed by: ${esc(claimerNames)}</div>`:''}
+        </div>
         <span class="cl-item-remaining">${full?'✓ Full':rem+' left'}</span>
         <input type="number" class="cl-qty-input" data-for="${esc(item.id)}"
                min="1" max="${rem||1}" value="1"
                ${full?'disabled':''} onclick="event.stopPropagation()" disabled>
+        ${hasClaims?`<button class="btn btn-outline btn-sm" style="flex-shrink:0;font-size:.72rem;padding:.2rem .45rem"
+          onclick="event.stopPropagation();promptUnclaim('${esc(item.id)}','${esc(item.item)}')">↩</button>`:''}
       </div>`;
     }).join('');
-    // Enable qty input only when its checkbox is checked
     c.querySelectorAll('.cl-cb').forEach(cb=>{
       cb.addEventListener('change',function(){
         const qi=c.querySelector('.cl-qty-input[data-for="'+this.dataset.id+'"]');
@@ -1385,25 +1391,33 @@ function loadInfoChecklist(){
   callGet({action:'read',type:'supplyChecklist',year:_currentYear},resp=>{
     const tb=document.getElementById('cl-tbody');
     if(!tb) return;
-    if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">Could not load.</td></tr>'; return; }
+    if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="6" class="error-msg">Could not load.</td></tr>'; return; }
     const items=resp.items||[];
     _clCache={};
-    if(!items.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg">No checklist items yet.</div></td></tr>'; return; }
+    if(!items.length){ tb.innerHTML='<tr><td colspan="6"><div class="empty-msg">No checklist items yet.</div></td></tr>'; return; }
+    // Update header to include Actions column
+    const thead=tb.closest('table').querySelector('thead tr');
+    if(thead&&thead.children.length<6){
+      const th=document.createElement('th');
+      th.textContent='';
+      thead.appendChild(th);
+    }
     tb.innerHTML=items.map(item=>{
       _clCache[item.id]=item;
       const rem=item.remaining||0;
-      const names=(item.claims||[]).map(c=>typeof c==='object'?c.name+(c.qty>1?' ('+c.qty+')':''):c).join(', ');
+      const names=(item.claims||[]).map(c=>typeof c==='object'?c.name+(c.qty>1?' (×'+c.qty+')':''):c).join(', ');
       const adminBtns=_isAdmin
-        ?`<div class="edit-btns" style="margin-top:.3rem">
-            <button class="btn btn-outline btn-sm" onclick="openEditChecklistItem('${esc(item.id)}')">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteChecklistItem('${esc(item.id)}')">🗑</button>
-          </div>`:'';
+        ?`<button class="btn btn-outline btn-sm" onclick="openEditChecklistItem('${esc(item.id)}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteChecklistItem('${esc(item.id)}')">🗑</button>`:'';
+      const unclaimBtn=item.claimed>0
+        ?`<button class="btn btn-outline btn-sm" onclick="promptUnclaim('${esc(item.id)}','${esc(item.item)}')">↩ Unclaim</button>`:'';
       return `<tr>
-        <td><strong>${esc(item.item)}</strong>${adminBtns}</td>
+        <td><strong>${esc(item.item)}</strong></td>
         <td class="tc">${item.needed||0}</td>
         <td class="tc">${item.claimed||0}</td>
         <td class="tc" style="color:${rem===0?'var(--ok)':'var(--accent)'};font-weight:700">${rem===0?'✓ Full':rem}</td>
         <td>${esc(names)}</td>
+        <td><div class="edit-btns">${unclaimBtn}${adminBtns}</div></td>
       </tr>`;
     }).join('');
   });
@@ -1419,13 +1433,14 @@ function loadInfoSupplies(){
     if(!data.length){ tb.innerHTML='<tr><td colspan="3"><div class="empty-msg">No contributions yet.</div></td></tr>'; return; }
     tb.innerHTML=data.map(r=>{
       _supCache[r.RowID]=r;
-      const adminBtns=_isAdmin
-        ?`<button class="btn btn-outline btn-sm" onclick="openEditSupply('${esc(r.RowID)}')">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteSupply('${esc(r.RowID)}')">🗑</button>`:'';
+      const delBtn=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteSupply('${esc(r.RowID)}')">🗑</button>`:'';
       return `<tr>
         <td><strong>${esc(r.Name)}</strong></td>
         <td>${esc(r.Items)}</td>
-        <td><div class="edit-btns">${adminBtns}</div></td>
+        <td><div class="edit-btns">
+          <button class="btn btn-outline btn-sm" onclick="openEditSupply('${esc(r.RowID)}')">✏️</button>
+          ${delBtn}
+        </div></td>
       </tr>`;
     }).join('');
   });
@@ -1441,15 +1456,16 @@ function loadInfoActivities(){
     if(!data.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg"><span class="ei">🎯</span>No activities yet.</div></td></tr>'; return; }
     tb.innerHTML=data.map(r=>{
       _actCache[r.RowID]=r;
-      const adminBtns=_isAdmin
-        ?`<button class="btn btn-outline btn-sm" onclick="openEditActivity('${esc(r.RowID)}')">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteActivity('${esc(r.RowID)}')">🗑</button>`:'';
+      const delBtn=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteActivity('${esc(r.RowID)}')">🗑</button>`:'';
       return `<tr>
         <td><strong>${esc(r.Title)}</strong></td>
         <td>${esc(r.Name)}</td>
         <td>${esc(r.Time)}</td>
         <td>${esc(r.Description)}</td>
-        <td><div class="edit-btns">${adminBtns}</div></td>
+        <td><div class="edit-btns">
+          <button class="btn btn-outline btn-sm" onclick="openEditActivity('${esc(r.RowID)}')">✏️</button>
+          ${delBtn}
+        </div></td>
       </tr>`;
     }).join('');
   });
@@ -1542,7 +1558,10 @@ function doEdit(){
   if(!_editCtx) return;
   const ctx=_editCtx;
 
-  // ── Checklist item ──
+// ── Unclaim ──
+if(ctx.type==='unclaim'){ doUnclaim(); return; }
+
+  // ── Checklist item (admin only) ──
   if(ctx.type==='checklist'){
     setLoading(true,'Saving…');
     callPost({action:'updateSupplyItem',pin:_adminPin,id:ctx.id,
@@ -1556,7 +1575,7 @@ function doEdit(){
     return;
   }
 
-  // ── What We Have ──
+  // ── What We Have (admin only) ──
   if(ctx.type==='wwh'){
     const newName=document.getElementById('em-wwh-item').value.trim();
     if(!newName){ toast('Item name required.','error'); return; }
@@ -1570,13 +1589,13 @@ function doEdit(){
     return;
   }
 
-  // ── Row-based edits (rsvp, lobster, activity, supply) ──
+  // ── Row-based edits — rsvp, lobster, supply, activity ──
   const editorName=(document.getElementById('em-name')&&document.getElementById('em-name').value.trim())||ctx.origName;
-  const save=(verified)=>{
-    if(!verified&&!_isAdmin){ toast('Name does not match original submission.','error'); return; }
+
+  const buildParams=()=>{
     const params={type:ctx.type,rowId:ctx.rowId,editorName};
     if(_isAdmin){ params.action='adminEditRow'; params.pin=_adminPin; }
-    else params.action='editRow';
+    else         { params.action='editRow'; }
     if(ctx.type==='rsvp'){
       params.adults  =document.getElementById('em-adults').value;
       params.kids    =document.getElementById('em-kids').value;
@@ -1593,7 +1612,13 @@ function doEdit(){
     } else if(ctx.type==='supply'){
       params.items=document.getElementById('em-items').value;
     }
+    return params;
+  };
+
+  const save=(verified)=>{
+    if(!verified&&!_isAdmin){ toast('Name does not match original submission.','error'); return; }
     setLoading(true,'Saving…');
+    const params=buildParams();
     const fn=_isAdmin?callPost:callGet;
     fn(params,resp=>{
       setLoading(false); closeEditModal();
@@ -1606,9 +1631,9 @@ function doEdit(){
       } else toast((resp&&resp.error)||'Save failed.','error');
     });
   };
-  if(!_isAdmin){
-    callGet({action:'verifyOwner',type:ctx.type,rowId:ctx.rowId,name:editorName},resp=>save(resp&&resp.verified));
-  } else save(true);
+
+  if(_isAdmin){ save(true); }
+  else{ callGet({action:'verifyOwner',type:ctx.type,rowId:ctx.rowId,name:editorName},resp=>save(resp&&resp.verified)); }
 }
 function closeEditModal(){ document.getElementById('edit-modal').classList.remove('open'); _editCtx=null; }
 
@@ -2205,6 +2230,49 @@ function deleteSinglePhoto(fileId){
       if(resp&&resp.success){ toast('Photo deleted ✅','success'); loadPhotos(); }
       else toast((resp&&resp.error)||'Delete failed.','error');
     });
+  });
+}
+
+// ── Unclaim a checklist item ──────────────────────────────────
+function promptUnclaim(id, itemName){
+  _editCtx={ type:'unclaim', id };
+  document.getElementById('edit-modal-title').textContent='↩ Unclaim Item';
+  document.getElementById('edit-modal-body').innerHTML=`
+    <p style="font-size:.87rem;color:var(--text2);margin-bottom:.9rem">
+      Remove your claim from <strong style="color:var(--text)">${esc(itemName)}</strong>.
+    </p>
+    <div class="form-group">
+      <label class="form-label">Your Name *</label>
+      <input class="form-control" id="em-unclaim-name" type="text"
+             placeholder="Enter the name you claimed under">
+      <p class="form-hint">Must match exactly what you entered when claiming.</p>
+    </div>`;
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(()=>{
+    const el=document.getElementById('em-unclaim-name');
+    if(el) el.focus();
+  },150);
+}
+
+// Override doEdit to handle unclaim type
+const _doEditOrig = typeof doEdit === 'function' ? doEdit : null;
+// Note: the unclaim case is handled inside doEdit via ctx.type === 'unclaim'
+// Add this case to doEdit ABOVE the row-based section:
+//   if(ctx.type==='unclaim'){ doUnclaim(); return; }
+
+function doUnclaim(){
+  const name=(document.getElementById('em-unclaim-name').value||'').trim();
+  if(!name){ toast('Please enter your name.','error'); return; }
+  const id=_editCtx&&_editCtx.id;
+  if(!id) return;
+  setLoading(true,'Removing claim…');
+  callGet({action:'unclaimSupply',id,name},resp=>{
+    setLoading(false); closeEditModal();
+    if(resp&&resp.success){
+      toast('Claim removed! ✅','success');
+      loadChecklistForm();
+      if(_tabLoaded.info) loadInfoChecklist();
+    } else toast((resp&&resp.error)||'Could not remove claim.','error');
   });
 }
 </script>
