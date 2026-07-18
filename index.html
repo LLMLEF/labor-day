@@ -634,12 +634,15 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
     </div>
 
     <div class="photo-controls">
-      <button class="btn btn-sm btn-outline" onclick="photoSelectAll()">Select All</button>
-      <button class="btn btn-sm btn-outline" onclick="photoDeselectAll()">Deselect All</button>
-      <button class="btn btn-sm btn-primary" id="photo-dl-btn" style="display:none" onclick="downloadSelected()">
-        ⬇ Download (<span id="photo-sel-count">0</span>)
-      </button>
-    </div>
+  <button class="btn btn-sm btn-outline" onclick="photoSelectAll()">Select All</button>
+  <button class="btn btn-sm btn-outline" onclick="photoDeselectAll()">Deselect All</button>
+  <button class="btn btn-sm btn-primary" id="photo-dl-btn" style="display:none" onclick="downloadSelected()">
+    ⬇ Download (<span id="photo-sel-count">0</span>)
+  </button>
+  <button class="btn btn-sm btn-danger" id="photo-del-btn" style="display:none" onclick="deleteSelectedPhotos()">
+    🗑 Delete (<span id="photo-del-count">0</span>)
+  </button>
+</div>
 
     <div id="photo-gallery"><div class="empty-msg"><span class="ei">📸</span>Loading photos…</div></div>
   </div>
@@ -866,6 +869,7 @@ let _installPrompt=null;
 let _currentYear='2025';
 // Data caches for edit buttons (avoids inline JSON in onclick)
 let _rsvpCache={}, _lobCache={};
+let _actCache={}, _supCache={}, _clCache={}, _wwhCache=[];
 
 // ── Utilities ─────────────────────────────────────────────────
 function esc(s){
@@ -1263,10 +1267,14 @@ function renderPhotos(photos){
         </div>
         <img src="${esc(p.thumbUrl)}" alt="${esc(p.uploaderName||'Family')}" loading="lazy"
              onerror="this.closest('.photo-card').style.display='none'">
-        <div class="photo-caption">
+         <div class="photo-caption">
           <span>${esc(p.uploaderName||'Family')}</span>
-          <a href="${esc(p.dlUrl)}" target="_blank" rel="noopener" class="photo-dl-link"
-             onclick="event.stopPropagation()" title="Download">⬇</a>
+          <div style="display:flex;gap:.3rem;align-items:center">
+            <a href="${esc(p.dlUrl)}" target="_blank" rel="noopener" class="photo-dl-link"
+               onclick="event.stopPropagation()" title="Download">⬇</a>
+            ${_isAdmin?`<button onclick="event.stopPropagation();deleteSinglePhoto('${esc(p.id)}')"
+               style="background:rgba(239,68,68,.7);border:none;border-radius:4px;color:#fff;cursor:pointer;font-size:.7rem;padding:.15rem .35rem;line-height:1" title="Delete">🗑</button>`:''}
+          </div>
         </div>
       </div>`;
     });
@@ -1385,12 +1393,19 @@ function loadInfoChecklist(){
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">Could not load.</td></tr>'; return; }
     const items=resp.items||[];
+    _clCache={};
     if(!items.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg">No checklist items yet.</div></td></tr>'; return; }
     tb.innerHTML=items.map(item=>{
+      _clCache[item.id]=item;
       const rem=item.remaining||0;
-      const names=(item.claims||[]).map(c=>typeof c==='object'?c.name:c).join(', ');
+      const names=(item.claims||[]).map(c=>typeof c==='object'?c.name+(c.qty>1?' ('+c.qty+')':''):c).join(', ');
+      const adminBtns=_isAdmin
+        ?`<div class="edit-btns" style="margin-top:.3rem">
+            <button class="btn btn-outline btn-sm" onclick="openEditChecklistItem('${esc(item.id)}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteChecklistItem('${esc(item.id)}')">🗑</button>
+          </div>`:'';
       return `<tr>
-        <td><strong>${esc(item.item)}</strong></td>
+        <td><strong>${esc(item.item)}</strong>${adminBtns}</td>
         <td class="tc">${item.needed||0}</td>
         <td class="tc">${item.claimed||0}</td>
         <td class="tc" style="color:${rem===0?'var(--ok)':'var(--accent)'};font-weight:700">${rem===0?'✓ Full':rem}</td>
@@ -1406,14 +1421,18 @@ function loadInfoSupplies(){
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="3" class="error-msg">Could not load.</td></tr>'; return; }
     const data=resp.data||[];
+    _supCache={};
     if(!data.length){ tb.innerHTML='<tr><td colspan="3"><div class="empty-msg">No contributions yet.</div></td></tr>'; return; }
-    const byName={};
-    data.forEach(r=>{ if(!byName[r.Name]) byName[r.Name]=[]; byName[r.Name].push(r); });
-    tb.innerHTML=Object.keys(byName).map(name=>{
-      const rows=byName[name];
-      const items=rows.map(r=>esc(r.Items)).filter(Boolean).join(', ');
-      const adminDels=_isAdmin?rows.map(r=>`<button class="btn btn-danger btn-sm" onclick="deleteSupply('${esc(r.RowID)}')">🗑</button>`).join(''):'';
-      return `<tr><td><strong>${esc(name)}</strong></td><td>${items}</td><td><div class="edit-btns">${adminDels}</div></td></tr>`;
+    tb.innerHTML=data.map(r=>{
+      _supCache[r.RowID]=r;
+      const adminBtns=_isAdmin
+        ?`<button class="btn btn-outline btn-sm" onclick="openEditSupply('${esc(r.RowID)}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSupply('${esc(r.RowID)}')">🗑</button>`:'';
+      return `<tr>
+        <td><strong>${esc(r.Name)}</strong></td>
+        <td>${esc(r.Items)}</td>
+        <td><div class="edit-btns">${adminBtns}</div></td>
+      </tr>`;
     }).join('');
   });
 }
@@ -1424,15 +1443,19 @@ function loadInfoActivities(){
     if(!tb) return;
     if(!resp||!resp.success){ tb.innerHTML='<tr><td colspan="5" class="error-msg">Could not load.</td></tr>'; return; }
     const data=resp.data||[];
+    _actCache={};
     if(!data.length){ tb.innerHTML='<tr><td colspan="5"><div class="empty-msg"><span class="ei">🎯</span>No activities yet.</div></td></tr>'; return; }
     tb.innerHTML=data.map(r=>{
-      const adminDel=_isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteActivity('${esc(r.RowID)}')">🗑</button>`:'';
+      _actCache[r.RowID]=r;
+      const adminBtns=_isAdmin
+        ?`<button class="btn btn-outline btn-sm" onclick="openEditActivity('${esc(r.RowID)}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteActivity('${esc(r.RowID)}')">🗑</button>`:'';
       return `<tr>
         <td><strong>${esc(r.Title)}</strong></td>
         <td>${esc(r.Name)}</td>
         <td>${esc(r.Time)}</td>
         <td>${esc(r.Description)}</td>
-        <td>${adminDel}</td>
+        <td><div class="edit-btns">${adminBtns}</div></td>
       </tr>`;
     }).join('');
   });
@@ -1445,8 +1468,20 @@ function loadInfoWWH(){
     if(!resp||!resp.success||!resp.items||!resp.items.length){
       el.innerHTML='<div class="empty-msg" style="padding:.5rem">No items listed.</div>'; return;
     }
-    // Display only item.item — no extra columns, no "true" values
-    el.innerHTML=resp.items.map(item=>`<span class="wwh-chip">${esc(item.item)}</span>`).join('');
+    _wwhCache=resp.items;
+    if(_isAdmin){
+      el.innerHTML=resp.items.map(item=>
+        `<span class="wwh-chip" style="display:inline-flex;align-items:center;gap:.35rem">
+          ${esc(item.item)}
+          <button onclick="editWWHItem('${esc(item.id)}','${esc(item.item)}')"
+            style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:.8rem;padding:0;line-height:1" title="Edit">✏️</button>
+          <button onclick="deleteWWHItem('${esc(item.id)}')"
+            style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:.75rem;font-weight:700;padding:0;line-height:1" title="Remove">✕</button>
+        </span>`
+      ).join('');
+    } else {
+      el.innerHTML=resp.items.map(item=>`<span class="wwh-chip">${esc(item.item)}</span>`).join('');
+    }
   });
 }
 
@@ -1512,6 +1547,36 @@ function openEditLobster(rowId){
 function doEdit(){
   if(!_editCtx) return;
   const ctx=_editCtx;
+
+  // ── Checklist item ──
+  if(ctx.type==='checklist'){
+    setLoading(true,'Saving…');
+    callPost({action:'updateSupplyItem',pin:_adminPin,id:ctx.id,
+      item:   document.getElementById('em-cl-item').value.trim(),
+      needed: document.getElementById('em-cl-needed').value
+    },resp=>{
+      setLoading(false); closeEditModal();
+      if(resp&&resp.success){ toast('Updated! ✅','success'); loadInfoChecklist(); loadChecklistForm(); }
+      else toast((resp&&resp.error)||'Save failed.','error');
+    });
+    return;
+  }
+
+  // ── What We Have ──
+  if(ctx.type==='wwh'){
+    const newName=document.getElementById('em-wwh-item').value.trim();
+    if(!newName){ toast('Item name required.','error'); return; }
+    const updated=_wwhCache.map(i=>i.id===ctx.id?Object.assign({},i,{item:newName}):i);
+    setLoading(true,'Saving…');
+    callPost({action:'saveWhatWeHave',pin:_adminPin,items:updated},resp=>{
+      setLoading(false); closeEditModal();
+      if(resp&&resp.success){ toast('Updated! ✅','success'); loadInfoWWH(); }
+      else toast((resp&&resp.error)||'Save failed.','error');
+    });
+    return;
+  }
+
+  // ── Row-based edits (rsvp, lobster, activity, supply) ──
   const editorName=(document.getElementById('em-name')&&document.getElementById('em-name').value.trim())||ctx.origName;
   const save=(verified)=>{
     if(!verified&&!_isAdmin){ toast('Name does not match original submission.','error'); return; }
@@ -1519,14 +1584,20 @@ function doEdit(){
     if(_isAdmin){ params.action='adminEditRow'; params.pin=_adminPin; }
     else params.action='editRow';
     if(ctx.type==='rsvp'){
-      params.adults=document.getElementById('em-adults').value;
-      params.kids  =document.getElementById('em-kids').value;
-      params.potluck=document.getElementById('em-potluck').value;
-      params.notes =document.getElementById('em-notes').value;
+      params.adults  =document.getElementById('em-adults').value;
+      params.kids    =document.getElementById('em-kids').value;
+      params.potluck =document.getElementById('em-potluck').value;
+      params.notes   =document.getElementById('em-notes').value;
     } else if(ctx.type==='lobster'){
       params.lobsters=document.getElementById('em-lobsters').value;
       params.clams   =document.getElementById('em-clams').value;
       params.corn    =document.getElementById('em-corn').value;
+    } else if(ctx.type==='activity'){
+      params.title      =document.getElementById('em-title').value;
+      params.time       =document.getElementById('em-time').value;
+      params.description=document.getElementById('em-description').value;
+    } else if(ctx.type==='supply'){
+      params.items=document.getElementById('em-items').value;
     }
     setLoading(true,'Saving…');
     const fn=_isAdmin?callPost:callGet;
@@ -1534,8 +1605,10 @@ function doEdit(){
       setLoading(false); closeEditModal();
       if(resp&&resp.success){
         toast('Saved! ✅','success');
-        if(ctx.type==='rsvp')    loadInfoRSVPs();
-        if(ctx.type==='lobster') loadInfoLobsters();
+        if(ctx.type==='rsvp')     loadInfoRSVPs();
+        if(ctx.type==='lobster')  loadInfoLobsters();
+        if(ctx.type==='activity') loadInfoActivities();
+        if(ctx.type==='supply')   loadInfoSupplies();
       } else toast((resp&&resp.error)||'Save failed.','error');
     });
   };
@@ -2007,6 +2080,133 @@ function triggerInstall(){
     _installPrompt.prompt();
     _installPrompt.userChoice.then(()=>{ _installPrompt=null; document.getElementById('install-btn').classList.remove('visible'); });
   }
+}
+
+// ── Activity edit ─────────────────────────────────────────────
+function openEditActivity(rowId){
+  const r=_actCache[rowId];
+  if(!r){ toast('Data not found. Please refresh.','error'); return; }
+  _editCtx={type:'activity',rowId:r.RowID,origName:r.Name};
+  document.getElementById('edit-modal-title').textContent='Edit Activity';
+  document.getElementById('edit-modal-body').innerHTML=`
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Host Name</label>
+        <input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
+      <div class="form-group"><label class="form-label">Activity Name</label>
+        <input class="form-control" id="em-title" value="${esc(r.Title)}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Time</label>
+        <input class="form-control" id="em-time" value="${esc(r.Time)}"></div>
+      <div class="form-group"><label class="form-label">Description</label>
+        <input class="form-control" id="em-description" value="${esc(r.Description)}"></div>
+    </div>`;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+// ── Supply contribution edit ───────────────────────────────────
+function openEditSupply(rowId){
+  const r=_supCache[rowId];
+  if(!r){ toast('Data not found. Please refresh.','error'); return; }
+  _editCtx={type:'supply',rowId:r.RowID,origName:r.Name};
+  document.getElementById('edit-modal-title').textContent='Edit Supply Contribution';
+  document.getElementById('edit-modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Name</label>
+      <input class="form-control" id="em-name" value="${esc(r.Name)}"></div>
+    <div class="form-group"><label class="form-label">Items</label>
+      <input class="form-control" id="em-items" value="${esc(r.Items)}"></div>`;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+// ── Checklist item edit ───────────────────────────────────────
+function openEditChecklistItem(id){
+  const item=_clCache[id];
+  if(!item){ toast('Data not found. Please refresh.','error'); return; }
+  _editCtx={type:'checklist',id:item.id};
+  document.getElementById('edit-modal-title').textContent='Edit Checklist Item';
+  document.getElementById('edit-modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Item Name</label>
+      <input class="form-control" id="em-cl-item" value="${esc(item.item)}"></div>
+    <div class="form-group"><label class="form-label">Quantity Needed</label>
+      <input class="form-control" id="em-cl-needed" type="number" min="1" value="${item.needed||1}"></div>`;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function deleteChecklistItem(id){
+  showConfirm('Delete this checklist item?','This cannot be undone.',()=>{
+    setLoading(true,'Deleting…');
+    callPost({action:'deleteSupplyItem',pin:_adminPin,id},resp=>{
+      setLoading(false);
+      if(resp&&resp.success){ toast('Deleted ✅','success'); loadInfoChecklist(); loadChecklistForm(); }
+      else toast((resp&&resp.error)||'Failed.','error');
+    });
+  });
+}
+
+// ── What We Have edit/delete ──────────────────────────────────
+function editWWHItem(id,currentName){
+  _editCtx={type:'wwh',id};
+  document.getElementById('edit-modal-title').textContent='Edit Item';
+  document.getElementById('edit-modal-body').innerHTML=`
+    <div class="form-group"><label class="form-label">Item Name</label>
+      <input class="form-control" id="em-wwh-item" value="${esc(currentName)}"></div>`;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function deleteWWHItem(id){
+  showConfirm('Remove this item from the list?','',()=>{
+    const updated=_wwhCache.filter(i=>i.id!==id);
+    setLoading(true,'Removing…');
+    callPost({action:'saveWhatWeHave',pin:_adminPin,items:updated},resp=>{
+      setLoading(false);
+      if(resp&&resp.success){ toast('Removed ✅','success'); loadInfoWWH(); }
+      else toast((resp&&resp.error)||'Failed.','error');
+    });
+  });
+}
+
+function updatePhotoBtn(){
+  const dlBtn=document.getElementById('photo-dl-btn');
+  const delBtn=document.getElementById('photo-del-btn');
+  const dlCnt=document.getElementById('photo-sel-count');
+  const delCnt=document.getElementById('photo-del-count');
+  const n=_selPhotos.size;
+  if(dlCnt)  dlCnt.textContent=n;
+  if(delCnt) delCnt.textContent=n;
+  if(dlBtn)  dlBtn.style.display=n>0?'inline-flex':'none';
+  if(delBtn) delBtn.style.display=n>0&&_isAdmin?'inline-flex':'none';
+}
+
+function deleteSelectedPhotos(){
+  if(!_selPhotos.size||!_isAdmin) return;
+  const ids=Array.from(_selPhotos);
+  showConfirm(
+    'Delete '+ids.length+' photo'+(ids.length>1?'s':'')+'?',
+    'This permanently removes them from Google Drive.',
+    ()=>{
+      setLoading(true,'Deleting '+ids.length+' photo(s)…');
+      callPost({action:'bulkDeletePhotos',pin:_adminPin,fileIds:ids},resp=>{
+        setLoading(false);
+        if(resp&&resp.success){
+          toast('Deleted '+resp.deleted+' photo(s) ✅','success');
+          _selPhotos.clear();
+          loadPhotos();
+        } else toast((resp&&resp.error)||'Delete failed.','error');
+      });
+    }
+  );
+}
+
+function deleteSinglePhoto(fileId){
+  if(!_isAdmin) return;
+  showConfirm('Delete this photo?','This permanently removes it from Google Drive.',()=>{
+    setLoading(true,'Deleting…');
+    callPost({action:'deletePhoto',pin:_adminPin,fileId},resp=>{
+      setLoading(false);
+      if(resp&&resp.success){ toast('Photo deleted ✅','success'); loadPhotos(); }
+      else toast((resp&&resp.error)||'Delete failed.','error');
+    });
+  });
 }
 </script>
 </body>
