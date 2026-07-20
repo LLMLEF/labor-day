@@ -595,12 +595,13 @@ tfoot td{background:var(--bg3);font-weight:700;padding:.55rem .85rem}
         <div class="form-row" style="margin-bottom:.75rem;align-items:flex-end">
           <div class="form-group" style="margin-bottom:0"><label class="form-label">Year</label>
             <select class="form-control" id="ph-year">
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="pre2022">Before 2022</option>
-            </select></div>
+  <option value="2026">2026</option>
+  <option value="2025">2025</option>
+  <option value="2024">2024</option>
+  <option value="2023">2023</option>
+  <option value="2022">2022</option>
+  <option value="pre2022">Before 2022</option>
+</select></div>
           <button class="btn btn-outline btn-sm" onclick="photoStepBack()">← Back</button>
         </div>
         <label class="drop-zone" id="drop-zone" for="ph-file">
@@ -860,7 +861,7 @@ let _slideshowUrls=[], _slideshowIdx=0;
 let _checklistData=[];
 let _tabLoaded={};
 let _installPrompt=null;
-let _currentYear='2025';
+let _currentYear=new Date().getFullYear().toString();
 // Data caches for edit buttons (avoids inline JSON in onclick)
 let _rsvpCache={}, _lobCache={};
 let _actCache={}, _supCache={}, _clCache={}, _wwhCache=[];
@@ -969,7 +970,7 @@ function applyHomeSettings(s){
   // innerHTML setter for content that may contain markup (admin-controlled)
   const setHTML=(id,v)=>{ const el=document.getElementById(id); if(el&&v!==undefined&&v!=='') el.innerHTML=v; };
 
-  const yr=s.current_year||'2025'; _currentYear=yr;
+  const yr=s.current_year||new Date().getFullYear().toString(); _currentYear=yr;
   set('header-sub',           'Labor Day '+yr);
   set('hero-year-tag',        yr+' Reunion');
   set('home-welcome-text',    s.home_welcome_text);
